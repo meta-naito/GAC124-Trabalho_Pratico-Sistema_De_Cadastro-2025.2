@@ -1,17 +1,7 @@
 # Campos: Identificador (inteiro), Nome (string), País de Origem (string), Ano de Lançamento (inteiro), Função (string)
-15
-000000001, "Sputnik 1", "URSS", 1957, "Primeiro satélite artificial, isto é, o primeiro objeto posto pela humanidade em órbita ao redor de um corpo celeste, no caso a Terra" 
-000000002, "Sputnik 2", "URSS", 1957, "Segundo satélite artificial, o primeiro a carregar um ser vivo, uma cachorra chamada Laika." 
-000000003, "Explorer 1", "USA", 1958, "Primeiro satélite lançado pelo governo dos Estados Unidos." 
-000000004, "TRANSIT", "USA", 1959, "Primeiro sistema de navegação por rádio satélite a ser criado, usado para sistemas de navegação da marinha dos Estados Unidos." 
-000000005, "TIROS-1", "USA", 1960, "Primeiro experimento da NASA para determinar a efetividade de satélites em obsercações meteorologicas."
-000000001, "Sputnik 1", "URSS", 1957, "Primeiro satélite artificial, isto é, o primeiro objeto posto pela humanidade em órbita ao redor de um corpo celeste, no caso a Terra" 
-000000002, "Sputnik 2", "URSS", 1957, "Segundo satélite artificial, o primeiro a carregar um ser vivo, uma cachorra chamada Laika." 
-000000003, "Explorer 1", "USA", 1958, "Primeiro satélite lançado pelo governo dos Estados Unidos." 
-000000004, "TRANSIT", "USA", 1959, "Primeiro sistema de navegação por rádio satélite a ser criado, usado para sistemas de navegação da marinha dos Estados Unidos." 
-000000005, "TIROS-1", "USA", 1960, "Primeiro experimento da NASA para determinar a efetividade de satélites em obsercações meteorologicas."
-000000001, "Sputnik 1", "URSS", 1957, "Primeiro satélite artificial, isto é, o primeiro objeto posto pela humanidade em órbita ao redor de um corpo celeste, no caso a Terra" 
-000000002, "Sputnik 2", "URSS", 1957, "Segundo satélite artificial, o primeiro a carregar um ser vivo, uma cachorra chamada Laika." 
-000000003, "Explorer 1", "USA", 1958, "Primeiro satélite lançado pelo governo dos Estados Unidos." 
-000000004, "TRANSIT", "USA", 1959, "Primeiro sistema de navegação por rádio satélite a ser criado, usado para sistemas de navegação da marinha dos Estados Unidos." 
-000000005, "TIROS-1", "USA", 1960, "Primeiro experimento da NASA para determinar a efetividade de satélites em obsercações meteorologicas."
+5
+1, "Sputnik 1", "URSS", 1957, "Primeiro satélite artificial, isto é, o primeiro objeto posto pela humanidade em órbita ao redor de um corpo celeste, no caso a Terra" 
+2, "Sputnik 2", "URSS", 1957, "Segundo satélite artificial, o primeiro a carregar um ser vivo, uma cachorra chamada Laika." 
+3, "Explorer 1", "USA", 1958, "Primeiro satélite lançado pelo governo dos Estados Unidos." 
+4, "TRANSIT", "USA", 1959, "Primeiro sistema de navegação por rádio satélite a ser criado, usado para sistemas de navegação da marinha dos Estados Unidos." 
+5, "TIROS-1", "USA", 1960, "Primeiro experimento da NASA para determinar a efetividade de satélites em obsercações meteorologicas."
