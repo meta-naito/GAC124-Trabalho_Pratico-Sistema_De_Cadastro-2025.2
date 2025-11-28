@@ -205,8 +205,7 @@ bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
         if (satelites[meio].getId() == identificador) {
             return true;
         }
-
-        if (satelites[meio].getId() < identificador) {
+        else if (satelites[meio].getId() < identificador) {
             esq_limite = meio + 1;
         }
         else {
