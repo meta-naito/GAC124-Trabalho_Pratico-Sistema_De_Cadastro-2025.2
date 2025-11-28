@@ -22,7 +22,7 @@ struct infoSatelite {
     std::string funcao;
 
     // Getters
-    
+
     unsigned int getId() {
         return identificador;
     }
@@ -102,11 +102,27 @@ void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElem
 // Recebe um elemento é o insere em um vetor de satelites.
 // Assume que o elemento existe.
 // Assume que o vetor está ordenado.
-//void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &tamanhoVetor);
+// void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &qSatelites);
 
-// Ordena um campo do vetor de satelites realizando merge sort
+// Deleta um elemento do vetor de satelites
+// Assume que o elemento existe.
+// Assume que o vetor está ordenado.
+// void DeletarElemento(const unsigned int identificador, infoSatelite *&satelites, unsigned int &qSatelites);
 
+// Implementação de merge sort
+// template <typename type> void MergeSort(type *vetor, int inicioVetor, int finalVetor);
 
+// Ordena satelties por Id
+// void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Ordena satelites por Nome
+// void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Ordena satelites por Pais de Origem
+// void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Ordena satelites por Ano de Lançamento
+// void OrdenarAno (infoSatelites *&satelites, const unsigned int qSalelites);
 
 // === ---- ===
 
