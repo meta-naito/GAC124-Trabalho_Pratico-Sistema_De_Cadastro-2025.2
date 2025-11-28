@@ -73,6 +73,9 @@ struct infoSatelite {
 // Carregar informações sobre os satelites de um CSV.
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
                           unsigned int &qSatelites);
+// Grava alterações em memória para um arquivo.
+void GravarAlterações(const std::string NOME_ARQUIVO, const infoSatelite *satelites,
+                      unsigned int qSatelites);
 // Imprime um alcance de elementos no terminal.
 // Note: Não informa se um elemento não existe.
 void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite* satelites,
@@ -86,37 +89,31 @@ void RedimensionaVetor(infoSatelite *&vetor, unsigned int &tamanhoVetor);
 
 // === TODO ===
 
-// Soobrescre um elemento com um novo elemento
-void SobreescreverElemento(unsigned int identificador, infoSatelite novoElemento);
+// Soobrescre um elemento com um novo elemento. Preserva Id do elemento antigo.
+//void SobreescreverElemento(unsigned int identificador, infoSatelite novoElemento);
+
 // Recebe um elemento é o insere em um vetor de satelites.
 // Assume que o vetor está ordenado e que não esta mudando durante a inserção.
 // Atuzaliza tamanho do vetor
-void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &tamanhoVetor);
+//void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &tamanhoVetor);
 
-// Obtem numero de registros no CSV
-unsigned int ObterQuantidadeSatelites(const std::string NOME_ARQUIVO);
-// Atualiza numero de registros no CSV
-void AtualizarNumeroSatelites(const std::string NOME_ARQUIVO, unsigned int novoValor);
+// Retorna se um id em especifico existe no vetor de satelites
+//bool BuscarId();
 
-// Buscar em memoria pelo id especificado é o imprime
-void BuscarId();
 // Sobreescreve o id de algum elemento. Ou seja o substituido, preservando o elemento.
-void SobreescreverId();
+//void SobreescreverId();
 
 // Atualiza o nome de um elemento pelo Id;
-void AtualizarNome();
+//void AtualizarNome();
 
 // Atualiza o pais de um elemento pelo Id;
-void AtualizarPais();
+//void AtualizarPais();
 
 // Atualiza o ano de um elemento pelo Id;
-void AtualizarAno();
+//void AtualizarAno();
 
 // Atualiza a função de um elemento pelo Id.
-void AtualizarFuncao();
-
-// Grava alterações em memória para um arquivo.
-void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *vetor, unsigned int qSatelites);
+//void AtualizarFuncao();
 
 // === ---- ===
 
@@ -127,11 +124,8 @@ int main(){
     unsigned int qSatelites = 0;
 
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
-
-    std::cout << satelites[2].getId() << " " << satelites[2].getNome() << std::endl;
-    std::cout << qSatelites << std::endl;
-
-    Imprimir(3, 6, satelites, qSatelites);
+    ImprimirElemento(2, satelites, qSatelites);
+    GravarAlterações(NOME_CSV, satelites, qSatelites);
 
     return 0;
 }
@@ -140,7 +134,7 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
                           unsigned int &qSatelites) {
     // Abre CSV
     std::ifstream arquivoCSV(NOME_ARQUIVO);
-    if (!arquivoCSV) {
+    if (arquivoCSV.fail()) {
         std::cout << "Erro: não foi possível localizar o arquivo \"" << NOME_ARQUIVO
                   << "\" :(" << std::endl;
     }
@@ -187,6 +181,65 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
     return satelites;
 }
 
+void GravarAlterações(const std::string NOME_ARQUIVO, const infoSatelite *satelites,
+                      unsigned int qSatelites) {
+    // Abre arquivo atual para ler o cometário
+    std::ifstream antigoCSV(NOME_ARQUIVO);
+    if (antigoCSV.fail()) {
+        std::cout << "Erro: não foi possível localizar o arquivo \"" << NOME_ARQUIVO
+                  << "\" :(" << std::endl;
+    }
+
+    std::string comentario;
+    getline(antigoCSV, comentario, '\n');
+
+    antigoCSV.close();
+
+    // Grava Alterações em arquivo de mesmo nome;
+    std::ofstream arquivoCSV(NOME_ARQUIVO);
+    if (arquivoCSV.fail()) {
+        std::cout << "Erro: não foi possível criar o arquivo \"" << NOME_ARQUIVO
+                  << "\" :(" << std::endl;
+    }
+
+    arquivoCSV << comentario << '\n';
+    arquivoCSV << qSatelites << '\n';
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        arquivoCSV << satelites[i].identificador << ", "
+                   << '\"' << satelites[i].nome << '\"' << ", "
+                   << '\"' << satelites[i].paisOrigem << '\"' << ", "
+                   << satelites[i].anoLancamento << ", "
+                   << '\"' << satelites[i].funcao << '\"' << '\n'; 
+    }
+    
+    arquivoCSV.close();
+
+    return;
+}
+
+void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite *satelites,
+              const unsigned int qSatelites) {
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        if (satelites[i].getId() >= idInicio and satelites[i].getId() <= idFinal) {
+            std::cout << "> Satélite de ID " << satelites[i].getId() << " <\n"
+                      << " Nome: " << satelites[i].getNome() << '\n'
+                      << " Pais de origem: " << satelites[i].getPais() << '\n'
+                      << " Ano Lançamento: " << satelites[i].getAno() << '\n'
+                      << " Função: \n   \"" << satelites[i].getFuncao() << "\"\n"
+                      << "> -------------- " << std::endl; 
+        }
+    }
+
+    return;
+}
+
+// Alias de Imprimir
+void ImprimirElemento(const unsigned int identificador, infoSatelite *satelites,
+                      const unsigned int qSatelites) {
+        Imprimir(identificador, identificador, satelites, qSatelites);
+    return;
+}
+
 void RedimensionaVetor(infoSatelite *&satelites, unsigned int &tamanhoVetor) {
     const int TAM_REDIMENSIONAMENTO = 10;
     const int TAM_INICIAL = tamanhoVetor;
@@ -203,38 +256,6 @@ void RedimensionaVetor(infoSatelite *&satelites, unsigned int &tamanhoVetor) {
         satelites[i] = aux[i];
     }
     delete[] aux;
-
-    return;
-}
-
-void ImprimirElemento(const unsigned int identificador, infoSatelite* satelites,
-                      const unsigned int qSatelites) {
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        if (identificador == satelites[i].getId()) {
-            std::cout << "> Satélite de ID " << satelites[i].getId() << " <\n"
-                      << " Nome: " << satelites[i].getNome() << "\n"
-                      << " Pais de origem: " << satelites[i].getPais() << "\n"
-                      << " Ano Lançamento: " << satelites[i].getAno() << "\n"
-                      << " Função: \n   \"" << satelites[i].getFuncao() << "\"\n"
-                      << "> -------------- " << std::endl; 
-        }
-    }
-
-    return;
-}
-
-void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite* satelites,
-              const unsigned int qSatelites) {
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        if (i >= idInicio and i <= idFinal) {
-            std::cout << "> Satélite de ID " << satelites[i].getId() << " <\n"
-                      << " Nome: " << satelites[i].getNome() << "\n"
-                      << " Pais de origem: " << satelites[i].getPais() << "\n"
-                      << " Ano Lançamento: " << satelites[i].getAno() << "\n"
-                      << " Função: \n   \"" << satelites[i].getFuncao() << "\"\n"
-                      << "> -------------- " << std::endl; 
-        }
-    }
 
     return;
 }
