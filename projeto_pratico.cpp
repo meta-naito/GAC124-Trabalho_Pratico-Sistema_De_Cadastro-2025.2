@@ -78,8 +78,8 @@ void GravarAlterações(const std::string NOME_ARQUIVO, const infoSatelite *sate
                       unsigned int qSatelites);
 // Imprime um alcance de elementos no terminal.
 // Note: Não informa se um elemento não existe.
-void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite* satelites,
-              const unsigned int qSatelites);
+void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
+              infoSatelite* satelites, const unsigned int qSatelites);
 // Imprime um elemento no terminal.
 // Note: Não informa se um elemento não existe.
 void ImprimirElemento(const unsigned int identificador, infoSatelite* satelites,
@@ -217,8 +217,8 @@ void GravarAlterações(const std::string NOME_ARQUIVO, const infoSatelite *sate
     return;
 }
 
-void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite *satelites,
-              const unsigned int qSatelites) {
+void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
+              infoSatelite* satelites, const unsigned int qSatelites) {
     for (unsigned int i = 0; i < qSatelites; i++) {
         if (satelites[i].getId() >= idInicio and satelites[i].getId() <= idFinal) {
             std::cout << "> Satélite de ID " << satelites[i].getId() << " <\n"
