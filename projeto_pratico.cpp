@@ -70,62 +70,64 @@ struct infoSatelite {
     }
 };
 
-// OBS: Funções que se referem ao vetor de satelites, quando não especificado, devem
+// OBS: Funções que se referem ao vetor de satélites, quando não especificado, devem
 //      assumir que o vetor de satelites não está mudando.
 
-// Carregar informações sobre os satelites de um CSV.
-infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
-                          unsigned int &qSatelites);
-// Verifica se um elemento com o dado identificador existe no vetor de satelites.
-// Utiliza busca binária para isso.
-bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
-              const unsigned int qSatelites);
-// Grava alterações em memória para um arquivo.
-void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites,
-                      const unsigned int qSatelites);
-// Imprime um alcance de elementos no terminal.
-// Note: Não informa se um elemento não existe.
-void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
-              infoSatelite *&satelites, const unsigned int qSatelites);
-// Imprime um elemento no terminal.
-// Note: Não informa se um elemento não existe.
-void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites,
-              const unsigned int qSatelites);
+// Carregar informações sobre os satélites de um arquivo CSV.
+infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor, unsigned int &qSatelites);
 
-// Redimensiona o vetor. Altera valor do tamanho do vetor para novo tamanho.
+// Verifica se um elemento com o dado identificador existe no vetor de satélites, utilizando busca binária.
+bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Grava alterações em memória para um arquivo.
+void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Imprime um alcance de elementos no terminal.
+// Nota: Não informa se um elemento não existe.
+void Imprimir(const unsigned int idInicio, const unsigned int idFinal, infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Imprime um elemento no terminal.
+// Nota: Não informa se um elemento não existe.
+void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Redimensiona o vetor, alterando o valor do tamanho do vetor para novo tamanho.
 void RedimensionaVetor(infoSatelite *&vetor, unsigned int &tamanhoVetor);
+
 // Soobrescreve um elemento com um novo elemento. Preserva Id do elemento antigo.
-void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElemento,
-                         infoSatelite *&satelites, const unsigned int qSatelites);
+void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento, infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Função template para implementação do Merge Sort.
+// Pode ser utilizada para unsigned int, int, e string.
+template <typename tipoDado> void MergeSort(tipoDado *vetor, int inicioVetor, int finalVetor);
+
+// Função template para intercalação de elementos necessário para Merge Sort.
+template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicioVetor, int meioVetor, int finalVetor);
 
 // === TODO ===
 
-// Recebe um elemento é o insere em um vetor de satelites.
-// Assume que o elemento existe.
-// Assume que o vetor está ordenado.
-// void InserirElemento(infoSatelite elemento, infoSatelite *&satelites,
-//                      unsigned int &qSatelites);
-
-// Deleta um elemento do vetor de satelites
-// Assume que o elemento existe.
-// Assume que o vetor está ordenado.
+// Deleta um elemento do vetor de satélites
+// Nota: Assume que o elemento existe, e que o vetor está ordenado.
 // void DeletarElemento(const unsigned int identificador, infoSatelite *&satelites,
 //                      unsigned int &qSatelites);
 
-// Implementação de merge sort
-// template <typename type> void MergeSort(type *vetor, int inicioVetor, int finalVetor);
 
-// Ordena satelties por Id
-// void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites);
+// // Recebe um elemento e o insere no vetor de satélites.
+// // Nota: Assume que o elemento existe, e que o vetor está ordenado.
+// void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, 
+//                      unsigned int &qSatelites);
 
-// Ordena satelites por Nome
-// void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites);
 
-// Ordena satelites por Pais de Origem
-// void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites);
+// Ordena satélites por Id.
+void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites);
 
-// Ordena satelites por Ano de Lançamento
-// void OrdenarAno (infoSatelites *&satelites, const unsigned int qSalelites);
+// Ordena satélites por nome.
+void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Ordena satélites por país de origem.
+void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Ordena satélites por ano de lançamento.
+void OrdenarAno(infoSatelite *&satelites, const unsigned int qSalelites);
 
 // === ---- ===
 
@@ -136,38 +138,46 @@ int main(){
     unsigned int qSatelites = 0;
 
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
-    
-    std::cout << ExisteId(2, satelites, qSatelites) << std::endl;
-    std::cout << ExisteId(3, satelites, qSatelites) << std::endl;
-    std::cout << ExisteId(4, satelites, qSatelites) << std::endl;
 
-    
+    // teste para InserirElemento(), apaga depois!
     infoSatelite novoElemento;
         // "Telstar 19V",
         // "Canadá",
         // 2018,
         // "Um satélite de comunicação geoestacionário que foi construído pela Space Systems/Loral (SS/L).",
 
-    std::cout << "digite o nome de um novo satélite: \n";
-    getline(cin, novoElemento.nome);
+    // std::cout << "digite o nome de um novo satélite: \n";
+    // getline(cin, novoElemento.nome);
 
-    std::cout << "\ndigite o país de origem: \n";
-    getline(cin, novoElemento.paisOrigem);
+    // std::cout << "\ndigite o país de origem: \n";
+    // getline(cin, novoElemento.paisOrigem);
 
-    std::cout << "\ndigite o ano de lançamento: \n";
-    std::cin >> novoElemento.anoLancamento;
+    // std::cout << "\ndigite o ano de lançamento: \n";
+    // std::cin >> novoElemento.anoLancamento;
 
-    std::cout << "\ndigite a sua função: \n";
-    getline(cin, novoElemento.funcao);
+    // std::cout << "\ndigite a sua função: \n";
+    // getline(cin, novoElemento.funcao);
 
-    InserirElemento(novoElemento, satelites, tamVetor);
-    
+    //quero so passar esse vetor dos anos de lancamento
+    std::string *anoLanc = new std::string[qSatelites];
+    for (unsigned int i = 0; i < qSatelites; i++) {
+       anoLanc[i] = satelites[i].funcao;
+    }
+
+    MergeSort<std::string>(anoLanc, 0, qSatelites - 1);
+
+    std::cout << "VETOR DA FUNCÇÃO APÓS MERGE SORT: \n";
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        std::cout << anoLanc[i] << "\n";
+    }
+    std::cout << "\n";
+
+    delete [] anoLanc;
 
     return 0;
 }
 
-infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
-                          unsigned int &qSatelites) {
+infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor, unsigned int &qSatelites) {
 
     // Abre o arquivo .csv.
     std::ifstream arquivoCSV(NOME_ARQUIVO);
@@ -218,12 +228,11 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
     return satelites;
 }
 
-bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
-              const unsigned int qSatelites) {
+bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const unsigned int qSatelites) {
     unsigned int esq_limite = 0;
     unsigned int dir_limite = qSatelites;
     
-    // Busca binária pelo Identificador
+    // Busca binária pelo Identificador.
     while (esq_limite <= dir_limite) {
         unsigned int meio = (esq_limite + dir_limite) / 2;
 
@@ -241,8 +250,7 @@ bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
     return false;
 }
 
-void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites,
-                      const unsigned int qSatelites) {
+void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites) {
     // Abre arquivo atual para ler o cometário
     std::ifstream antigoCSV(NOME_ARQUIVO);
     if (antigoCSV.fail()) {
@@ -277,8 +285,7 @@ void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites
     return;
 }
 
-void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
-              infoSatelite *&satelites, const unsigned int qSatelites) {
+void Imprimir(const unsigned int idInicio, const unsigned int idFinal, infoSatelite *&satelites, const unsigned int qSatelites) {
     for (unsigned int i = 0; i < qSatelites; i++) {
         if (satelites[i].getId() >= idInicio and satelites[i].getId() <= idFinal) {
             std::cout << "> Satélite de ID " << satelites[i].getId() << " <\n"
@@ -293,10 +300,10 @@ void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
     return;
 }
 
-// Alias de Imprimir
-void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites,
-                      const unsigned int qSatelites) {
+// Alias de Imprimir().
+void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites, const unsigned int qSatelites) {
     Imprimir(identificador, identificador, satelites, qSatelites);
+    
     return;
 }
 
@@ -320,8 +327,7 @@ void RedimensionaVetor(infoSatelite *&satelites, unsigned int &tamanhoVetor) {
     return;
 }
 
-void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElemento,
-                         infoSatelite *&satelites, const unsigned int qSatelites) {
+void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento, infoSatelite *&satelites, const unsigned int qSatelites) {
     novoElemento.setId(identificador);
     satelites[identificador] = novoElemento;
 
@@ -336,22 +342,92 @@ void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned i
     // coloca o elemento com o id no final do vetor, e atualiza o numero de registros utilizando a funçao la em cima!
 
 
-    return;
-}
 
-void IntercalaElementos(infoSatelite *) {
 
     return;
 }
 
-void OrdenaVetor() {
+template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicioVetor, int meioVetor, int finalVetor) {
+    // posMeio é um nome ruim pra isso, pensa num melhor!!!
+    int posInicio = inicioVetor, posMeio = meioVetor + 1;
+    int tamVetor = finalVetor - inicioVetor + 1;
+
+    //muda o nome de temp depois para vetTemporario
+    tipoDado *vetTemporario = new tipoDado[tamVetor];
+    
+    //Intercalação dos vetores
+    for (int i = 0; i < tamVetor; i++) {
+        if (posInicio <= meioVetor and posMeio <= finalVetor) {
+            if (vetor[posInicio] < vetor[posMeio]) {
+                vetTemporario[i] = vetor[posInicio];
+                posInicio++;
+            }
+
+            else {
+                vetTemporario[i] = vetor[posMeio];
+                posMeio++;
+            }
+        }
+
+        else if (posInicio > meioVetor) {
+            vetTemporario[i] = vetor[posMeio];
+            posMeio++;
+        }
+
+        else {
+            vetTemporario[i] = vetor[posInicio];
+            posInicio++;
+        }
+    }
+
+    for (int i = 0; i < tamVetor; i++) {
+        vetor[inicioVetor + i] = vetTemporario[i];
+    }
+
+    delete [] vetTemporario;
 
     return;
 }
 
-void AtualizarNumeroSatelites(const std::string NOME_ARQUIVO, unsigned int novoValor) {
+template <typename tipoDado> void MergeSort(tipoDado *vetor, int inicioVetor, int finalVetor) {
+    int meioVetor;
+
+    if (inicioVetor < finalVetor) {
+        meioVetor = (inicioVetor + finalVetor) / 2;
+        MergeSort(vetor, inicioVetor, meioVetor);
+        MergeSort(vetor, meioVetor + 1, finalVetor);
+        IntercalaElementos(vetor, inicioVetor, meioVetor, finalVetor);
+    }
+
+    return;
+}
+
+void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites) {
+    unsigned int *temp = new unsigned int[qSatelites];
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        temp[i] = satelites[i].identificador;
+    }
+
+    MergeSort<unsigned int>(temp, 0, qSatelites - 1);
+
     
 
+
+    return;
+}
+
+void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites) {
+
+    return;
+}
+
+void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites) {
+
+    return;
+}
+
+void OrdenarAno(infoSatelite *&satelites, const unsigned int qSalelites) {
 
     return;
 }
