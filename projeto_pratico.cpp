@@ -22,7 +22,7 @@ struct infoSatelite {
     std::string funcao;
 
     // Getters
-    
+
     unsigned int getId() {
         return identificador;
     }
@@ -70,50 +70,61 @@ struct infoSatelite {
     }
 };
 
+// OBS: Funções que se referem ao vetor de satelites, quando não especificado, devem
+//      assumir que o vetor de satelites não está mudando.
+
 // Carregar informações sobre os satelites de um CSV.
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
                           unsigned int &qSatelites);
+// Verifica se um elemento com o dado identificador existe no vetor de satelites.
+// Utiliza busca binária para isso.
+bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
+              const unsigned int qSatelites);
 // Grava alterações em memória para um arquivo.
-void GravarAlterações(const std::string NOME_ARQUIVO, const infoSatelite *satelites,
-                      unsigned int qSatelites);
+void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites,
+                      const unsigned int qSatelites);
 // Imprime um alcance de elementos no terminal.
 // Note: Não informa se um elemento não existe.
-void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite* satelites,
-              const unsigned int qSatelites);
+void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
+              infoSatelite *&satelites, const unsigned int qSatelites);
 // Imprime um elemento no terminal.
 // Note: Não informa se um elemento não existe.
-void ImprimirElemento(const unsigned int identificador, infoSatelite* satelites,
+void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites,
               const unsigned int qSatelites);
 // Redimensiona o vetor. Altera valor do tamanho do vetor para novo tamanho.
 void RedimensionaVetor(infoSatelite *&vetor, unsigned int &tamanhoVetor);
+// Soobrescreve um elemento com um novo elemento. Preserva Id do elemento antigo.
+void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElemento,
+                         infoSatelite *&satelites, const unsigned int qSatelites);
 
 // === TODO ===
 
-// Soobrescre um elemento com um novo elemento. Preserva Id do elemento antigo.
-//void SobreescreverElemento(unsigned int identificador, infoSatelite novoElemento);
-
 // Recebe um elemento é o insere em um vetor de satelites.
-// Assume que o vetor está ordenado e que não esta mudando durante a inserção.
-// Atuzaliza tamanho do vetor
-//void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &tamanhoVetor);
+// Assume que o elemento existe.
+// Assume que o vetor está ordenado.
+// void InserirElemento(infoSatelite elemento, infoSatelite *&satelites,
+//                      unsigned int &qSatelites);
 
-// Retorna se um id em especifico existe no vetor de satelites
-//bool BuscarId();
+// Deleta um elemento do vetor de satelites
+// Assume que o elemento existe.
+// Assume que o vetor está ordenado.
+// void DeletarElemento(const unsigned int identificador, infoSatelite *&satelites,
+//                      unsigned int &qSatelites);
 
-// Sobreescreve o id de algum elemento. Ou seja o substituido, preservando o elemento.
-//void SobreescreverId();
+// Implementação de merge sort
+// template <typename type> void MergeSort(type *vetor, int inicioVetor, int finalVetor);
 
-// Atualiza o nome de um elemento pelo Id;
-//void AtualizarNome();
+// Ordena satelties por Id
+// void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites);
 
-// Atualiza o pais de um elemento pelo Id;
-//void AtualizarPais();
+// Ordena satelites por Nome
+// void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites);
 
-// Atualiza o ano de um elemento pelo Id;
-//void AtualizarAno();
+// Ordena satelites por Pais de Origem
+// void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites);
 
-// Atualiza a função de um elemento pelo Id.
-//void AtualizarFuncao();
+// Ordena satelites por Ano de Lançamento
+// void OrdenarAno (infoSatelites *&satelites, const unsigned int qSalelites);
 
 // === ---- ===
 
@@ -124,8 +135,10 @@ int main(){
     unsigned int qSatelites = 0;
 
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
-    ImprimirElemento(2, satelites, qSatelites);
-    GravarAlterações(NOME_CSV, satelites, qSatelites);
+    
+    std::cout << ExisteId(2, satelites, qSatelites) << std::endl;
+    std::cout << ExisteId(3, satelites, qSatelites) << std::endl;
+    std::cout << ExisteId(4, satelites, qSatelites) << std::endl;
 
     return 0;
 }
@@ -181,8 +194,31 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
     return satelites;
 }
 
-void GravarAlterações(const std::string NOME_ARQUIVO, const infoSatelite *satelites,
-                      unsigned int qSatelites) {
+bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
+              const unsigned int qSatelites) {
+    unsigned int esq_limite = 0;
+    unsigned int dir_limite = qSatelites;
+    
+    // Busca binária pelo Identificador
+    while (esq_limite <= dir_limite) {
+        unsigned int meio = (esq_limite + dir_limite) / 2;
+
+        if (satelites[meio].getId() == identificador) {
+            return true;
+        }
+        else if (satelites[meio].getId() < identificador) {
+            esq_limite = meio + 1;
+        }
+        else {
+            dir_limite = meio - 1;
+        }
+    }
+
+    return false;
+}
+
+void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites,
+                      const unsigned int qSatelites) {
     // Abre arquivo atual para ler o cometário
     std::ifstream antigoCSV(NOME_ARQUIVO);
     if (antigoCSV.fail()) {
@@ -217,8 +253,8 @@ void GravarAlterações(const std::string NOME_ARQUIVO, const infoSatelite *sate
     return;
 }
 
-void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite *satelites,
-              const unsigned int qSatelites) {
+void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
+              infoSatelite *&satelites, const unsigned int qSatelites) {
     for (unsigned int i = 0; i < qSatelites; i++) {
         if (satelites[i].getId() >= idInicio and satelites[i].getId() <= idFinal) {
             std::cout << "> Satélite de ID " << satelites[i].getId() << " <\n"
@@ -234,9 +270,9 @@ void Imprimir(unsigned int idInicio, unsigned int idFinal, infoSatelite *satelit
 }
 
 // Alias de Imprimir
-void ImprimirElemento(const unsigned int identificador, infoSatelite *satelites,
+void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites,
                       const unsigned int qSatelites) {
-        Imprimir(identificador, identificador, satelites, qSatelites);
+    Imprimir(identificador, identificador, satelites, qSatelites);
     return;
 }
 
@@ -256,6 +292,14 @@ void RedimensionaVetor(infoSatelite *&satelites, unsigned int &tamanhoVetor) {
         satelites[i] = aux[i];
     }
     delete[] aux;
+
+    return;
+}
+
+void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElemento,
+                         infoSatelite *&satelites, const unsigned int qSatelites) {
+    novoElemento.setId(identificador);
+    satelites[identificador] = novoElemento;
 
     return;
 }
