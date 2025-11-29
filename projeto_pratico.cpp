@@ -102,12 +102,14 @@ void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElem
 // Recebe um elemento é o insere em um vetor de satelites.
 // Assume que o elemento existe.
 // Assume que o vetor está ordenado.
-// void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &qSatelites);
+// void InserirElemento(infoSatelite elemento, infoSatelite *&satelites,
+//                      unsigned int &qSatelites);
 
 // Deleta um elemento do vetor de satelites
 // Assume que o elemento existe.
 // Assume que o vetor está ordenado.
-// void DeletarElemento(const unsigned int identificador, infoSatelite *&satelites, unsigned int &qSatelites);
+// void DeletarElemento(const unsigned int identificador, infoSatelite *&satelites,
+//                      unsigned int &qSatelites);
 
 // Implementação de merge sort
 // template <typename type> void MergeSort(type *vetor, int inicioVetor, int finalVetor);
@@ -135,9 +137,8 @@ int main(){
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
     
     std::cout << ExisteId(2, satelites, qSatelites) << std::endl;
-    std::cout << ExisteId(6, satelites, qSatelites) << std::endl;
-
-    GravarAlterações(NOME_CSV, satelites, qSatelites);
+    std::cout << ExisteId(3, satelites, qSatelites) << std::endl;
+    std::cout << ExisteId(4, satelites, qSatelites) << std::endl;
 
     return 0;
 }
@@ -196,7 +197,7 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
 bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
               const unsigned int qSatelites) {
     unsigned int esq_limite = 0;
-    unsigned int dir_limite = qSatelites - 1;
+    unsigned int dir_limite = qSatelites;
     
     // Busca binária pelo Identificador
     while (esq_limite <= dir_limite) {
@@ -271,7 +272,7 @@ void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
 // Alias de Imprimir
 void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites,
                       const unsigned int qSatelites) {
-        Imprimir(identificador, identificador, satelites, qSatelites);
+    Imprimir(identificador, identificador, satelites, qSatelites);
     return;
 }
 
