@@ -91,6 +91,7 @@ void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
 // Note: Não informa se um elemento não existe.
 void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites,
               const unsigned int qSatelites);
+
 // Redimensiona o vetor. Altera valor do tamanho do vetor para novo tamanho.
 void RedimensionaVetor(infoSatelite *&vetor, unsigned int &tamanhoVetor);
 // Soobrescreve um elemento com um novo elemento. Preserva Id do elemento antigo.
@@ -140,12 +141,35 @@ int main(){
     std::cout << ExisteId(3, satelites, qSatelites) << std::endl;
     std::cout << ExisteId(4, satelites, qSatelites) << std::endl;
 
+    
+    infoSatelite novoElemento;
+        // "Telstar 19V",
+        // "Canadá",
+        // 2018,
+        // "Um satélite de comunicação geoestacionário que foi construído pela Space Systems/Loral (SS/L).",
+
+    std::cout << "digite o nome de um novo satélite: \n";
+    getline(cin, novoElemento.nome);
+
+    std::cout << "\ndigite o país de origem: \n";
+    getline(cin, novoElemento.paisOrigem);
+
+    std::cout << "\ndigite o ano de lançamento: \n";
+    std::cin >> novoElemento.anoLancamento;
+
+    std::cout << "\ndigite a sua função: \n";
+    getline(cin, novoElemento.funcao);
+
+    InserirElemento(novoElemento, satelites, tamVetor);
+    
+
     return 0;
 }
 
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
                           unsigned int &qSatelites) {
-    // Abre CSV
+
+    // Abre o arquivo .csv.
     std::ifstream arquivoCSV(NOME_ARQUIVO);
     if (arquivoCSV.fail()) {
         std::cout << "Erro: não foi possível localizar o arquivo \"" << NOME_ARQUIVO
@@ -156,13 +180,13 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
     std::string comentario;
     getline(arquivoCSV, comentario);
     
-    // Le numero de satelites no topo.
+    // Lê o número de satélites no topo do arquivo.
     arquivoCSV >> qSatelites;
     arquivoCSV.ignore();
     
     infoSatelite *satelites = new infoSatelite[tamanhoVetor];
 
-    // Lixo, nesse caso são as vírgulas.
+    // Lixo, que nesse caso são as vírgulas.
     char lixo;
 
     for (unsigned int i = 0; i < qSatelites; i++) {
@@ -188,7 +212,7 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
         }
     }
 
-    // Fecha CSV
+    // Fecha arquivo .csv.
     arquivoCSV.close();
 
     return satelites;
@@ -300,6 +324,34 @@ void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElem
                          infoSatelite *&satelites, const unsigned int qSatelites) {
     novoElemento.setId(identificador);
     satelites[identificador] = novoElemento;
+
+    return;
+}
+
+void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &tamanhoVetor) {
+    // elemento já possui todas as informacoes necessarias pra eu enfiar esse elemento em algum lugar
+    // baseado noq ta escrito la em cima, o vetor necessita de estar organizado
+    // ou seja, necessário que os ids estejam organizados tudo certinho pra poder inserir um novo no final
+    // ou seja seja, merge sort antes pelos ids, checa se tem espaço o suficiente no vetor pra inserir um novo elemento
+    // coloca o elemento com o id no final do vetor, e atualiza o numero de registros utilizando a funçao la em cima!
+
+
+    return;
+}
+
+void IntercalaElementos(infoSatelite *) {
+
+    return;
+}
+
+void OrdenaVetor() {
+
+    return;
+}
+
+void AtualizarNumeroSatelites(const std::string NOME_ARQUIVO, unsigned int novoValor) {
+    
+
 
     return;
 }
