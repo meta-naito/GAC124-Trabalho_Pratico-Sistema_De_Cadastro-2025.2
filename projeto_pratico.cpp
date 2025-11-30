@@ -129,6 +129,43 @@ void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElem
 
 // === ---- ===
 
+int main(){
+    const std::string NOME_CSV = "db_satelites.csv";
+    const unsigned int TAM_INICIAL = 40;
+    unsigned int tamVetor = TAM_INICIAL;
+    unsigned int qSatelites = 0;
+
+    infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
+    
+    std::cout << ExisteId(2, satelites, qSatelites) << std::endl;
+    std::cout << ExisteId(3, satelites, qSatelites) << std::endl;
+    std::cout << ExisteId(4, satelites, qSatelites) << std::endl;
+
+    
+    infoSatelite novoElemento;
+        // "Telstar 19V",
+        // "Canadá",
+        // 2018,
+        // "Um satélite de comunicação geoestacionário que foi construído pela Space Systems/Loral (SS/L).",
+
+    std::cout << "digite o nome de um novo satélite: \n";
+    getline(cin, novoElemento.nome);
+
+    std::cout << "\ndigite o país de origem: \n";
+    getline(cin, novoElemento.paisOrigem);
+
+    std::cout << "\ndigite o ano de lançamento: \n";
+    std::cin >> novoElemento.anoLancamento;
+
+    std::cout << "\ndigite a sua função: \n";
+    getline(cin, novoElemento.funcao);
+
+    InserirElemento(novoElemento, satelites, tamVetor);
+    
+
+    return 0;
+}
+
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
                           unsigned int &qSatelites) {
 
@@ -308,6 +345,13 @@ void IntercalaElementos(infoSatelite *) {
 }
 
 void OrdenaVetor() {
+
+    return;
+}
+
+void AtualizarNumeroSatelites(const std::string NOME_ARQUIVO, unsigned int novoValor) {
+    
+
 
     return;
 }
