@@ -76,6 +76,8 @@ struct infoSatelite {
 // Carregar informações sobre os satelites de um CSV.
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
                           unsigned int &qSatelites);
+// Descarrega vetor de satelites não salvando alterações
+void DescarregarCSV(infoSatelite *&satelites);
 // Verifica se um elemento com o dado identificador existe no vetor de satelites.
 // Utiliza busca binária para isso.
 bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
@@ -129,47 +131,10 @@ void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElem
 
 // === ---- ===
 
-int main(){
-    const std::string NOME_CSV = "db_satelites.csv";
-    const unsigned int TAM_INICIAL = 40;
-    unsigned int tamVetor = TAM_INICIAL;
-    unsigned int qSatelites = 0;
-
-    infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
-    
-    std::cout << ExisteId(2, satelites, qSatelites) << std::endl;
-    std::cout << ExisteId(3, satelites, qSatelites) << std::endl;
-    std::cout << ExisteId(4, satelites, qSatelites) << std::endl;
-
-    
-    infoSatelite novoElemento;
-        // "Telstar 19V",
-        // "Canadá",
-        // 2018,
-        // "Um satélite de comunicação geoestacionário que foi construído pela Space Systems/Loral (SS/L).",
-
-    std::cout << "digite o nome de um novo satélite: \n";
-    getline(cin, novoElemento.nome);
-
-    std::cout << "\ndigite o país de origem: \n";
-    getline(cin, novoElemento.paisOrigem);
-
-    std::cout << "\ndigite o ano de lançamento: \n";
-    std::cin >> novoElemento.anoLancamento;
-
-    std::cout << "\ndigite a sua função: \n";
-    getline(cin, novoElemento.funcao);
-
-    InserirElemento(novoElemento, satelites, tamVetor);
-    
-
-    return 0;
-}
-
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor,
                           unsigned int &qSatelites) {
 
-    // Abre o arquivo .csv.
+    // Abre o arquivo CSV
     std::ifstream arquivoCSV(NOME_ARQUIVO);
     if (arquivoCSV.fail()) {
         std::cout << "Erro: não foi possível localizar o arquivo \"" << NOME_ARQUIVO
@@ -216,6 +181,11 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
     arquivoCSV.close();
 
     return satelites;
+}
+
+void DescarregarCSV(infoSatelite *&satelites) {
+    delete[] satelites;
+    return;
 }
 
 bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
@@ -324,34 +294,6 @@ void SoobscreverElemento(const unsigned int identificador, infoSatelite novoElem
                          infoSatelite *&satelites, const unsigned int qSatelites) {
     novoElemento.setId(identificador);
     satelites[identificador] = novoElemento;
-
-    return;
-}
-
-void InserirElemento(infoSatelite elemento, infoSatelite *&satelites, unsigned int &tamanhoVetor) {
-    // elemento já possui todas as informacoes necessarias pra eu enfiar esse elemento em algum lugar
-    // baseado noq ta escrito la em cima, o vetor necessita de estar organizado
-    // ou seja, necessário que os ids estejam organizados tudo certinho pra poder inserir um novo no final
-    // ou seja seja, merge sort antes pelos ids, checa se tem espaço o suficiente no vetor pra inserir um novo elemento
-    // coloca o elemento com o id no final do vetor, e atualiza o numero de registros utilizando a funçao la em cima!
-
-
-    return;
-}
-
-void IntercalaElementos(infoSatelite *) {
-
-    return;
-}
-
-void OrdenaVetor() {
-
-    return;
-}
-
-void AtualizarNumeroSatelites(const std::string NOME_ARQUIVO, unsigned int novoValor) {
-    
-
 
     return;
 }
