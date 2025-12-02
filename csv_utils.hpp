@@ -124,6 +124,8 @@ void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites);
 bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
               const unsigned int qSatelites);
 
+// Retorna qual é o maior Id presente no CSV.
+unsigned int MaiorId(infoSatelite *&satelites, unsigned int qSatelites);
 
 // >===== ALTERAÇÃO DE DADOS DOS ELEMENTOS NO BANCO DE DADOS =====<
 
@@ -143,6 +145,9 @@ void RemoverElemento(unsigned int identificador, infoSatelite *&satelites,
 // Grava alterações em memória para um arquivo.
 void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites,
                       const unsigned int qSatelites);
+
+// Deleta o vetor de satelites nao salvando as alterações
+void DeletarSalvo(infoSatelite *&satelites);
 
 // === TODO ===
 
@@ -172,23 +177,6 @@ void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites
 //                    infoSatelite *&satelites, const unsigned int qSatelites);
 
 // === ---- ===
-
-int main(){
-    const std::string NOME_CSV = "db_satelites.csv";
-    const unsigned int TAM_INICIAL = 40;
-    unsigned int tamVetor = TAM_INICIAL;
-    unsigned int qSatelites = 0;
-
-    infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
-
-    OrdenarFuncao(satelites, qSatelites);
-    OrdenarAno(satelites, qSatelites);
-    GravarAlterações(NOME_CSV, satelites, qSatelites);
-
-    std::cout << "tudo certo!\n";
-
-    return 0;
-}
 
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoVetor, unsigned int &qSatelites) {
 
@@ -490,6 +478,22 @@ bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const 
     return false;
 }
 
+unsigned int MaiorId(infoSatelite *&satelites, unsigned int qSatelites) {
+    if (qSatelites == 0) {
+        return 0;
+    }
+
+    unsigned int maiorId = satelites[0].getId();
+    
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        if (satelites[i].getId() > maiorId) {
+            maiorId = satelites[i].getId();
+        }
+    }
+
+    return maiorId;
+}
+
 void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento, infoSatelite *&satelites, const unsigned int qSatelites) {
     novoElemento.setId(identificador);
     satelites[identificador] = novoElemento;
@@ -498,18 +502,17 @@ void SobrescreverElemento(const unsigned int identificador, infoSatelite novoEle
 }
 
 void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor) {
-    unsigned int idNovo = qSatelites + 1;
-    
-    // Checa se é possível inserir um novo elemento no vetor.
-    if (idNovo > tamanhoVetor) {
+    unsigned int novaQuantidade = qSatelites + 1;
+    unsigned int novoId = MaiorId(satelites, qSatelites) + 1;
+
+    // Checa se é necessario redimensionar o vetor.
+    if (novaQuantidade > tamanhoVetor) {
         RedimensionaVetor(satelites, tamanhoVetor);
     }
 
-    else {
-        novoElemento.setId(idNovo);
-        satelites[qSatelites] = novoElemento;
-        qSatelites++;
-    }
+    novoElemento.setId(novoId);
+    satelites[qSatelites] = novoElemento;
+    qSatelites++;
 
     return;
 }
@@ -560,6 +563,12 @@ void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites
     }
     
     arquivoCSV.close();
+
+    return;
+}
+
+void DeletarSalvo(infoSatelite *&satelites) {
+    delete[] satelites;
 
     return;
 }
