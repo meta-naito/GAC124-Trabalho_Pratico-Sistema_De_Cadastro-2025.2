@@ -16,24 +16,31 @@
 #include <limits>
 #include <thread>
 
-// Pede confirmação para o usuário com sim ou não, sobre escolha com a mensagem passada.
-// Sempre exibe ao final da mensagem " (s/n)".
+// Pede confirmação para o usuário com 'sim' ou 'não', sobre escolha com a mensagem passada.
+// Sempre exibe ao final da mensagem "(s/n)".
 bool Confirmar(std::string mensagem);
+
 // Limpa o terminal
 // OBS: Só funciona em UNIX.
 void Clear();
-// Espera até que o usuário digite digite alguma coisa para continuar a execução.
+
+// Espera até que o usuário digite algo para continuar a execução do programa.
 void EnterParaContinuar();
-// Exibe texto de opcoes + eecolhe escolha do usuario de inteiro não assinado.
+
+// Exibe texto de opções + escolhe alternativa do usuário de inteiro não assinado/inteiro positivo.
 // Lida com erros causados por escolhas incorretas.
 unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, const unsigned int DELAY_ESCOLHA);
+
 // Implementação da Interface para exibir satélites.
 void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VELOCIDADE_ANIMACOES);
-// Implementação da Interface para gravar para o CSV
+
+// Implementação da Interface para gravar para o arquivo CSV.
 void OpcaoGravacao(std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int VELOCIDADE_ANIMACOES);
-// Implementação da Interface para fechar o prograga.
+
+// Implementação da Interface para fechar o programa.
 void OpcaoSaida(infoSatelite *&satelites, const unsigned int VELOCIDADE_ANIMACOES);
-// Pausa execução do codígo pelo tempo especificado. Utiliza segundos.
+
+// Pausa execução do código pelo tempo especificado. Utiliza segundos como medição de tempo.
 void Sleep(int time);
 
 int main() {
@@ -99,7 +106,7 @@ bool Confirmar(std::string mensagem) {
     std::string escolha;
     std::cout << mensagem << " (s/n)" << std::endl;
     std::cin >> escolha;
-    // transforma a string de escolha em minusculas
+    // transforma a string de escolha em letras minúsculas.
     std::transform(escolha.begin(), escolha.end(), escolha.begin(), ::tolower);
 
     if (escolha == "s" or escolha == "sim") {
@@ -113,7 +120,7 @@ bool Confirmar(std::string mensagem) {
 void Clear() {
     int retorno = system("clear");
     if (retorno == -1) {
-        std::cout << "Erro: Não foi possivel limpar o terminal" << std::endl;
+        std::cout << "Erro: Não foi possivel limpar o terminal." << std::endl;
     }
     else {
         return;
@@ -147,12 +154,12 @@ unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, c
             opcaoValida = true;
         }
         catch (std::invalid_argument const&) {
-            std::cout << "Opção deve ser um numero." << std::endl;
+            std::cout << "Opção deve ser um número." << std::endl;
             std::cout << "Voltando..." << std::endl;
             Sleep(DELAY_ESCOLHA);
         }
         catch (std::out_of_range const&){
-            std::cout << "Opção fora de alcance (numero grande demais)." << std::endl;
+            std::cout << "Opção fora de alcance (número grande demais)." << std::endl;
             std::cout << "Voltando..." << std::endl;
             Sleep(DELAY_ESCOLHA);
         }
@@ -171,11 +178,11 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
     const unsigned int opcao = EscolherOpcao(tituloExibir, textoExibirOpcoes, VELOCIDADE_ANIMACOES);
 
     switch (opcao) {
-        // Exibir um satelite.
+        // Exibir um satélite.
         case 1: {
             try {
                 Clear();
-                std::cout << "Digite o identificador do satélite a ser exibido" << std::endl;
+                std::cout << "Digite o identificador do satélite a ser exibido:" << std::endl;
                 std::cout << "> ";
 
                 std::string identidicadorString;
@@ -194,12 +201,12 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
                 EnterParaContinuar();
             }
             catch (std::invalid_argument const&) {
-                std::cout << "Opção deve ser um numero." << std::endl;
+                std::cout << "Opção deve ser um número." << std::endl;
                 std::cout << "Voltando ao menu principal..." << std::endl;
                 Sleep(VELOCIDADE_ANIMACOES);
             }
             catch (std::out_of_range const&){
-                std::cout << "Opção fora de alcance (numero grande demais)." << std::endl;
+                std::cout << "Opção fora de alcance (número grande demais)." << std::endl;
                 std::cout << "Voltando ao menu principal..." << std::endl;
                 Sleep(VELOCIDADE_ANIMACOES);
             }
@@ -215,15 +222,15 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
         case 2: {
             try {
                 Clear();
-                std::cout << "Note: Se um Id não existir ele sera pulado." << std::endl;
-                std::cout << "Digite o identificador no começo do alcance a ser exibido" << std::endl;
+                std::cout << "Observação: Se um identificador não existir, ele será pulado." << std::endl;
+                std::cout << "Digite o identificador no começo do alcance a ser exibido:" << std::endl;
                 std::cout << "> ";
 
                 std::string inicioString;
                 std::cin >> inicioString;
                 const unsigned int inicio = stoi(inicioString);
 
-                std::cout << "Digite o identificador no final do alcance a ser exibido" << std::endl;
+                std::cout << "Digite o identificador no final do alcance a ser exibido:" << std::endl;
                 std::cout << "> ";
 
                 std::string fimString;
@@ -231,7 +238,7 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
                 const unsigned int fim = stoi(fimString);
 
                 if (fim <= inicio) {
-                    throw std::out_of_range("Alcance impossivel.");
+                    throw std::out_of_range("Alcance impossível.");
                 }
 
                 Clear();
@@ -240,7 +247,7 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
                 EnterParaContinuar();
             }
             catch (std::invalid_argument const&) {
-                std::cout << "Opção deve ser um numero." << std::endl;
+                std::cout << "Opção deve ser um número." << std::endl;
                 std::cout << "Voltando ao menu principal..." << std::endl;
                 Sleep(VELOCIDADE_ANIMACOES);
             }

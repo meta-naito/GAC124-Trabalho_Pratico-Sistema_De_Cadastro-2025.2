@@ -6,7 +6,7 @@ const std::string decoradorInferior = "=-=-=-=-=-=-=-=-=";
 const std::string textoRetornoMenu = "Retornando ao menu principal.";
 
 // Texto Início
-const std::string textoInicio = "Olá, e seja bem vindo! ao sistema de cadastro em arquivos com tema de satélites.";
+const std::string textoInicio = "Olá, e seja bem vindo(a) ao sistema de cadastro em arquivos com tema de satélites!";
 const std::string sateliteASCII = 
 "      .. ............--+-------+##.......                        \n"
 "                                         ##.. ....-.-.-+         \n"
@@ -40,7 +40,7 @@ const std::string sateliteASCII =
 const std::string tituloExibir = "Exibir satélites.";
 const std::string textoExibirOpcoes =
 "Gostaria de imprimir uma lista de satélites ou um único satélite?\n"
-"   1. Unico satélite.\n"
+"   1. Único satélite.\n"
 "   2. Alcance de satélites.\n"
 "   3. Todos os satélites.";
 
@@ -61,8 +61,8 @@ const std::string tituloApagar = "Apagar um satélite.";
 
 // Texto da opção de gravar.
 const std::string tituloGravar = "Gravar alterações.";
-const std::string textoConfirmarGravar = "Deseja gravar as alterações para o CSV?";
-const std::string textoGravacaoCompeta = "Gravação concluida!";
+const std::string textoConfirmarGravar = "Deseja gravar as alterações para o arquivo CSV?";
+const std::string textoGravacaoCompeta = "Gravação concluída!";
 const std::string textoCancelarGravacao = "Gravação cancelada.";
 
 // Texto da opção de sair.
