@@ -1,8 +1,9 @@
 # Campos: Identificador (inteiro), Nome (string), País de Origem (string), Ano de Lançamento (inteiro), Função (string)
-6
+7
 1, "Sputnik 1", "URSS", 1957, "Primeiro satélite artificial, isto é, o primeiro objeto posto pela humanidade em órbita ao redor de um corpo celeste, no caso a Terra"
 2, "Sputnik 2", "URSS", 1957, "Segundo satélite artificial, o primeiro a carregar um ser vivo, uma cachorra chamada Laika."
 3, "Explorer 1", "USA", 1958, "Primeiro satélite lançado pelo governo dos Estados Unidos."
 4, "TRANSIT", "USA", 1959, "Primeiro sistema de navegação por rádio satélite a ser criado, usado para sistemas de navegação da marinha dos Estados Unidos."
-5, "TIROS-1", "USA", 1960, "Primeiro experimento da NASA para determinar a efetividade de satélites em obsercações meteorologicas."
+5, "TIROS-1", "USA", 1960, "Primeiro experimento da NASA para determinar a efetividade de satélites em obsercações meteorológicas."
 6, "Telstar 19V", "Canadá", 2018, "Um satélite de comunicação geoestacionário que foi construído pela Space Systems/Loral (SS/L)."
+7, "Lua", "Theia", 0, "Único satélite natural da Terra e o quinto maior do Sistema Solar, sendo o maior satélite natural de um planeta no sistema solar em relação ao tamanho do seu corpo primário,"

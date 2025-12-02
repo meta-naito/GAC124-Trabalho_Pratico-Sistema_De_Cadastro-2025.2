@@ -124,11 +124,50 @@ void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites);
 bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
               const unsigned int qSatelites);
 
+// olha, deixando aqui avisado, nao sei se é assim que vc queria implementar a buscaKKKK
+// mas, éeeee, aqui está sla fodasse sao 3 da manhã já, se tiver errado vc me xinga dps (eu deixo ^_^)
+// oq estou fazendo: todas as funçoes de busca vão ser do tipo unsigned int, justamente para retornarem o id do elemento procurado
+// aí, caso tenha mais de um elemento, vai ter que fazer um for() na interface, ou faz a função de outra maneira
+// (se for o segundo caso vc pode me bater!! vc falou justamente p eu fazer pra nn ter mais trabalho p vc, se eu errar there is fuck [aí é foda])
+
+// NOTA IMPORTANTE: todas as funções de string são case sensitive!!! eu tenho duas ideias aqui:
+// 1. ou nós fazemos com que (pelo menos no nome, pq o resto vai ser mto mais dificil implementar isso) os nomes fiquem todos apenas capitalizados
+// 2. OU só indica na hora da busca que tem que ser IGUAL ao que está no banco de dados, oq eu acho que seria a versão paia disso :< penso nisso mais tardeKKKK 
+
+// ULTIMA COISA!!!! tem que ser mesmo a busca binaria para a busca
+// mas tem que encontrar um jeito de tb deixar ordenado como estava o arquivo csv antes, oq pensando agora é só se gravar as alteraçoes ne
+// burrice minha, perdaoooooo KKKKK to com sono
+
+// Busca o identificador de um satélite no banco de dados.
+// Nota: Assume que o vetor está ordenado.
+unsigned int BuscarId(const unsigned int ID_PROCURADO, infoSatelite *satelites, 
+                      const unsigned int qSatelites);
+
+// Busca, no banco de dados, o nome de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pelo identificador.
+unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelites,
+                        const unsigned int qSatelites);
+
+// Busca, no banco de dados, o país de origem de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pelo identificador.
+unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites,
+                        const unsigned int qSatelites);
+
+// Busca, no banco de dados, o ano de lançamento de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pelo identificador.
+unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites,
+                       const unsigned int qSatelites);
+
+// Busca, no banco de dados, a função de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pelo identificador.
+unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites,
+                          const unsigned int qSatelites);
 
 // >===== ALTERAÇÃO DE DADOS DOS ELEMENTOS NO BANCO DE DADOS =====<
 
 // Soobrescreve um elemento com um novo elemento. Preserva Id do elemento antigo.
-void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento, infoSatelite *&satelites, const unsigned int qSatelites);
+void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento,
+                          infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Recebe um elemento e o insere no vetor de satélites.
 // Nota: Assume que o elemento existe, e que o vetor está ordenado.
@@ -145,8 +184,6 @@ void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites
                       const unsigned int qSatelites);
 
 // === TODO ===
-
-//void BuscarId();
 
 //OBS: checa se tem como fazer isso tudo ficar mais genéricoKKKK tem mto de string que acho que tem como modularizar melhor ^_^
 
@@ -181,9 +218,25 @@ int main(){
 
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
 
-    OrdenarFuncao(satelites, qSatelites);
-    OrdenarAno(satelites, qSatelites);
-    GravarAlterações(NOME_CSV, satelites, qSatelites);
+    // teste de busca por nome !!
+    std::string nomeProcura;
+
+    std::cout << "Digite um nome de satélite a ser buscado: \n";
+    getline(std::cin, nomeProcura);
+
+    OrdernarId(satelites, qSatelites);
+    
+    bool achou = false;
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        if (BuscarNome(nomeProcura, satelites, qSatelites) == satelites[i].getId()) {
+            ImprimirElemento(satelites[i].getId(), satelites, qSatelites);
+            achou = true;
+        }
+    }
+
+    if (!achou) {
+        std::cout << "Opa! Infelizmente não foi possível achar algum satélite com esse parâmetro :(\n";
+    }
 
     std::cout << "tudo certo!\n";
 
@@ -488,6 +541,131 @@ bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const 
     }
 
     return false;
+}
+
+unsigned int BuscarId(const unsigned int ID_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+    unsigned int posInicial = 0;
+    unsigned int posFinal = qSatelites;
+
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+
+        if (satelites[meio].getId() == ID_PROCURADO) {
+            return satelites[meio].getId();
+        }
+
+        else {
+            if (ID_PROCURADO > satelites[meio].getId()) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
+        }
+    }
+
+    // Como não existe identificador 0, indica que não foi achado o Id pedido.
+    return 0;
+}
+
+unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+    unsigned int posInicial = 0;
+    unsigned int posFinal = qSatelites;
+
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+
+        if (satelites[meio].getNome() == NOME_PROCURADO) {
+            return satelites[meio].getId();
+        }
+
+        else {
+            if (NOME_PROCURADO > satelites[meio].getNome()) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
+        }
+    }
+
+    // Como não existe identificador 0, indica que não foi achado o nome de satélite pedido.
+    return 0;
+}
+
+unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+    unsigned int posInicial = 0;
+    unsigned int posFinal = qSatelites;
+
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+
+        if (satelites[meio].getPais() == PAIS_PROCURADO) {
+            return satelites[meio].getId();
+        }
+
+        else {
+            if (PAIS_PROCURADO > satelites[meio].getPais()) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
+        }
+    }
+
+    // Como não existe identificador 0, indica que não foi achado o país de origem de satélite pedido.
+    return 0;
+}
+
+unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+    unsigned int posInicial = 0;
+    unsigned int posFinal = qSatelites;
+
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+
+        if (satelites[meio].getAno() == ANO_PROCURADO) {
+            return satelites[meio].getId();
+        }
+
+        else {
+            if (ANO_PROCURADO > satelites[meio].getAno()) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
+        }
+    }
+
+    // Como não existe identificador 0, indica que não foi achado o ano de lançamento de satélite pedido.
+    return 0;
+}
+
+unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites, const unsigned int qSatelites) {
+    unsigned int posInicial = 0;
+    unsigned int posFinal = qSatelites;
+
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+
+        if (satelites[meio].getFuncao() == FUNCAO_PROCURADA) {
+            return satelites[meio].getId();
+        }
+
+        else {
+            if (FUNCAO_PROCURADA > satelites[meio].getFuncao()) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
+        }
+    }
+
+    // Como não existe identificador 0, indica que não foi achado o ano de lançamento de satélite pedido.
+    return 0;
 }
 
 void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento, infoSatelite *&satelites, const unsigned int qSatelites) {
