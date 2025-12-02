@@ -109,6 +109,15 @@ void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites);
 // Ordena satélites por nome.
 void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites);
 
+// Ordena satélites por país de origem.
+void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites);
+
+// Ordena satélites por ano de lançamento.
+void OrdenarAno(infoSatelite *&satelites, const unsigned int qSalelites);
+
+// Ordena satélites por função.
+void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites);
+
 // >===== BUSCA DE ELEMENTOS NO BANCO DE DADOS =====<
 
 // Verifica se um elemento com o dado identificador existe no vetor de satélites, utilizando busca binária.
@@ -136,15 +145,6 @@ void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites
                       const unsigned int qSatelites);
 
 // === TODO ===
-
-// // Ordena satélites por país de origem.
-// void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites);
-
-// // Ordena satélites por ano de lançamento.
-// void OrdenarAno(infoSatelite *&satelites, const unsigned int qSalelites);
-
-// // Ordena satélites por função.
-// void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites);
 
 //void BuscarId();
 
@@ -181,35 +181,11 @@ int main(){
 
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
 
-    // teste para InserirElemento(), apaga depois!
-    infoSatelite novoElemento;
-    unsigned int identificador;
-
-    OrdernarId(satelites, qSatelites);
-    std::cout << "digite um identificador de um elemento a ser removido: \n";
-    std::cin >> identificador;
-    RemoverElemento(identificador, satelites, qSatelites);
-
-    // std::cout << "Digite o nome de um novo satélite: \n";
-    // getline(std::cin, novoElemento.nome);
-
-    // std::cout << "\nDigite o país de origem: \n";
-    // getline(std::cin, novoElemento.paisOrigem);
-
-    // std::cout << "\nDigite o ano de lançamento: \n";
-    // std::cin >> novoElemento.anoLancamento;
-    // std::cin.ignore();
-
-    // std::cout << "\nDigite a sua função: \n";
-    // getline(std::cin, novoElemento.funcao);
-
-    // InserirElemento(novoElemento, satelites, qSatelites, tamVetor);
-
-    // std::cout << "Pronto! Um novo satélite foi adicionado ao banco de dados!\n";
-    
+    OrdenarFuncao(satelites, qSatelites);
+    OrdenarAno(satelites, qSatelites);
     GravarAlterações(NOME_CSV, satelites, qSatelites);
 
-    std::cout << "\ntudo certo!\n";
+    std::cout << "tudo certo!\n";
 
     return 0;
 }
@@ -362,6 +338,9 @@ template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicio
 }
 
 void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites) {
+    // Criação de um vetor temporário para ordenar os elementos da função chamada.
+    // OBS: Para todos as funções de ordenação a lógica de criar um vetor temporário é a mesma.
+    //      Portanto, as outras funções não irão ter comentários auxliares.
     unsigned int *temp = new unsigned int[qSatelites];
 
     for (unsigned int i = 0; i < qSatelites; i++) {
@@ -369,20 +348,15 @@ void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites) {
     }
 
     MergeSort<unsigned int>(temp, 0, qSatelites - 1);
-
-    // o vetor temp está ordenado pelos id tudo certinho (ja testei KKK)
-    // ou seja, tem que ir checando se o id na posicao inicial do vetor temp é igual ao id de outra pos no vetor dos satelites
-    // se for, aí troca tudo certinho
-    // no id e no nome nao tem problema de coisas serem repetidas, mas nos outros vai ter esse failsafe
     
+    // Cria um registro auxiliar para poder ordenar o vetor de satélites em si.
+    // OBS: Para todas as funções de ordenação a lógica de criar um registro auxiliar é a mesma.
+    //      Portanto, as outras funções não irão ter comentários auxliares.
     infoSatelite aux;
 
     for (unsigned int i = 0; i < qSatelites; i++) {
         for (unsigned int j = 0; j < qSatelites; j++) {
             if (temp[i] == satelites[j].getId()) {
-                // pegar o registro todo e passar na posicao i no vetor de satelites
-                // ou seja, tem que armazenar o registro da posicao i em aux pra nao perder ele!
-
                 aux = satelites[i];
                 satelites[i] = satelites[j];
                 satelites[j] = aux;
@@ -408,9 +382,81 @@ void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites) {
     for (unsigned int i = 0; i < qSatelites; i++) {
         for (unsigned int j = 0; j < qSatelites; j++) {
             if (temp[i] == satelites[j].getNome()) {
-                // pegar o registro todo e passar na posicao i no vetor de satelites
-                // ou seja, tem que armazenar o registro da posicao i em aux pra nao perder ele!
+                aux = satelites[i];
+                satelites[i] = satelites[j];
+                satelites[j] = aux;
+            }
+        }
+    }
+    delete [] temp;
 
+    return;
+}
+
+void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites) {
+    std::string *temp = new std::string[qSatelites];
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        temp[i] = satelites[i].getPais();
+    }
+
+    MergeSort<std::string>(temp, 0, qSatelites - 1);
+
+    infoSatelite aux;
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        for (unsigned int j = 0; j < qSatelites; j++) {
+            if (temp[i] == satelites[j].getPais()) {
+                aux = satelites[i];
+                satelites[i] = satelites[j];
+                satelites[j] = aux;
+            }
+        }
+    }
+    delete [] temp;
+    
+    return;
+}
+
+void OrdenarAno(infoSatelite *&satelites, const unsigned int qSatelites) {
+        int *temp = new int[qSatelites];
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        temp[i] = satelites[i].getAno();
+    }
+
+    MergeSort<int>(temp, 0, qSatelites - 1);
+
+    infoSatelite aux;
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        for (unsigned int j = 0; j < qSatelites; j++) {
+            if (temp[i] == satelites[j].getAno()) {
+                aux = satelites[i];
+                satelites[i] = satelites[j];
+                satelites[j] = aux;
+            }
+        }
+    }
+    delete [] temp;
+    
+    return;
+}
+
+void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites) {
+    std::string *temp = new std::string[qSatelites];
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        temp[i] = satelites[i].getFuncao();
+    }
+
+    MergeSort<std::string>(temp, 0, qSatelites - 1);
+
+    infoSatelite aux;
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        for (unsigned int j = 0; j < qSatelites; j++) {
+            if (temp[i] == satelites[j].getFuncao()) {
                 aux = satelites[i];
                 satelites[i] = satelites[j];
                 satelites[j] = aux;
@@ -469,14 +515,11 @@ void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites, unsign
 }
 
 void RemoverElemento(unsigned int identificador, infoSatelite *&satelites, unsigned int &qSatelites) {
-    // vai percorrendo o vetor
-    // se o id da variavel é igual ao id de um elemento, aí TODOS os elementos a direita dele são movidos um a esquerda
-    // aí decrementa em um o tamanho do vetor e em qSatelites, efetivamente assassinando o elementoKKKKK
-
     for (unsigned int i = 0; i < qSatelites; i++) {
         if (identificador == satelites[i].getId()) {
             qSatelites--;
 
+            // Move todos os elementos a direita do elemento a ser removido para a esquerda.
             for (unsigned int j = i; j < qSatelites; j++) {
                 satelites[j] = satelites[j + 1];
             }
