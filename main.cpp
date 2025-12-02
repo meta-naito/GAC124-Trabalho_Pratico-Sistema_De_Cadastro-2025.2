@@ -185,9 +185,9 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
                 std::cout << "Digite o identificador do satélite a ser exibido:" << std::endl;
                 std::cout << "> ";
 
-                std::string identidicadorString;
-                std::cin >> identidicadorString;
-                const unsigned int identificador = stoi(identidicadorString);
+                std::string identificadorString;
+                std::cin >> identificadorString;
+                const unsigned int identificador = stoi(identificadorString);
 
                 if (ExisteId(identificador, satelites, qSatelites)) {
                     std::cout << std::endl;
