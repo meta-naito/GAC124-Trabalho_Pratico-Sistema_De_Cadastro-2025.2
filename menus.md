@@ -33,7 +33,7 @@ Opções:
 
     1. Exibir satélites; (Exibe tbm quantidade de satélites)
         > Gostaria de imprimir uma lista de satélites ou um único satélite?
-            1. Apensas um satélite
+            1. Apenas um satélite
             2. Lista de satélites;
             3. Todos os satélies.
         (Exibe satelite)
@@ -42,12 +42,10 @@ Opções:
 
     2. Buscar satélites; (Buscar por um dado campo, retornar todas as informações)
         > Por qual campo você gostaria de pesquisar no sistema?
-            1. Identificador ->
             2. Nome ->
             3. País de Origem -> 
             4. Ano de lançamento -> 
             5. Função ->
-        (Se não for por Id) -> (Busca Id de satelites correspondentes)
         (Imprime satelites com Id que correspondem)
         Digite Enter para voltar ao menu principal.;
         (Volta ao menu principal)

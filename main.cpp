@@ -26,13 +26,19 @@ void Clear();
 void EnterParaContinuar();
 // Exibe texto de opcoes + eecolhe escolha do usuario de inteiro não assinado.
 // Lida com erros causados por escolhas incorretas.
-unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, const unsigned int DELAY_ESCOLHA);
+unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, const unsigned int TEMPO_ANIMACOES);
 // Implementação da Interface para exibir satélites.
-void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VELOCIDADE_ANIMACOES);
+void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
+// Implementação da Interface para buscar satélites.
+void OpcaoBuscar(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
+// Implementação da Interface para inserir satèlites.
+void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetorconst, const unsigned int TEMPO_ANIMACOES);
+// Implementação da Interface para deletar satélites.
+void OpcaoApagar(infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor, const unsigned int TEMPO_ANIMACOES);
 // Implementação da Interface para gravar para o CSV
-void OpcaoGravacao(std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int VELOCIDADE_ANIMACOES);
+void OpcaoGravacao(std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
 // Implementação da Interface para fechar o prograga.
-void OpcaoSaida(infoSatelite *&satelites, const unsigned int VELOCIDADE_ANIMACOES);
+void OpcaoSaida(infoSatelite *&satelites, const unsigned int TEMPO_ANIMACOES);
 // Pausa execução do codígo pelo tempo especificado. Utiliza segundos.
 void Sleep(int time);
 
@@ -43,10 +49,10 @@ int main() {
     
     const std::string NOME_CSV = "db_satelites.csv";
     const unsigned int TAM_INICIAL = 40;
-    unsigned int tamVetor = TAM_INICIAL;
+    unsigned int tamanhoVetor = TAM_INICIAL;
     unsigned int qSatelites = 0;
 
-    infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
+    infoSatelite* satelites = CarregarCSV(NOME_CSV, tamanhoVetor, qSatelites);
 
     Clear();
     const unsigned int DELAY = 3;
@@ -61,8 +67,8 @@ int main() {
     std::cout << std::endl;
 
     while (true) {
-        const unsigned int VELOCIDADE_ANIMACOES = 2;
-        const unsigned int opcao = EscolherOpcao(tituloMenu, textoOpcoesMenu, VELOCIDADE_ANIMACOES);
+        const unsigned int TEMPO_ANIMACOES = 2;
+        const unsigned int opcao = EscolherOpcao(tituloMenu, textoOpcoesMenu, TEMPO_ANIMACOES);
         
         switch (opcao) {
             // 0 -> CASO DE TESTES
@@ -72,21 +78,30 @@ int main() {
                 break;
             }
             case 1: {
-                OpcaoExibir(satelites, qSatelites, VELOCIDADE_ANIMACOES);
+                OpcaoExibir(satelites, qSatelites, TEMPO_ANIMACOES);
+                break;
+            case 2:
+                OpcaoBuscar();
+                break;
+            case 5:
+                OpcaoInserir(satelites, qSatelites, tamanhoVetor, TEMPO_ANIMACOES);
                 break;
             }
+            case 6:
+                OpcaoApagar(satelites, qSatelites, tamanhoVetor, TEMPO_ANIMACOES);
+                break;
             case 7: {
-                OpcaoGravacao(NOME_CSV, satelites, qSatelites, VELOCIDADE_ANIMACOES);
+                OpcaoGravacao(NOME_CSV, satelites, qSatelites, TEMPO_ANIMACOES);
                 break;
             }
             case 8: {
-                OpcaoSaida(satelites, VELOCIDADE_ANIMACOES);
+                OpcaoSaida(satelites, TEMPO_ANIMACOES);
                 break;
             }
             default: {
                 std::cout << "Opção inválida :(" << std::endl;
-                std::cout << "Voltando..." << std::endl;
-                Sleep(VELOCIDADE_ANIMACOES);
+                std::cout << textoVoltando << std::endl;
+                Sleep(TEMPO_ANIMACOES);
                 break;
             }
         }
@@ -128,7 +143,7 @@ void EnterParaContinuar() {
     return;
 }
 
-unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, const unsigned int DELAY_ESCOLHA) {
+unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, const unsigned int TEMPO_ANIMACOES) {
     bool opcaoValida = false;
     unsigned int opcao = 0;
 
@@ -148,27 +163,27 @@ unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, c
         }
         catch (std::invalid_argument const&) {
             std::cout << "Opção deve ser um numero." << std::endl;
-            std::cout << "Voltando..." << std::endl;
-            Sleep(DELAY_ESCOLHA);
+            std::cout << textoVoltando << std::endl;
+            Sleep(TEMPO_ANIMACOES);
         }
         catch (std::out_of_range const&){
             std::cout << "Opção fora de alcance (numero grande demais)." << std::endl;
-            std::cout << "Voltando..." << std::endl;
-            Sleep(DELAY_ESCOLHA);
+            std::cout << textoVoltando << std::endl;
+            Sleep(TEMPO_ANIMACOES);
         }
         catch (std::exception const&) {
             std::cout << "Opção inválida." << std::endl;
-            std::cout << "Voltando ao menu principal..." << std::endl;
-            Sleep(DELAY_ESCOLHA);
+            std::cout << textoVoltando << std::endl;
+            Sleep(TEMPO_ANIMACOES);
         }
     }
 
     return opcao;
 }
 
-void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VELOCIDADE_ANIMACOES) {
+void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES) {
     Clear();
-    const unsigned int opcao = EscolherOpcao(tituloExibir, textoExibirOpcoes, VELOCIDADE_ANIMACOES);
+    const unsigned int opcao = EscolherOpcao(tituloExibir, textoExibirOpcoes, TEMPO_ANIMACOES);
 
     switch (opcao) {
         // Exibir um satelite.
@@ -185,28 +200,27 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
                 if (ExisteId(identificador, satelites, qSatelites)) {
                     std::cout << std::endl;
                     ImprimirElemento(identificador, satelites, qSatelites);
-                    std::cout << std::endl;
                 }
                 else {
-                    std::cout << "Esse identificador não pertence a nenhum satélite." << std::endl;
+                    std::cout << textoIdentificadorNaoExiste << std::endl;
                 }
 
                 EnterParaContinuar();
             }
             catch (std::invalid_argument const&) {
                 std::cout << "Opção deve ser um numero." << std::endl;
-                std::cout << "Voltando ao menu principal..." << std::endl;
-                Sleep(VELOCIDADE_ANIMACOES);
+                std::cout << textoRetornoMenu << std::endl;
+                Sleep(TEMPO_ANIMACOES);
             }
             catch (std::out_of_range const&){
                 std::cout << "Opção fora de alcance (numero grande demais)." << std::endl;
-                std::cout << "Voltando ao menu principal..." << std::endl;
-                Sleep(VELOCIDADE_ANIMACOES);
+                std::cout << textoRetornoMenu << std::endl;
+                Sleep(TEMPO_ANIMACOES);
             }
-            catch (std::exception const&) {
-                std::cout << "Opção inválida." << std::endl;
-                std::cout << "Voltando ao menu principal..." << std::endl;
-                Sleep(VELOCIDADE_ANIMACOES);
+            catch (std::exception const& erro) {
+                std::cout << "Erro: " << erro.what() << std::endl;
+                std::cout << textoRetornoMenu << std::endl;
+                Sleep(TEMPO_ANIMACOES);
             }
 
             break;
@@ -230,31 +244,31 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
                 std::cin >> fimString;
                 const unsigned int fim = stoi(fimString);
 
-                if (fim <= inicio) {
+                if (fim < inicio) {
                     throw std::out_of_range("Alcance impossivel.");
                 }
 
                 Clear();
                 Imprimir(inicio, fim, satelites, qSatelites);
+                std::cout << std::endl;
 
                 EnterParaContinuar();
             }
             catch (std::invalid_argument const&) {
                 std::cout << "Opção deve ser um numero." << std::endl;
-                std::cout << "Voltando ao menu principal..." << std::endl;
-                Sleep(VELOCIDADE_ANIMACOES);
+                std::cout << textoRetornoMenu << std::endl;
+                Sleep(TEMPO_ANIMACOES);
             }
             catch (std::out_of_range const&){
                 std::cout << "Opção fora de alcance válido." << std::endl;
-                std::cout << "Voltando ao menu principal..." << std::endl;
-                Sleep(VELOCIDADE_ANIMACOES);
+                std::cout << textoRetornoMenu << std::endl;
+                Sleep(TEMPO_ANIMACOES);
             }
-            catch (std::exception const&) {
-                std::cout << "Opção inválida." << std::endl;
-                std::cout << "Voltando ao menu principal..." << std::endl;
-                Sleep(VELOCIDADE_ANIMACOES);
+            catch (std::exception const& erro) {
+                std::cout << "Erro:" << erro.what() << std::endl;
+                std::cout << textoRetornoMenu << std::endl;
+                Sleep(TEMPO_ANIMACOES);
             }
-
             break;
         }
         // Exibir todos os satelites.
@@ -266,8 +280,8 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
         }
         default: {
             std::cout << "Opção inválida :(" << std::endl;
-            std::cout << "Voltando ao menu..." << std::endl;
-            Sleep(VELOCIDADE_ANIMACOES);
+            std::cout << textoRetornoMenu << std::endl;
+            Sleep(TEMPO_ANIMACOES);
             break;
         }
     }
@@ -275,7 +289,124 @@ void OpcaoExibir(infoSatelite *&satelites, unsigned int qSatelites, const int VE
     return;
 }
 
-void OpcaoGravacao(std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int VELOCIDADE_ANIMACOES) {
+void OpcaoBuscar(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES) {
+    
+
+    return;
+}
+
+void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor, const unsigned int TEMPO_ANIMACOES) {
+    Clear();
+    std::cout << decorador << " " << tituloInserir << decorador << " " << std::endl;
+
+    try {
+        infoSatelite novoElemento;
+        novoElemento.setId(0);
+
+        std::string aux;
+
+        std::cin.ignore();
+        std::cout << "Nome: " << "\n> ";
+        getline(std::cin, aux);
+        if(aux.empty()) {
+            throw std::length_error("Nome vazio.");
+        }
+
+        novoElemento.setNome(aux);
+
+        std::cout << "Pais: " << "\n> ";
+        getline(std::cin, aux);
+        novoElemento.setPais(aux);
+        if(aux.empty()) {
+            throw std::length_error("Pais vazio.");
+        }
+
+        std::cout << "Ano: " << "\n> ";
+        std::cin >> aux;
+        std::cin.ignore();
+        int auxAno = stoi(aux);
+        novoElemento.setAno(auxAno);
+
+        std::cout << "Função: " << "\n> ";;
+        getline(std::cin, aux);
+        novoElemento.setFuncao(aux);
+        if(aux.empty()) {
+            throw std::length_error("Função vazia.");
+        }
+
+        InserirElemento(novoElemento, satelites, qSatelites, tamanhoVetor);
+    }
+    catch (std::invalid_argument const&) {
+        std::cout << "Ano deve ser um numero." << std::endl;
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
+    }
+    catch (std::out_of_range const&){
+        std::cout << "Valor grande demais :(" << std::endl;
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
+    }
+    catch (std::length_error const& erro) {
+        std::cout << "Tamanho incorreto: " << erro.what() << std::endl;
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
+    }
+    catch (std::exception const& erro) {
+        std::cout << "Erro:" << erro.what() << std::endl;
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
+    }
+
+    return;
+}
+
+void OpcaoApagar(infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor, const unsigned int TEMPO_ANIMACOES) {
+    Clear();
+    std::cout << decorador << " " << tituloApagar << decorador << " " << std::endl;
+
+    try {
+        std::cout << "Identificador a ser deletado: " << std::endl;
+        std::cout << "> ";
+        std::string identificadorString;
+        std::cin.ignore();
+        getline(std::cin, identificadorString);
+
+        if (identificadorString.empty()) {
+            throw std::length_error("Id não deve estar vazio.");
+        }
+
+        unsigned int identificador = stoi(identificadorString);
+        if (ExisteId(identificador, satelites, qSatelites)) {
+            RemoverElemento(identificador, satelites, qSatelites);
+            std::cout << textoSucessoApagar << std::endl;
+            EnterParaContinuar();
+        }
+        else {
+            std::cout << textoIdentificadorNaoExiste << std::endl;
+            Sleep(TEMPO_ANIMACOES);
+            std::cout << textoVoltandoAoMenu << std::endl;
+        }
+    }
+    catch (std::invalid_argument const&) {
+        std::cout << "Id deve ser um numero." << std::endl;
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
+    }
+    catch (std::length_error const&) {
+        std::cout << "Id não deve estar vazio." << std::endl;
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
+    }
+    catch (std::exception const& erro) {
+        std::cout << "Erro:" << erro.what() << std::endl;
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
+    }
+
+    return;
+}
+
+void OpcaoGravacao(std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES) {
     if (Confirmar(textoConfirmarGravar)) {
         GravarAlterações(NOME_ARQUIVO, satelites, qSatelites);
         std::cout << textoGravacaoCompeta << std::endl;
@@ -284,16 +415,16 @@ void OpcaoGravacao(std::string NOME_ARQUIVO, infoSatelite *&satelites, const uns
         std::cout << textoCancelarGravacao << std::endl;
     }
     std::cout << textoRetornoMenu << std::endl;
-    Sleep(VELOCIDADE_ANIMACOES);
+    Sleep(TEMPO_ANIMACOES);
 
     return;
 }
 
-void OpcaoSaida(infoSatelite *&satelites, const unsigned int VELOCIDADE_ANIMACOES) {
+void OpcaoSaida(infoSatelite *&satelites, const unsigned int TEMPO_ANIMACOES) {
     if (Confirmar(textoConfirmarSair)) {
         std::cout << "Saindo";
 
-        for (unsigned int i = 0; i < VELOCIDADE_ANIMACOES; i++) {
+        for (unsigned int i = 0; i < TEMPO_ANIMACOES; i++) {
             std::cout << ".";
             Sleep(1);
         }
@@ -305,7 +436,7 @@ void OpcaoSaida(infoSatelite *&satelites, const unsigned int VELOCIDADE_ANIMACOE
     }
     else {
         std::cout << textoRetornoMenu << std::endl;
-        Sleep(VELOCIDADE_ANIMACOES);
+        Sleep(TEMPO_ANIMACOES);
     }
 
     return;

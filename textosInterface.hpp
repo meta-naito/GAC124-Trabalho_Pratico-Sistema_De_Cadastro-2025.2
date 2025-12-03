@@ -3,7 +3,9 @@
 // Texto utilidades & geral
 const std::string decorador = "=-=";
 const std::string decoradorInferior = "=-=-=-=-=-=-=-=-=";
+const std::string decoradorLongo = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 const std::string textoRetornoMenu = "Retornando ao menu principal.";
+const std::string textoIdentificadorNaoExiste = "Identificador não existe na base de dados.";
 
 // Texto Início
 const std::string textoInicio = "Olá, e seja bem vindo! ao sistema de cadastro em arquivos com tema de satélites.";
@@ -58,6 +60,7 @@ const std::string tituloInserir = "Inserir novo satélite.";
 
 // Texto da opção de apagar.
 const std::string tituloApagar = "Apagar um satélite.";
+const std::string textoSucessoApagar = "Satélite apagado.";
 
 // Texto da opção de gravar.
 const std::string tituloGravar = "Gravar alterações.";
@@ -67,10 +70,12 @@ const std::string textoCancelarGravacao = "Gravação cancelada.";
 
 // Texto da opção de sair.
 const std::string tituloSair = "Sair do programa.";
-const std::string textoConfirmarSair = "Deseja mesmo sair?";
+const std::string textoConfirmarSair = "Deseja mesmo sair? (Alterações não gravadas não são salvas)";
 
 // Texto menu
 
+const std::string textoVoltando= "Voltando...";
+const std::string textoVoltandoAoMenu = "Voltando ao menu principal...";
 const std::string tituloMenu = "Opções";
 const std::string textoOpcoesMenu = 
 "0. TESTES.\n"

@@ -79,6 +79,8 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &tamanhoV
 
 // Redimensiona o vetor, alterando o valor do tamanho do vetor para o novo tamanho.
 void RedimensionaVetor(infoSatelite *&vetor, unsigned int &tamanhoVetor);
+// Reduz o vetor, elimina elementos com indice mais alto.
+void ReduzirVetor(infoSatelite *&satelites, unsigned int &tamanhoVetor);
 
 // >===== IMPRESSÃO DE ELEMENTOS DO BANCO DE DADOS =====<
 
@@ -134,7 +136,7 @@ void SobrescreverElemento(const unsigned int identificador, infoSatelite novoEle
 
 // Recebe um elemento e o insere no vetor de satélites.
 // Nota: Assume que o elemento existe, e que o vetor está ordenado.
-void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites,
+void InserirElemento(infoSatelite &novoElemento, infoSatelite *&satelites,
                      unsigned int &qSatelites, unsigned int &tamanhoVetor);
 
 // Remove um elemento do vetor de satélites
@@ -249,17 +251,38 @@ void RedimensionaVetor(infoSatelite *&satelites, unsigned int &tamanhoVetor) {
     return;
 }
 
+void ReduzirVetor(infoSatelite *&satelites, unsigned int &tamanhoVetor) {
+    const int TAM_REDIMENSIONAMENTO = 10;
+    const int NOVO_TAMANHO = tamanhoVetor - TAM_REDIMENSIONAMENTO;
+
+    infoSatelite *aux = new infoSatelite[NOVO_TAMANHO];
+    for (int i = 0; i < NOVO_TAMANHO; i++) {
+        aux[i] = satelites[i];
+    }
+    delete[] satelites;
+
+    tamanhoVetor -= TAM_REDIMENSIONAMENTO;
+    satelites = new infoSatelite[NOVO_TAMANHO];
+    for (int i = 0; i < NOVO_TAMANHO; i++) {
+        satelites[i] = aux[i];
+    }
+    delete[] aux;
+
+    return;
+}
+
 void Imprimir(const unsigned int idInicio, const unsigned int idFinal, infoSatelite *&satelites, const unsigned int qSatelites) {
     for (unsigned int i = 0; i < qSatelites; i++) {
         if (satelites[i].getId() >= idInicio and satelites[i].getId() <= idFinal) {
-            std::cout << "> Satélite de ID " << satelites[i].getId() << " <\n"
-                      << " Nome: " << satelites[i].getNome() << '\n'
-                      << " País de origem: " << satelites[i].getPais() << '\n'
-                      << " Ano de Lançamento: " << satelites[i].getAno() << '\n'
-                      << " Função: \n   \"" << satelites[i].getFuncao() << "\"\n"
-                      << "> =====---- " << std::endl; 
+            std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << '\n'
+                      << "| Satélite de ID     | " << satelites[i].getId() << '\n'
+                      << "| Nome               | " << satelites[i].getNome() << '\n'
+                      << "| País de origem     | " << satelites[i].getPais() << '\n'
+                      << "| Ano de Lançamento  | " << satelites[i].getAno() << '\n'
+                      << "| Função:\n   \"" << satelites[i].getFuncao() << '\"' << std::endl; 
         }
     }
+    std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
 
     return;
 }
@@ -501,7 +524,7 @@ void SobrescreverElemento(const unsigned int identificador, infoSatelite novoEle
     return;
 }
 
-void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor) {
+void InserirElemento(infoSatelite &novoElemento, infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor) {
     unsigned int novaQuantidade = qSatelites + 1;
     unsigned int novoId = MaiorId(satelites, qSatelites) + 1;
 
