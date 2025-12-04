@@ -9,6 +9,7 @@
 |                                                                 |
 *******************************************************************/
 #include <iostream>
+#include <map>
 #include <fstream>
 #include <string>
 
@@ -84,24 +85,20 @@ void RedimensionaVetor(infoSatelite *&vetor, unsigned int &tamanhoVetor);
 
 // Imprime um alcance de elementos no terminal.
 // Nota: Não informa se um elemento não existe.
-void Imprimir(const unsigned int idInicio, const unsigned int idFinal,
-              infoSatelite *&satelites, const unsigned int qSatelites);
+void Imprimir(const unsigned int idInicio, const unsigned int idFinal, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Imprime um elemento no terminal.
 // Nota: Não informa se um elemento não existe.
-void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites,
-                      const unsigned int qSatelites);
+void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // >===== ORDENAÇÃO DE ELEMENTOS NO BANCO DE DADOS =====<
 
 // Função template para implementação do Merge Sort.
 // Pode ser utilizada para unsigned int, int, e string.
-template <typename tipoDado> void MergeSort(tipoDado *vetor, int inicioVetor,
-                                            int finalVetor);
+template <typename tipoDado> void MergeSort(tipoDado *vetor, int inicioVetor, int finalVetor);
 
 // Função template para intercalação de elementos necessário para Merge Sort.
-template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicioVetor,
-                                                     int meioVetor, int finalVetor);
+template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicioVetor, int meioVetor, int finalVetor);
 
 // Ordena satélites por Id.
 void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites);
@@ -121,76 +118,54 @@ void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites);
 // >===== BUSCA DE ELEMENTOS NO BANCO DE DADOS =====<
 
 // Verifica se um elemento com o dado identificador existe no vetor de satélites, utilizando busca binária.
-bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
-              const unsigned int qSatelites);
+bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const unsigned int qSatelites);
 
-// olha, deixando aqui avisado, nao sei se é assim que vc queria implementar a buscaKKKK
-// mas, éeeee, aqui está sla fodasse sao 3 da manhã já, se tiver errado vc me xinga dps (eu deixo ^_^)
-// oq estou fazendo: todas as funçoes de busca vão ser do tipo unsigned int, justamente para retornarem o id do elemento procurado
-// aí, caso tenha mais de um elemento, vai ter que fazer um for() na interface, ou faz a função de outra maneira
-// (se for o segundo caso vc pode me bater!! vc falou justamente p eu fazer pra nn ter mais trabalho p vc, se eu errar there is fuck [aí é foda])
-
-// NOTA IMPORTANTE: todas as funções de string são case sensitive!!! eu tenho duas ideias aqui:
-// 1. ou nós fazemos com que (pelo menos no nome, pq o resto vai ser mto mais dificil implementar isso) os nomes fiquem todos apenas capitalizados
-// 2. OU só indica na hora da busca que tem que ser IGUAL ao que está no banco de dados, oq eu acho que seria a versão paia disso :< penso nisso mais tardeKKKK 
-
-// ULTIMA COISA!!!! tem que ser mesmo a busca binaria para a busca
-// mas tem que encontrar um jeito de tb deixar ordenado como estava o arquivo csv antes, oq pensando agora é só se gravar as alteraçoes ne
-// burrice minha, perdaoooooo KKKKK to com sono
-
-// Busca o identificador de um satélite no banco de dados.
-// Nota: Assume que o vetor está ordenado.
-unsigned int BuscarId(const unsigned int ID_PROCURADO, infoSatelite *satelites, 
-                      const unsigned int qSatelites);
-
-// Busca, no banco de dados, o nome de um determinado satélite, retornando o Id do elemento correspondente.
+// Busca, utilizando busca binária, o identificador de um satélite no vetor de satélites.
 // Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelites,
-                        const unsigned int qSatelites);
+unsigned int BuscarId(const unsigned int ID_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
 
-// Busca, no banco de dados, o país de origem de um determinado satélite, retornando o Id do elemento correspondente.
-// Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites,
-                        const unsigned int qSatelites);
+// Busca, no vetor de satélites, o nome de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pelo nome.
+unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
 
-// Busca, no banco de dados, o ano de lançamento de um determinado satélite, retornando o Id do elemento correspondente.
-// Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites,
-                       const unsigned int qSatelites);
+// Busca, no vetor de satélites, o país de origem de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pelo país de origem.
+unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
 
-// Busca, no banco de dados, a função de um determinado satélite, retornando o Id do elemento correspondente.
-// Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites,
-                          const unsigned int qSatelites);
+// Busca, no vetor de satélites, o ano de lançamento de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pelo ano de lançamento.
+unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
+
+// Busca, no vetor de satélites, a função de um determinado satélite, retornando o Id do elemento correspondente.
+// Nota: Assume que o vetor está ordenado pela função.
+unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites, const unsigned int qSatelites);
+
+// Busca
+std::string BuscarParte(const std::string PARTE_TEXTO, infoSatelite *satelites, const unsigned int qSatelites);
+
+std::string ConverterMaiusculo(std::string texto);
+
+std::string RemoverAcentuacao(std::string texto);
 
 // >===== ALTERAÇÃO DE DADOS DOS ELEMENTOS NO BANCO DE DADOS =====<
 
 // Soobrescreve um elemento com um novo elemento. Preserva Id do elemento antigo.
-void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento,
-                          infoSatelite *&satelites, const unsigned int qSatelites);
+void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento,infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Recebe um elemento e o insere no vetor de satélites.
 // Nota: Assume que o elemento existe, e que o vetor está ordenado.
-void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites,
-                     unsigned int &qSatelites, unsigned int &tamanhoVetor);
+void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor);
 
 // Remove um elemento do vetor de satélites
 // Nota: Assume que o elemento existe, e que o vetor está ordenado.
-void RemoverElemento(unsigned int identificador, infoSatelite *&satelites,
-                     unsigned int &qSatelites);
+void RemoverElemento(unsigned int identificador, infoSatelite *&satelites, unsigned int &qSatelites);
 
 // Grava alterações em memória para um arquivo.
-void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites,
-                      const unsigned int qSatelites);
+void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // === TODO ===
 
 //OBS: checa se tem como fazer isso tudo ficar mais genéricoKKKK tem mto de string que acho que tem como modularizar melhor ^_^
-
-// // Sobrescreve um Id de um satélite.
-// // Nota: Necessário que o Id novo não exista no banco de dados.
-// void SobrescreverId(unsigned int identificador, unsigned int identificadorNovo,
-//                     infoSatelite *&satelites, const unsigned int qSatelites);
 
 // // Altera o nome de um satélite.
 // void AtualizarNome(const unsigned int identificador, std::string nomeNovo,
@@ -219,20 +194,30 @@ int main(){
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
 
     // teste de busca por nome !!
-    std::string nomeProcura;
+    std::string nomeProcura, auxProcura;
 
     std::cout << "Digite um nome de satélite a ser buscado: \n";
-    getline(std::cin, nomeProcura);
+    getline(std::cin, auxProcura);
 
-    OrdernarId(satelites, qSatelites);
+    // Fazer com que o nome do satélite procurado seja maiúsuculo implica que não há diferença em escrever o nome idêntico ou não ao arquivo CSV.
+    // Ou seja, não é case sensitive. 
+    nomeProcura = RemoverAcentuacao(auxProcura);
+    nomeProcura = ConverterMaiusculo(nomeProcura);
+    
+
+    std::cout << nomeProcura << "\n";
+
+    OrdernarPais(satelites, qSatelites);
     
     bool achou = false;
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        if (BuscarNome(nomeProcura, satelites, qSatelites) == satelites[i].getId()) {
-            ImprimirElemento(satelites[i].getId(), satelites, qSatelites);
-            achou = true;
-        }
-    }
+
+
+    // for (unsigned int i = 0; i < qSatelites; i++) {
+    //     if (BuscarPais(nomeProcura, satelites, qSatelites) == satelites[i].getId()) {
+    //         ImprimirElemento(satelites[i].getId(), satelites, qSatelites);
+    //         achou = true;
+    //     }
+    // }
 
     if (!achou) {
         std::cout << "Opa! Infelizmente não foi possível achar algum satélite com esse parâmetro :(\n";
@@ -572,15 +557,18 @@ unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelite
     unsigned int posInicial = 0;
     unsigned int posFinal = qSatelites;
 
-    while (posInicial <= posFinal) {
+    while (posInicial < posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
+        std::string auxMaiuscula;
+        
+        auxMaiuscula = ConverterMaiusculo(satelites[meio].getNome());
 
-        if (satelites[meio].getNome() == NOME_PROCURADO) {
+        if (auxMaiuscula == NOME_PROCURADO) {
             return satelites[meio].getId();
         }
 
         else {
-            if (NOME_PROCURADO > satelites[meio].getNome()) {
+            if (NOME_PROCURADO > auxMaiuscula) {
                 posInicial = meio + 1;
             }
             else {
@@ -599,13 +587,16 @@ unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelite
 
     while (posInicial <= posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
+        std::string auxMaiuscula;
+        
+        auxMaiuscula = ConverterMaiusculo(satelites[meio].getPais());
 
-        if (satelites[meio].getPais() == PAIS_PROCURADO) {
+        if (auxMaiuscula == PAIS_PROCURADO) {
             return satelites[meio].getId();
         }
 
         else {
-            if (PAIS_PROCURADO > satelites[meio].getPais()) {
+            if (PAIS_PROCURADO > auxMaiuscula) {
                 posInicial = meio + 1;
             }
             else {
@@ -643,19 +634,26 @@ unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const u
     return 0;
 }
 
+// tava querendo ainda fazer com que a busca da funcao nao precise da funcao inteira mesmoKKKKK
 unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites, const unsigned int qSatelites) {
     unsigned int posInicial = 0;
     unsigned int posFinal = qSatelites;
 
     while (posInicial <= posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
+        std::string auxMaiuscula;
+        
+        // Fazer com que a função do satélite na posição meio seja maiúscula para fazer as comparações corretas.
+        for (long unsigned int i = 0; i < size(satelites[meio].getFuncao()); i++) {
+            auxMaiuscula += toupper(satelites[meio].getFuncao()[i]);
+        }
 
-        if (satelites[meio].getFuncao() == FUNCAO_PROCURADA) {
+        if (auxMaiuscula== FUNCAO_PROCURADA) {
             return satelites[meio].getId();
         }
 
         else {
-            if (FUNCAO_PROCURADA > satelites[meio].getFuncao()) {
+            if (FUNCAO_PROCURADA > auxMaiuscula) {
                 posInicial = meio + 1;
             }
             else {
@@ -664,8 +662,42 @@ unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *sate
         }
     }
 
-    // Como não existe identificador 0, indica que não foi achado o ano de lançamento de satélite pedido.
+    // Como não existe identificador 0, indica que não foi achado a função de satélite pedido.
     return 0;
+}
+
+std::string ConverterMaiusculo(std::string texto) {
+    std::string textoMaiusculo;
+        
+    // Fazer com que o país de origem do satélite na posição meio seja maiúscula para fazer as comparações corretas.
+    for (long unsigned int i = 0; i < size(texto); i++) {
+            textoMaiusculo += toupper(texto[i]);
+    }
+    
+    return textoMaiusculo;
+}
+
+std::string RemoverAcentuacao(std::string texto) {
+    const std::map<std::string, std::string> MAPA_ACENTUACAO = {
+        // Mapa das letras minúsculas.
+        {"á", "a"}, {"à", "a"}, {"ã", "a"}, {"â", "a"},
+        {"é", "e"}, {"ẽ", "e"}, {"ê","e"},
+        {"í", "i"}, {"ì", "i"},
+        {"ó", "o"}, {"õ", "o"},
+        {"ú", "u"}, {"ç", "c"},
+
+        // Mapa das letras maiúsuclas.
+        {"Á", "A"}, {"À", "A"}, {"Ã", "A"}, {"Â", "A"},
+        {"É", "E"}, {"Ẽ", "E"}, {"Ê","E"},
+        {"Í", "I"}, {"Ì", "I"},
+        {"Ó", "O"}, {"Õ", "O"},
+        {"Ú", "U"}, {"Ç", "C"}
+    };
+    
+    std::string textoDesacentuado = texto;
+
+
+    return textoDesacentuado;
 }
 
 void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento, infoSatelite *&satelites, const unsigned int qSatelites) {
