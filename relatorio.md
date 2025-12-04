@@ -27,7 +27,7 @@ Nesse caso, ficará explícito os donos de cada satélite.
 #### int anoLancamento:
 Variável do tipo int, que armazena o ano em que um satélite foi lançado a órbita.
 
-    No caso especial da Lua, único satélite natural do banco de dados, foi escolhido que o ano de lançamento dela seria igual a zero.
+    No caso especial da Lua, único satélite natural do banco de dados, foi escolhido que o ano de lançamento dela seria igual ao máximo.
 
 #### string funcao:
 Variável do tipo string, que armazena a função de um satélite.
