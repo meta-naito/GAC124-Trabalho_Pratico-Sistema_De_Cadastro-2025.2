@@ -58,7 +58,7 @@ int main() {
     infoSatelite* satelites = CarregarCSV(NOME_CSV, qSatelites, tamanhoVetor);
 
     Clear();
-    const unsigned int DELAY = 3;
+    const unsigned int DELAY = 6;
     std::cout << textoInicio << '\n' << std::endl;
     std::cout << sateliteASCII << std::endl;
 
@@ -76,6 +76,7 @@ int main() {
         switch (opcao) {
             // 0 -> CASO DE TESTES
             case 0: {
+                OrdernarNome(satelites, qSatelites);
                 EnterParaContinuar();
                 break;
             }
@@ -124,21 +125,32 @@ int main() {
 }
 
 bool Confirmar(std::string mensagem) {
-    std::string escolha;
-    std::cout << mensagem << " (s/n)" << std::endl;
-    std::cin >> escolha;
-    // transforma a string de escolha em minusculas
-    // transform(escolha.begin(), escolha.end(), escolha.begin(), ::tolower);
-    for (unsigned int i = 0; i < escolha.length(); i++) {
-        escolha[i] = tolower(escolha[i]);
+    bool escolhido = false;
+    while (not escolhido) {
+        std::string escolha;
+        std::cout << mensagem << " (s/n)" << std::endl;
+        std::cin >> escolha;
+
+        // transforma a string de escolha em minusculas
+        // transform(escolha.begin(), escolha.end(), escolha.begin(), ::tolower);
+        for (unsigned int i = 0; i < escolha.length(); i++) {
+            escolha[i] = tolower(escolha[i]);
+        }
+
+        if (escolha == "s" or escolha == "sim") {
+            escolhido = true;
+            return true;
+        }
+        else if (escolha == "n" or escolha == "nao" or escolha == "não") {
+            escolhido = true;
+            return false;
+        }
+        else {
+            std::cout << "Escolha invalida" << std::endl;
+        }
     }
 
-    if (escolha == "s" or escolha == "sim") {
-        return true;
-    }
-    else {
-        return false;
-    }
+    return false;
 }
 
 void Clear() {
@@ -318,7 +330,6 @@ void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const 
     return;
 }
 
-// TODO
 void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES) {
     Clear();
     const unsigned int opcao = EscolherOpcao(tituloBusca, textoBuscaOpcoes, TEMPO_ANIMACOES);
@@ -333,22 +344,12 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 1: {
             OrdernarNome(aux, qSatelites);
 
-            Clear();
-            std::cout << "Nome: " << std::endl;
             std::cout << "> ";
             std::string querie;
             getline(std::cin >> std::ws, querie);
 
-            unsigned int identificadorNome = BuscarNome(querie, aux, qSatelites);
-            if (identificadorNome != 0) {
-                std::cout << "Encontrado: " << std::endl;
-                ImprimirElemento(identificadorNome, satelites, qSatelites);
-            }
-            else {
-                std::cout << "Satélite não encontrado." << std::endl;
-            }
+            // Adicionar busca aqui
 
-            EnterParaContinuar();
             break;
         }
         // Busca por Pais
@@ -359,55 +360,31 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
             std::string querie;
             getline(std::cin >> std::ws, querie);
 
-            unsigned int identificadorPais = BuscarPais(querie, aux, qSatelites);
-            if (identificadorPais != 0) {
-                std::cout << "Encontrado: " << std::endl;
-                ImprimirElemento(identificadorPais, satelites, qSatelites);
-            }
-            else {
-                std::cout << "Satélite não encontrado." << std::endl;
-            }
+            // Adicionar busca aqui
 
-            EnterParaContinuar();
             break;
         }
         // Busca por Ano de Lancamento
         case 3: {
             OrdenarAno(aux, qSatelites);
 
+            unsigned int querie;
             try {
                 std::cout << "> ";
-                std::string querie;
-                getline(std::cin >> std::ws, querie);
+                std::string querieString;
+                getline(std::cin >> std::ws, querieString);
 
-                unsigned int anoQuerie = std::stoi(querie);
-
-                unsigned int identificadorAno = BuscarAno(anoQuerie, aux, qSatelites);
-                if (identificadorAno != 0) {
-                    std::cout << "\nEncontrado: " << std::endl;
-                    ImprimirElemento(identificadorAno, satelites, qSatelites);
-                }
-                else {
-                    std::cout << "Satélite não encontrado." << std::endl;
-                }
-
-                EnterParaContinuar();
-            }
-            catch (std::invalid_argument const&) {
-                std::cout << "Ano deve ser um numero." << std::endl;
-                std::cout << textoVoltando << std::endl;
-                Sleep(TEMPO_ANIMACOES);
-            }
-            catch (std::out_of_range const&){
-                std::cout << "Ano fora de alcance (numero grande demais)." << std::endl;
-                std::cout << textoVoltando << std::endl;
-                Sleep(TEMPO_ANIMACOES);
+                querie = std::stoi(querieString);
             }
             catch (std::exception const& erro) {
-                std::cout << "Erro: " <<  erro.what() << std::endl;
-                std::cout << textoVoltando << std::endl;
+                std::cout << "Erro:" << erro.what() << std::endl;
+                std::cout << textoVoltandoAoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
+                delete[] aux;
+                return;
             }
+
+            // Adicionar busca aqui
 
             break;
         }
@@ -419,16 +396,8 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
             std::string querie;
             getline(std::cin >> std::ws, querie);
 
-            unsigned int identificadorFuncao = BuscarFuncao(querie, aux, qSatelites);
-            if (identificadorFuncao != 0) {
-                std::cout << "Encontrado: " << std::endl;
-                ImprimirElemento(identificadorFuncao, satelites, qSatelites);
-            }
-            else {
-                std::cout << "Satélite não encontrado." << std::endl;
-            }
+            // Adicionar busca aqui
 
-            EnterParaContinuar();
             break;
         }
         default: {
@@ -440,30 +409,28 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
     }
 
     delete[] aux;
+    std::cin.ignore();
+    EnterParaContinuar();
 
     return;
 }
 
-// TODO quase
 void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES) {
     Clear();
     const unsigned int opcao = EscolherOpcao(tituloOrdenar, textoOrdenarOpcoes, TEMPO_ANIMACOES);
 
     switch (opcao) {
-    // Ordenar por Identificador
         case 1: {
             OrdernarId(satelites, qSatelites);
-            EnterParaContinuar();
             std::cout << textoSucessoOrdenação << std::endl;
             break;
         }
-        // Ordenar por outros campos
         case 2: {
             Clear();
             const int MAX_OPCOES = 4;
             bool opcoesEscolhidas = false;
-            unsigned int *ordenarPor = new unsigned int[MAX_OPCOES];
             int escolhidas = 0;
+            unsigned int *ordenarPor = new unsigned int[MAX_OPCOES];
 
             std::cout << decorador << ' ' << tituloOrdenarCampos << ' ' << decorador << std::endl;
             std::cout << textoOrdenarCampos << std::endl;
@@ -474,40 +441,44 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
                     std::string opcaoString;
                     std::cout << "> ";
                     std::cin >> opcaoString;
-                    
+
                     unsigned int opcaoCampo = stoi(opcaoString);
-                    if (opcaoCampo < 0 or opcaoCampo > MAX_OPCOES) {
+                    if (opcaoCampo <= 0 or opcaoCampo > MAX_OPCOES) {
                         throw std::out_of_range("Não é uma opcão válida.");
                     }
 
                     ordenarPor[escolhidas] = opcaoCampo;
-                    escolhidas++;
 
-                    if (not Confirmar("Deseja escolher mais uma opção?")) {
+                    if ((escolhidas + 1 != MAX_OPCOES) and (not Confirmar("Deseja escolher mais uma opção?"))) {
                         opcoesEscolhidas = true;
+                        escolhidas++;
+                    }
+                    else {
+                        escolhidas++;
                     }
                 }
                 catch (std::invalid_argument const&) {
                     std::cout << "Opção deve ser um numero." << std::endl;
                     std::cout << "Ignorando." << std::endl;
-                    Sleep(TEMPO_ANIMACOES);
                 }
                 catch (std::out_of_range const&){
                     std::cout << "Opção fora de alcance." << std::endl;
                     std::cout << "Ignorando." << std::endl;
-                    Sleep(TEMPO_ANIMACOES);
                 }
                 catch (std::exception const&) {
                     std::cout << "Opção inválida." << std::endl;
                     std::cout << "Ignorando." << std::endl;
-                    Sleep(TEMPO_ANIMACOES);
                 }
             }
 
-            // Inverter escolhas aqui!!!
+            for (int i = 0, j = escolhidas - 1; i < j; i++, j--) {
+                int aux = ordenarPor[i];
+                ordenarPor[i] = ordenarPor[j];
+                ordenarPor[j] = aux;
+            }
 
             for (int i = 0; i < escolhidas; i++) {
-                switch (ordenarPor[i]){
+                switch (ordenarPor[i]) {
                     // Por Nome
                     case 1: {
                         OrdernarNome(satelites, qSatelites);
@@ -529,15 +500,16 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
                         break;
                     }
                     default: {
-                        std::cout << "Algo deu muito errado." << std::endl;
-                        std::cout << textoRetornoMenu << std::endl;
-                        Sleep(TEMPO_ANIMACOES);
-                        return;
+                    std::cout << "Se vc ta lendo isso, vc consegui escolher uma opção indevida o que não devia acontecer." << std::endl;
+                    std::cout << textoRetornoMenu << std::endl;
+                    Sleep(TEMPO_ANIMACOES);
+                    return;
                     }
                 }
             }
 
-            delete[] ordenarPor;
+            std::cout << textoSucessoOrdenação << std::endl;
+            std::cout << textoRetornoMenu << std::endl;
             break;
         }
         default: {
@@ -548,6 +520,7 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
         }
     }
 
+    EnterParaContinuar();
     return;
 }
 
@@ -811,21 +784,20 @@ void OpcaoApagar(infoSatelite *&satelites, unsigned int &qSatelites, unsigned in
         unsigned int identificador = std::stoi(identificadorString);
         if (ExisteId(identificador, satelites, qSatelites)) {
             RemoverElemento(identificador, satelites, qSatelites);
-            std::cout << textoSucessoApagar << std::endl;
 
             const unsigned int EXCESSO = 10;
             if (tamanhoVetor > (qSatelites + EXCESSO) + 1) {
                 ReduzirVetor(EXCESSO, satelites, tamanhoVetor);
             }
 
-            std::cout << textoVoltandoAoMenu << std::endl;
-            Sleep(TEMPO_ANIMACOES);
+            std::cout << textoSucessoApagar << std::endl;
         }
         else {
             std::cout << textoIdentificadorNaoExiste << std::endl;
-            Sleep(TEMPO_ANIMACOES);
-            std::cout << textoVoltandoAoMenu << std::endl;
         }
+
+        std::cout << textoVoltandoAoMenu << std::endl;
+        Sleep(TEMPO_ANIMACOES);
     }
     catch (std::invalid_argument const&) {
         std::cout << "Id deve ser um numero." << std::endl;

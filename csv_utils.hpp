@@ -251,7 +251,7 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &qSatelit
     arquivoCSV.close();
 
     // Ordenar os satélites por identificador
-    OrdernarId(satelites, qSatelites);
+    //OrdernarId(satelites, qSatelites);
 
     return satelites;
 }

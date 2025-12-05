@@ -10,7 +10,7 @@ const std::string textoIdentificadorNaoExiste = "Um satéltite com esse identifi
 // Texto Início
 const std::string textoInicio = "Olá, e seja bem vindo! ao sistema de cadastro em arquivos com tema de satélites.";
 const std::string sateliteASCII = 
-"      .. ............--+-------+##.......                        \n"
+"\n      .. ............--+-------+##.......                        \n"
 "                                         ##.. ....-.-.-+         \n"
 "                                             .#####-++++-#       \n"
 "                                           ######+########+.     \n"
@@ -36,7 +36,7 @@ const std::string sateliteASCII =
 "                                     #.      .+                  \n"
 "                                    -       .+                   \n"
 "                                  ..       .-                    \n"
-"                                 +         +                     ";
+"                                 +         +                     \n";
 
 // Texto da opção de exibir.
 const std::string tituloExibir = "Exibir satélites.";
@@ -67,7 +67,6 @@ const std::string textoOrdenarOpcoes =
 "   2. Outros.";
 const std::string textoOrdenarCampos = 
 "Qual campo você gostaria de ordenar o sistema?\n"
-"(Ordene por multiplos campos ao difitar os numeros separados por espaços.)"
 "1. Nome.\n"
 "2. País de Origem.\n"
 "3. Ano de lançamento.\n" 
