@@ -119,23 +119,20 @@ void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites);
 // Verifica se um elemento com o dado identificador existe no vetor de satélites, utilizando busca binária.
 bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const unsigned int qSatelites);
 
-// Busca, utilizando busca binária, o identificador de um satélite no vetor de satélites.
-unsigned int BuscarId(const unsigned int ID_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
+// Busca, no vetor de satélites, o nome de um determinado satélite, imprimindo o elemento correspondente.
+void BuscarNome(const std::string nomeProcurado, infoSatelite *satelites, const unsigned int qSatelites);
 
-// Busca, no vetor de satélites, o nome de um determinado satélite, retornando o Id do elemento correspondente.
-unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
+// Busca, no vetor de satélites, o país de origem de um determinado satélite, imprimindo o elemento correspondente.
+void BuscarPais(const std::string paisProcurado, infoSatelite *satelites, const unsigned int qSatelites);
 
-// Busca, no vetor de satélites, o país de origem de um determinado satélite, retornando o Id do elemento correspondente.
-unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
+// Busca, no vetor de satélites, o ano de lançamento de um determinado satélite, imprimindo o elemento correspondente.
+void BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
 
-// Busca, no vetor de satélites, o ano de lançamento de um determinado satélite, retornando o Id do elemento correspondente.
-unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
+// Busca, no vetor de satélites, a função de um determinado satélite, imprimindo o elemento correspondente.
+void BuscarFuncao(const std::string funcaoProcurada, infoSatelite *satelites, const unsigned int qSatelites);
 
-// Busca, no vetor de satélites, a função de um determinado satélite, retornando o Id do elemento correspondente.
-unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites, const unsigned int qSatelites);
-
-// Busca, no vetor de satélites, por satélites correspondentes a um trecho digitado pelo usuário.
-unsigned int BuscarParte(const std::string PARTE_TEXTO, infoSatelite *satelites, const unsigned int qSatelites);
+// Busca, no vetor de satélites, satélites correspondentes a um trecho digitado pelo usuário e os imprime.
+void BuscarParte(const std::string trecho, infoSatelite *satelites, const unsigned int qSatelites);
 
 // Converte um dado texto para letras maiúsculas, auxiliando na busca.
 std::string ConverterMaiusculo(std::string texto);
@@ -170,29 +167,22 @@ int main(){
     infoSatelite* satelites = CarregarCSV(NOME_CSV, tamVetor, qSatelites);
 
     // teste de busca por nome !!
-    std::string nomeProcura, auxProcura;
+    std::string nomeProcura;
+    int anoProcura;
+
+    // OrdernarPais(satelites, qSatelites);
+    // GravarAlterações(NOME_CSV, satelites, qSatelites);
+    // std::cin >> anoProcura;
+    // OrdernarId(satelites, qSatelites);
+    // GravarAlterações(NOME_CSV, satelites, qSatelites);
 
     std::cout << "Digite um nome de satélite a ser buscado: \n";
-    getline(std::cin, auxProcura);
+    getline(std::cin, nomeProcura);
+    //std::cin >> anoProcura;
 
-    bool achou = false;
 
-    BuscarNome(auxProcura, satelites, qSatelites);
-
-    // for (unsigned int i = 0; i < qSatelites; i++) {
-    //     if (BuscarNome() == satelites[i].getId()) {
-    //         ImprimirElemento(satelites[i].getId(), satelites, qSatelites);
-    //         achou = true;
-    //     }
-    // }
-
-    if (BuscarNome(auxProcura, satelites, qSatelites) == 0) {
-        std::cout << "Opa! Infelizmente não foi possível achar algum satélite com esse parâmetro :(\n";
-    }
-
-//    std::string a = RemoverAcentuacao(auxProcura);
-
-    std::cout << "\ntudo certo!\n";
+    BuscarPais(nomeProcura, satelites, qSatelites);
+    //std::cout << "\ntudo certo!\n";
 
     return 0;
 }
@@ -422,12 +412,12 @@ void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites) {
         }
     }
     delete [] temp;
-    
+
     return;
 }
 
 void OrdenarAno(infoSatelite *&satelites, const unsigned int qSatelites) {
-        int *temp = new int[qSatelites];
+    int *temp = new int[qSatelites];
 
     for (unsigned int i = 0; i < qSatelites; i++) {
         temp[i] = satelites[i].getAno();
@@ -498,50 +488,8 @@ bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const 
     return false;
 }
 
-unsigned int BuscarId(const unsigned int ID_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
-    unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
-
-    while (posInicial <= posFinal) {
-        unsigned int meio = (posInicial + posFinal) / 2;
-
-        if (satelites[meio].getId() == ID_PROCURADO) {
-            return satelites[meio].getId();
-        }
-
-        else {
-            if (ID_PROCURADO > satelites[meio].getId()) {
-                posInicial = meio + 1;
-            }
-            else {
-                posFinal = meio - 1;
-            }
-        }
-    }
-
-    // Como não existe identificador 0, indica que não foi achado o Id pedido.
-    return 0;
-}
-
-void algumacoisa(const unsigned int ID_PROCURA, infoSatelite *satelites , const unsigned int qSatelites) {
-    bool achou = false;
-
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        if (ID_PROCURA == satelites[i].getId()) {
-            ImprimirElemento(satelites[i].getId(), satelites, qSatelites);
-            achou = true;
-        }
-    }
-
-    if (!achou) {
-        std::cout << "Opa! Infelizmente não foi possível achar algum satélite com esse parâmetro :(\n";
-    }
-   
-   return;
-}
-
-unsigned int BuscarNome(std::string NOME_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
-    NOME_PROCURADO = ConverterMaiusculo(NOME_PROCURADO);
+void BuscarNome(std::string nomeProcurado, infoSatelite *satelites, const unsigned int qSatelites) {
+    nomeProcurado = ConverterMaiusculo(nomeProcurado);
     
     // Criacão de um vetor temporário para poder ordená-lo sem perder a ordenação original do vetor de satélites.
     infoSatelite *vetOrdenado = new infoSatelite[qSatelites];
@@ -551,144 +499,220 @@ unsigned int BuscarNome(std::string NOME_PROCURADO, infoSatelite *satelites, con
     }
     OrdernarNome(vetOrdenado, qSatelites);
 
-    unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
+    unsigned int posInicial = 0, posFinal = qSatelites;
+    bool achou = false;
 
+    // Busca pelo nome correspondente.
     while (posInicial < posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
-        std::string auxMaiuscula;
-        
-        auxMaiuscula = ConverterMaiusculo(vetOrdenado[meio].getNome());
+        std::string auxMaiuscula = ConverterMaiusculo(vetOrdenado[meio].getNome());
 
-        if (auxMaiuscula == NOME_PROCURADO) {
-            ImprimirElemento(satelites[meio].getId(), satelites, qSatelites);
+        if (auxMaiuscula == nomeProcurado) {
+            ImprimirElemento(vetOrdenado[meio].getId(), satelites, qSatelites);
+            achou = true;
 
-            // Sai do while().
+            // Aumenta posInicial para sair do while.
             posInicial = posFinal + 1;
         }
 
         else {
-            if (NOME_PROCURADO > auxMaiuscula) {
+            if (nomeProcurado > auxMaiuscula) {
                 posInicial = meio + 1;
             }
             else {
                 posFinal = meio - 1;
             }
         }
+    }
+
+    if (!achou) {
+        std::cout << "Não foi possível encontrar um satélite que contém esse ano de lançamento.\n";
     }
 
     delete [] vetOrdenado;
 
-    // Como não existe identificador 0, indica que não foi achado o nome de satélite pedido.
-    return 0;
+    return;
 }
 
-unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
-    unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
-
-    while (posInicial <= posFinal) {
-        unsigned int meio = (posInicial + posFinal) / 2;
-        std::string auxMaiuscula;
-        
-        auxMaiuscula = ConverterMaiusculo(satelites[meio].getPais());
-
-        if (auxMaiuscula == PAIS_PROCURADO) {
-            return satelites[meio].getId();
-        }
-
-        else {
-            if (PAIS_PROCURADO > auxMaiuscula) {
-                posInicial = meio + 1;
-            }
-            else {
-                posFinal = meio - 1;
-            }
-        }
-    }
-
-    // Como não existe identificador 0, indica que não foi achado o país de origem de satélite pedido.
-    return 0;
-}
-
-unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
-    unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
-
-    while (posInicial <= posFinal) {
-        unsigned int meio = (posInicial + posFinal) / 2;
-
-        if (satelites[meio].getAno() == ANO_PROCURADO) {
-            return satelites[meio].getId();
-        }
-
-        else {
-            if (ANO_PROCURADO > satelites[meio].getAno()) {
-                posInicial = meio + 1;
-            }
-            else {
-                posFinal = meio - 1;
-            }
-        }
-    }
-
-    // Como não existe identificador 0, indica que não foi achado o ano de lançamento de satélite pedido.
-    return 0;
-}
-
-// tava querendo ainda fazer com que a busca da funcao nao precise da funcao inteira mesmoKKKKK
-unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites, const unsigned int qSatelites) {
-    unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
-
-    while (posInicial <= posFinal) {
-        unsigned int meio = (posInicial + posFinal) / 2;
-        std::string auxMaiuscula;
-
-        auxMaiuscula = ConverterMaiusculo(satelites[meio].getFuncao());
-
-        if (auxMaiuscula== FUNCAO_PROCURADA) {
-            return satelites[meio].getId();
-        }
-
-        else {
-            if (FUNCAO_PROCURADA > auxMaiuscula) {
-                posInicial = meio + 1;
-            }
-            else {
-                posFinal = meio - 1;
-            }
-        }
-    }
-
-    // Como não existe identificador 0, indica que não foi achado a função de satélite pedido.
-    return 0;
-}
-
-unsigned int BuscarParte(const std::string PARTE_TEXTO, infoSatelite *satelites, const unsigned int qSatelites) {
-    unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
+void BuscarPais(std::string paisProcurado, infoSatelite *satelites, const unsigned int qSatelites) {
+    paisProcurado = ConverterMaiusculo(paisProcurado);
+    
+    // Criacão de um vetor temporário para poder ordená-lo sem perder a ordenação original do vetor de satélites.
+    infoSatelite *vetOrdenado = new infoSatelite[qSatelites];
 
     for (unsigned int i = 0; i < qSatelites; i++) {
-        std::string auxMaiuscula = ConverterMaiusculo(satelites[i].getFuncao());
+        vetOrdenado[i] = satelites[i];
+    }
+    OrdernarPais(vetOrdenado, qSatelites);
+    GravarAlterações("teste.txt", vetOrdenado, qSatelites);
+    
+    unsigned int posInicial = 0, posFinal = qSatelites;
+    bool achou = false;
 
-        // ok, tem que ver se existe na funcao a palavra/trecho
-        // se existe, retorna o id
-        // se nao, aí passa pra outra funcao no vetor de satelites
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+        std::string auxMaiuscula = ConverterMaiusculo(vetOrdenado[meio].getPais());
 
-        if (auxMaiuscula.find(PARTE_TEXTO)) {
-            return satelites[i].getId();
+        if (auxMaiuscula == paisProcurado) {
+            ImprimirElemento(vetOrdenado[meio].getId(), satelites, qSatelites);
+            achou = true;
+            
+            while (vetOrdenado[meio + 1].getPais() == paisProcurado) {
+                meio++;
+                ImprimirElemento(vetOrdenado[meio].getId(), satelites, qSatelites);
+            }
+            
+            // Aumenta posInicial para sair do while.
+            posInicial = posFinal + 1;
+        }
+
+        else {
+            if (paisProcurado > auxMaiuscula) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
+        }
+    }
+    
+    if (!achou) {
+        std::cout << "Não foi possível encontrar um satélite que contém esse país de origem.\n";
+    }
+
+    delete [] vetOrdenado;
+
+    return;
+}
+
+void BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+    // Criacão de um vetor temporário para poder ordená-lo sem perder a ordenação original do vetor de satélites.
+    infoSatelite *vetOrdenado = new infoSatelite[qSatelites];
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        vetOrdenado[i] = satelites[i];
+    }
+    OrdenarAno(vetOrdenado, qSatelites);
+    
+    unsigned int posInicial = 0, posFinal = qSatelites;
+    bool achou = false;
+
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+
+        if (vetOrdenado[meio].getAno() == ANO_PROCURADO) {
+            ImprimirElemento(vetOrdenado[meio].getId(), satelites, qSatelites);
+            achou = true;
+
+            // Encontra outras instâncias de satélites que possuem o mesmo ano de lançamento.
+            while (vetOrdenado[meio + 1].getAno() == ANO_PROCURADO) {
+                meio++;
+                ImprimirElemento(vetOrdenado[meio].getId(), satelites, qSatelites);
+            }
+
+            // Aumenta posInicial para sair do while.
+            posInicial = posFinal + 1;
+        }
+
+        else {
+            if (ANO_PROCURADO > vetOrdenado[meio].getAno()) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
         }
     }
 
-    // Caso não exista nenhuma função com o trecho fornecido.
-    return 0;
+    if (!achou) {
+        std::cout << "Não foi possível encontrar um satélite que contém esse ano de lançamento.\n";
+    }
+
+    delete [] vetOrdenado;
+
+    return;
+}
+
+void BuscarFuncao(std::string funcaoProcurada, infoSatelite *satelites, const unsigned int qSatelites) {
+    funcaoProcurada = ConverterMaiusculo(funcaoProcurada);
+    
+    // Criacão de um vetor temporário para poder ordená-lo sem perder a ordenação original do vetor de satélites.
+    infoSatelite *vetOrdenado = new infoSatelite[qSatelites];
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        vetOrdenado[i] = satelites[i];
+    }
+    OrdenarFuncao(vetOrdenado, qSatelites);
+    
+    unsigned int posInicial = 0, posFinal = qSatelites;
+    bool achou = false;
+
+    while (posInicial <= posFinal) {
+        unsigned int meio = (posInicial + posFinal) / 2;
+        std::string auxMaiuscula = ConverterMaiusculo(vetOrdenado[meio].getFuncao());
+
+        if (auxMaiuscula== funcaoProcurada) {
+            ImprimirElemento(vetOrdenado[meio].getId(), satelites, qSatelites);
+            achou = true;
+
+            // Aumenta posInicial para sair do while.
+            posInicial = posFinal + 1;
+        }
+
+        else {
+            if (funcaoProcurada > auxMaiuscula) {
+                posInicial = meio + 1;
+            }
+            else {
+                posFinal = meio - 1;
+            }
+        }
+    }
+
+    if (!achou) {
+        std::cout << "Não foi possível encontrar um satélite que contém essa função.\n";
+    }
+    
+    delete [] vetOrdenado;
+
+    return;
+}
+
+void BuscarParte(std::string trecho, infoSatelite *satelites, const unsigned int qSatelites) {
+    trecho = ConverterMaiusculo(trecho);
+    
+    // Criacão de um vetor temporário para poder ordená-lo sem perder a ordenação original do vetor de satélites.
+    infoSatelite *vetOrdenado = new infoSatelite[qSatelites];
+
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        vetOrdenado[i] = satelites[i];
+    }
+    OrdernarId(vetOrdenado, qSatelites);
+
+    bool achou = false;
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        std::string auxMaiuscula = ConverterMaiusculo(vetOrdenado[i].getFuncao());
+
+        if (auxMaiuscula.find(trecho) < auxMaiuscula.size()) {
+            ImprimirElemento(vetOrdenado[i].getId(), satelites, qSatelites);
+            achou = true;
+        }
+    }
+
+    if (!achou) {
+        std::cout << "Não foi possível encontrar um satélite que contém esse trecho.\n";
+    }
+
+    delete [] vetOrdenado;
+
+    return;
 }
 
 std::string ConverterMaiusculo(std::string texto) {
     std::string textoMaiusculo;
         
-    // Fazer com que o país de origem do satélite na posição meio seja maiúscula para fazer as comparações corretas.
+    // Fazer com que o o trecho de uma função do satélite na posição meio seja maiúscula para fazer as comparações de buscas corretas,
+    // sem a necessidade do usuário digitar o texto corretamente.
     for (long unsigned int i = 0; i < size(texto); i++) {
             textoMaiusculo += toupper(texto[i]);
     }
