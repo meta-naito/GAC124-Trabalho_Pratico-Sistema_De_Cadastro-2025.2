@@ -58,7 +58,7 @@ int main() {
     infoSatelite* satelites = CarregarCSV(NOME_CSV, qSatelites, tamanhoVetor);
 
     Clear();
-    const unsigned int DELAY = 0;
+    const unsigned int DELAY = 5;
     std::cout << textoInicio << '\n' << std::endl;
     std::cout << sateliteASCII << std::endl;
 
@@ -126,7 +126,6 @@ bool Confirmar(std::string mensagem) {
         std::cin >> escolha;
 
         // transforma a string de escolha em minusculas
-        // transform(escolha.begin(), escolha.end(), escolha.begin(), ::tolower);
         for (unsigned int i = 0; i < escolha.length(); i++) {
             escolha[i] = tolower(escolha[i]);
         }
@@ -135,7 +134,8 @@ bool Confirmar(std::string mensagem) {
             escolhido = true;
             return true;
         }
-        else if (escolha == "n" or escolha == "nao" or escolha == "não") {
+        // tolower não funciona em caracters com acentuação.
+        else if (escolha == "n" or escolha == "nao" or escolha == "não" or escolha == "nÃo") {
             escolhido = true;
             return false;
         }
@@ -158,8 +158,8 @@ void Clear() {
 }
 
 void EnterParaContinuar() {
-    std::cout << "Press ENTER to continue...";
-    // Discarta tudo incluindo '\n'
+    std::cout << enterContinuar << std::endl;
+    // Discarta tudo no buffer (espero).
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
     // Espera por '\n' pelo usuario (ENTER).
@@ -338,7 +338,7 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 1: {
             OrdernarNome(aux, qSatelites);
 
-            std::cout << "Nome a ser buscado: \n";
+            std::cout << textoBuscaNome << std::endl;
             std::cout << "> ";
             std::string querie;
             getline(std::cin >> std::ws, querie);
@@ -351,7 +351,7 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 2: {
             OrdernarPais(aux, qSatelites);
 
-            std::cout << "Pais a ser buscado: \n";
+            std::cout << textoBuscaPais << std::endl;
             std::cout << "> ";
             std::string querie;
             getline(std::cin >> std::ws, querie);
@@ -368,7 +368,7 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
 
             unsigned int querie;
             try {
-                std::cout << "Ano de lançamento a ser buscado: \n";
+                std::cout << textoBuscaAno << std::endl;
                 std::cout << "> ";
                 std::string querieString;
                 getline(std::cin >> std::ws, querieString);
@@ -391,7 +391,7 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 4: {
             OrdenarFuncao(aux, qSatelites);
 
-            std::cout << "Função a ser buscado: \n";
+            std::cout << textoBuscaFuncao << std::endl;
             std::cout << "> ";
             std::string querie;
             getline(std::cin >> std::ws, querie);
@@ -409,7 +409,11 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
     }
 
     delete[] aux;
-    EnterParaContinuar();
+
+    std::cout << enterContinuar << std::endl;
+    std::cin.get();
+
+    //EnterParaContinuar();
     return;
 }
 
@@ -705,7 +709,8 @@ void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned i
 
         std::string aux;
 
-        std::cout << "Nome: " << "\n> ";
+        std::cout << textoInserirNome << std::endl;
+        std::cout << "> ";
         getline(std::cin >> std::ws, aux);
         if(aux.empty()) {
             throw std::length_error("Nome vazio.");
@@ -713,19 +718,22 @@ void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned i
 
         novoElemento.nome = aux;
 
-        std::cout << "Pais: " << "\n> ";
+        std::cout << textoInserirPais << std::endl;
+        std::cout << "> ";
         getline(std::cin >> std::ws, aux);
         novoElemento.paisOrigem = aux;
         if (aux.empty()) {
             throw std::length_error("Pais vazio.");
         }
 
-        std::cout << "Ano: " << "\n> ";
+        std::cout << textoInserirAno << std::endl;
+        std::cout << "> ";
         std::cin >> aux;
         int auxAno = std::stoi(aux);
         novoElemento.anoLancamento = auxAno;
 
-        std::cout << "Função: " << "\n> ";;
+        std::cout << textoInserirFuncao << std::endl;
+        std::cout << "> ";
         getline(std::cin >> std::ws, aux);
         novoElemento.funcao = aux;
         if(aux.empty()) {

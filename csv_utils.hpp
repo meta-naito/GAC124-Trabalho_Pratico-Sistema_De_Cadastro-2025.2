@@ -98,19 +98,19 @@ unsigned int MaiorId(infoSatelite *&satelites, unsigned int qSatelites);
 unsigned int PosicaoId(const unsigned int ID_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, o nome de um determinado satélite, retornando o Id do elemento correspondente.
-// Nota: Assume que o vetor está ordenado pelo identificador.
+// Nota: Assume que o vetor está ordenado pelo nome do satélite.
 void BuscarNome(const std::string NOME_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, o país de origem de um determinado satélite, retornando o Id do elemento correspondente.
-// Nota: Assume que o vetor está ordenado pelo identificador.
+// Nota: Assume que o vetor está ordenado pelo pais do satélite.
 void BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, o ano de lançamento de um determinado satélite, retornando o Id do elemento correspondente.
-// Nota: Assume que o vetor está ordenado pelo identificador.
+// Nota: Assume que o vetor está ordenado pelo ano de lançamento..
 void BuscarAno(const int ANO_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, a função de um determinado satélite, retornando o Id do elemento correspondente.
-// Nota: Assume que o vetor está ordenado pelo identificador.
+// Nota: Assume que o vetor está ordenado pela função do satélite..
 void BuscarFuncao(std::string FUNCAO_PROCURADA, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // >===== ALTERAÇÃO DE DADOS DOS ELEMENTOS NO BANCO DE DADOS =====<
@@ -120,12 +120,12 @@ void SobrescreverElemento(const unsigned int identificador, infoSatelite novoEle
                           infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Recebe um elemento e o insere no vetor de satélites.
-// Nota: Assume que o elemento existe, e que o vetor está ordenado.
+// Nota: Assume que o elemento existe.
 void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites,
                      unsigned int &qSatelites, unsigned int &tamanhoVetor);
 
 // Remove um elemento do vetor de satélites
-// Nota: Assume que o elemento existe, e que o vetor está ordenado.
+// Nota: Assume que o elemento existe.
 void RemoverElemento(unsigned int identificador, infoSatelite *&satelites,
                      unsigned int &qSatelites);
 
@@ -721,42 +721,50 @@ void BuscarAno(const int ANO_PROCURADO, infoSatelite *&satelites, const unsigned
 }
 
 void BuscarFuncao(std::string FUNCAO_PROCURADA, infoSatelite *&satelites, const unsigned int qSatelites) {
-    unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites - 1;
+    // unsigned int posInicial = 0;
+    // unsigned int posFinal = qSatelites - 1;
 
-    while (posInicial <= posFinal) {
-        unsigned int meio = (posInicial + posFinal) / 2;
+    for (unsigned int i = 0; i < qSatelites; i++) {
+        int res = satelites[i].funcao.find(FUNCAO_PROCURADA);
 
-    if (satelites[meio].funcao == FUNCAO_PROCURADA) {
-            unsigned int comecoImpri = meio;
-            unsigned int finalImpri = meio;
-
-            while (comecoImpri > 0 and satelites[comecoImpri - 1].funcao == FUNCAO_PROCURADA) {
-                comecoImpri--;
-            }
-
-            while (finalImpri + 1 < qSatelites and satelites[finalImpri + 1].funcao == FUNCAO_PROCURADA) {
-                finalImpri++;
-            }
-
-            for (unsigned int i = comecoImpri; i <= finalImpri; i++) {
-                ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
-            }
-            return;
-        }
-
-        else {
-            if (FUNCAO_PROCURADA > satelites[meio].funcao) {
-                posInicial = meio + 1;
-            }
-            else {
-                if (meio == 0) {
-                    return;
-                }
-                posFinal = meio - 1;
-            }
+        if (res != std::string::npos) {
+            ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
         }
     }
+
+//     while (posInicial <= posFinal) {
+//         unsigned int meio = (posInicial + posFinal) / 2;
+
+//     if (satelites[meio].funcao == FUNCAO_PROCURADA) {
+//             unsigned int comecoImpri = meio;
+//             unsigned int finalImpri = meio;
+
+//             while (comecoImpri > 0 and satelites[comecoImpri - 1].funcao.find(FUNCAO_PROCURADA)) {
+//                 comecoImpri--;
+//             }
+
+//             while (finalImpri + 1 < qSatelites and satelites[finalImpri + 1].funcao.find(FUNCAO_PROCURADA)) {
+//                 finalImpri++;
+//             }
+
+//             for (unsigned int i = comecoImpri; i <= finalImpri; i++) {
+//                 ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
+//             }
+//             return;
+//         }
+
+//         else {
+//             if (FUNCAO_PROCURADA > satelites[meio].funcao) {
+//                 posInicial = meio + 1;
+//             }
+//             else {
+//                 if (meio == 0) {
+//                     return;
+//                 }
+//                 posFinal = meio - 1;
+//             }
+//         }
+//     }
 
     return;
 }

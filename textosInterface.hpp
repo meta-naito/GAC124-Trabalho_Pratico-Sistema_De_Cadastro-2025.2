@@ -6,6 +6,7 @@ const std::string decoradorInferior = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 const std::string decoradorLongo = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
 const std::string textoRetornoMenu = "Retornando ao menu principal.";
 const std::string textoIdentificadorNaoExiste = "Um satéltite com esse identificador não existe na base de dados.";
+const std::string enterContinuar = "Presione a tecla Enter para continuar.";
 
 // Texto Início
 const std::string textoInicio = "Olá, e seja bem vindo! ao sistema de cadastro em arquivos com tema de satélites.";
@@ -58,6 +59,11 @@ const std::string textoBuscaOpcoes =
 "   3. Ano de lançamento.\n"
 "   4. Função.";
 
+const std::string textoBuscaNome = "Nome a ser buscado:";
+const std::string textoBuscaPais = "Pais a ser buscado:";
+const std::string textoBuscaAno = "Ano de lançamento a ser buscado:";
+const std::string textoBuscaFuncao = "Função a ser buscada:";
+
 // Texto da opção de ordenar.
 const std::string tituloOrdenar = "Ordenar satélites.";
 const std::string tituloOrdenarCampos = "Ordenas satélites por campos.";
@@ -87,6 +93,10 @@ const std::string textoAlterarSucesso = "Informações alteradas!";
 
 // Texto da opção de inserir.
 const std::string tituloInserir = "Inserir novo satélite.";
+const std::string textoInserirNome = "Nome: ";
+const std::string textoInserirPais = "Pais: ";
+const std::string textoInserirAno = "Ano: ";
+const std::string textoInserirFuncao = "Função: ";
 
 // Texto da opção de apagar.
 const std::string tituloApagar = "Apagar um satélite.";
