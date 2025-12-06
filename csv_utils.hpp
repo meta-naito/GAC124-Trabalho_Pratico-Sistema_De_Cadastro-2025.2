@@ -721,50 +721,13 @@ void BuscarAno(const int ANO_PROCURADO, infoSatelite *&satelites, const unsigned
 }
 
 void BuscarFuncao(std::string FUNCAO_PROCURADA, infoSatelite *&satelites, const unsigned int qSatelites) {
-    // unsigned int posInicial = 0;
-    // unsigned int posFinal = qSatelites - 1;
-
     for (unsigned int i = 0; i < qSatelites; i++) {
-        int res = satelites[i].funcao.find(FUNCAO_PROCURADA);
+        long unsigned res = satelites[i].funcao.find(FUNCAO_PROCURADA);
 
         if (res != std::string::npos) {
             ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
         }
     }
-
-//     while (posInicial <= posFinal) {
-//         unsigned int meio = (posInicial + posFinal) / 2;
-
-//     if (satelites[meio].funcao == FUNCAO_PROCURADA) {
-//             unsigned int comecoImpri = meio;
-//             unsigned int finalImpri = meio;
-
-//             while (comecoImpri > 0 and satelites[comecoImpri - 1].funcao.find(FUNCAO_PROCURADA)) {
-//                 comecoImpri--;
-//             }
-
-//             while (finalImpri + 1 < qSatelites and satelites[finalImpri + 1].funcao.find(FUNCAO_PROCURADA)) {
-//                 finalImpri++;
-//             }
-
-//             for (unsigned int i = comecoImpri; i <= finalImpri; i++) {
-//                 ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
-//             }
-//             return;
-//         }
-
-//         else {
-//             if (FUNCAO_PROCURADA > satelites[meio].funcao) {
-//                 posInicial = meio + 1;
-//             }
-//             else {
-//                 if (meio == 0) {
-//                     return;
-//                 }
-//                 posFinal = meio - 1;
-//             }
-//         }
-//     }
 
     return;
 }
