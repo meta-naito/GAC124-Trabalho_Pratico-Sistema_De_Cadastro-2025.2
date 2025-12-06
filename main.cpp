@@ -58,7 +58,7 @@ int main() {
     infoSatelite* satelites = CarregarCSV(NOME_CSV, qSatelites, tamanhoVetor);
 
     Clear();
-    const unsigned int DELAY = 6;
+    const unsigned int DELAY = 0;
     std::cout << textoInicio << '\n' << std::endl;
     std::cout << sateliteASCII << std::endl;
 
@@ -74,12 +74,6 @@ int main() {
         const unsigned int opcao = EscolherOpcao(tituloMenu, textoOpcoesMenu, TEMPO_ANIMACOES);
 
         switch (opcao) {
-            // 0 -> CASO DE TESTES
-            case 0: {
-                OrdernarNome(satelites, qSatelites);
-                EnterParaContinuar();
-                break;
-            }
             case 1: {
                 OpcaoExibir(satelites, qSatelites, TEMPO_ANIMACOES);
                 break;
@@ -344,11 +338,12 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 1: {
             OrdernarNome(aux, qSatelites);
 
+            std::cout << "Nome a ser buscado: \n";
             std::cout << "> ";
             std::string querie;
             getline(std::cin >> std::ws, querie);
 
-            // Adicionar busca aqui
+            BuscarNome(querie, aux, qSatelites);
 
             break;
         }
@@ -356,11 +351,14 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 2: {
             OrdernarPais(aux, qSatelites);
 
+            std::cout << "Pais a ser buscado: \n";
             std::cout << "> ";
             std::string querie;
             getline(std::cin >> std::ws, querie);
 
-            // Adicionar busca aqui
+            BuscarPais(querie, aux, qSatelites);
+
+            Sleep(3);
 
             break;
         }
@@ -370,6 +368,7 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
 
             unsigned int querie;
             try {
+                std::cout << "Ano de lançamento a ser buscado: \n";
                 std::cout << "> ";
                 std::string querieString;
                 getline(std::cin >> std::ws, querieString);
@@ -383,8 +382,8 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
                 delete[] aux;
                 return;
             }
-
-            // Adicionar busca aqui
+            
+            BuscarAno(querie, aux, qSatelites);
 
             break;
         }
@@ -392,11 +391,12 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 4: {
             OrdenarFuncao(aux, qSatelites);
 
+            std::cout << "Função a ser buscado: \n";
             std::cout << "> ";
             std::string querie;
             getline(std::cin >> std::ws, querie);
 
-            // Adicionar busca aqui
+            BuscarFuncao(querie, aux, qSatelites);
 
             break;
         }
@@ -409,9 +409,7 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
     }
 
     delete[] aux;
-    std::cin.ignore();
     EnterParaContinuar();
-
     return;
 }
 
@@ -500,10 +498,7 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
                         break;
                     }
                     default: {
-                    std::cout << "Se vc ta lendo isso, vc consegui escolher uma opção indevida o que não devia acontecer." << std::endl;
-                    std::cout << textoRetornoMenu << std::endl;
-                    Sleep(TEMPO_ANIMACOES);
-                    return;
+                        throw std::logic_error("Ordenação por um campo que não existe.");
                     }
                 }
             }
@@ -528,23 +523,23 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
     Clear();
     const unsigned int opcao = EscolherOpcao(tituloAlterar, textoAlterarOpcoes, TEMPO_ANIMACOES);
 
-    unsigned int identificador;
+    unsigned int posAlterar;
     try {
         std::cout << textoAlterarPedirId << std::endl;
         std::cout << "> ";
 
         std::string identificadorString;
         std::cin >> identificadorString;
-        identificador = std::stoi(identificadorString);
+        posAlterar = std::stoi(identificadorString);
 
-        if (not ExisteId(identificador, satelites, qSatelites)) {
+        if (not ExisteId(posAlterar, satelites, qSatelites)) {
             std::cout << textoIdentificadorNaoExiste << std::endl;
             std::cout << textoRetornoMenu << std::endl;
             Sleep(TEMPO_ANIMACOES);
             return;
         }
 
-        identificador = PosicaoId(identificador, satelites, qSatelites);
+        posAlterar = PosicaoId(posAlterar, satelites, qSatelites);
     }
     catch (std::invalid_argument const&) {
         std::cout << "O identificador deve ser um numero." << std::endl;
@@ -568,8 +563,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
     switch (opcao) {
         // Alterar nome
         case 1: {
-            std::cout << "Sátelite selecionado: " << satelites[identificador].getId()
-                      << " de nome \"" << satelites[identificador].getNome() << "\"." << std::endl;
+            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
+                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoNome;
@@ -578,7 +573,7 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
             try {
                 getline(std::cin >> std::ws, novoNome);
 
-                satelites[identificador].setNome(novoNome);
+                satelites[posAlterar].nome  = novoNome;
                 std::cout << textoAlterarSucesso << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
@@ -595,8 +590,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
         }
         // Alterar Pais
         case 2: {
-            std::cout << "Sátelite selecionado: " << satelites[identificador].getId()
-                      << " de nome \"" << satelites[identificador].getNome() << "\"." << std::endl;
+            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
+                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoPais;
@@ -605,7 +600,7 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
             try {
                 getline(std::cin >> std::ws, novoPais);
 
-                satelites[identificador].setPais(novoPais);
+                satelites[posAlterar].paisOrigem = novoPais;
                 std::cout << textoAlterarSucesso << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
@@ -622,8 +617,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
         }
         // Alterar Ano
         case 3: {
-            std::cout << "Sátelite selecionado: " << satelites[identificador].getId()
-                      << " de nome \"" << satelites[identificador].getNome() << "\"." << std::endl;
+            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
+                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoAnoString;
@@ -633,7 +628,7 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
                 std::cin >> novoAnoString;
                 const unsigned int novoAno = std::stoi(novoAnoString);
 
-                satelites[identificador].setAno(novoAno);
+                satelites[posAlterar].anoLancamento = novoAno;
                 std::cout << textoAlterarSucesso << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
@@ -662,8 +657,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
         }
         // Alterar Funcao
         case 4: {
-            std::cout << "Sátelite selecionado: " << satelites[identificador].getId()
-                      << " de nome \"" << satelites[identificador].getNome() << "\"." << std::endl;
+            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
+                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoFuncao;
@@ -672,7 +667,7 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
             try {
                 getline(std::cin >> std::ws, novoFuncao);
 
-                satelites[identificador].setFuncao(novoFuncao);
+                satelites[posAlterar].funcao = novoFuncao;
                 std::cout << textoAlterarSucesso << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
@@ -706,7 +701,7 @@ void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned i
 
     try {
         infoSatelite novoElemento;
-        novoElemento.setId(0);
+        novoElemento.identificador = 0;
 
         std::string aux;
 
@@ -716,11 +711,11 @@ void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned i
             throw std::length_error("Nome vazio.");
         }
 
-        novoElemento.setNome(aux);
+        novoElemento.nome = aux;
 
         std::cout << "Pais: " << "\n> ";
         getline(std::cin >> std::ws, aux);
-        novoElemento.setPais(aux);
+        novoElemento.paisOrigem = aux;
         if (aux.empty()) {
             throw std::length_error("Pais vazio.");
         }
@@ -728,11 +723,11 @@ void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned i
         std::cout << "Ano: " << "\n> ";
         std::cin >> aux;
         int auxAno = std::stoi(aux);
-        novoElemento.setAno(auxAno);
+        novoElemento.anoLancamento = auxAno;
 
         std::cout << "Função: " << "\n> ";;
         getline(std::cin >> std::ws, aux);
-        novoElemento.setFuncao(aux);
+        novoElemento.funcao = aux;
         if(aux.empty()) {
             throw std::length_error("Função vazia.");
         }

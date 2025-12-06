@@ -1,9 +1,9 @@
 #include <string>
 
 // Texto utilidades & geral
-const std::string decorador = "=-=";
-const std::string decoradorInferior = "=-=-=-=-=-=-=-=-=";
-const std::string decoradorLongo = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+const std::string decorador = "=-=-=-=-=-=-=";
+const std::string decoradorInferior = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
+const std::string decoradorLongo = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
 const std::string textoRetornoMenu = "Retornando ao menu principal.";
 const std::string textoIdentificadorNaoExiste = "Um satéltite com esse identificador não existe na base de dados.";
 
@@ -67,20 +67,20 @@ const std::string textoOrdenarOpcoes =
 "   2. Outros.";
 const std::string textoOrdenarCampos = 
 "Qual campo você gostaria de ordenar o sistema?\n"
-"1. Nome.\n"
-"2. País de Origem.\n"
-"3. Ano de lançamento.\n" 
-"4. Função.";
+"   1. Nome.\n"
+"   2. País de Origem.\n"
+"   3. Ano de lançamento.\n" 
+"   4. Função.";
 const std::string textoSucessoOrdenação = "Satélites ordenados!";
 
 // Texto da opção de alterar.
 const std::string tituloAlterar = "Alterar informações de um satélite.";
 const std::string textoAlterarOpcoes =
 "Qual informação você gostaria de alterar?\n"
-"1. Nome.\n"
-"2. País de Origem.\n"
-"3. Ano de lançamento.\n"
-"4. Função.";
+"   1. Nome.\n"
+"   2. País de Origem.\n"
+"   3. Ano de lançamento.\n"
+"   4. Função.";
 const std::string textoAlterarPedirId = "Id a ser Alterado: ";
 const std::string textoPedirAlteracao = "Informe o novo valor: ";
 const std::string textoAlterarSucesso = "Informações alteradas!";
@@ -107,13 +107,12 @@ const std::string textoConfirmarSair = "Deseja mesmo sair? (Alterações não gr
 const std::string textoVoltando= "Voltando...";
 const std::string textoVoltandoAoMenu = "Voltando ao menu principal...";
 const std::string tituloMenu = "Opções";
-const std::string textoOpcoesMenu = 
-"0. TESTES.\n"
-"1. " + tituloExibir + '\n' +
-"2. " + tituloBusca + '\n' +
-"3. " + tituloOrdenar + '\n' +
-"4. " + tituloAlterar + '\n' +
-"5. " + tituloInserir + '\n' +
-"6. " + tituloApagar + '\n' +
-"7. " + tituloGravar + '\n' +
-"8. " + tituloSair;
+const std::string textoOpcoesMenu =
+"   1. " + tituloExibir + '\n' +
+"   2. " + tituloBusca + '\n' +
+"   3. " + tituloOrdenar + '\n' +
+"   4. " + tituloAlterar + '\n' +
+"   5. " + tituloInserir + '\n' +
+"   6. " + tituloApagar + '\n' +
+"   7. " + tituloGravar + '\n' +
+"   8. " + tituloSair;

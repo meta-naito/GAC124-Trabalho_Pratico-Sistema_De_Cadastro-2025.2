@@ -18,54 +18,6 @@ struct infoSatelite {
     std::string paisOrigem;
     int anoLancamento;
     std::string funcao;
-
-    // Getters
-
-    unsigned int getId() {
-        return identificador;
-    }
-    std::string getNome() {
-        return nome;
-    }
-    std::string getPais() {
-        return paisOrigem;
-    }
-    int getAno() {
-        return anoLancamento;
-    }
-    std::string getFuncao() {
-        return funcao;
-    }
-
-    // Setters
-
-    void setId(int entradaId) {
-        identificador = static_cast<unsigned int>(entradaId);
-    }
-    void setId(unsigned int entradaId) {
-        identificador = entradaId;
-    }
-    void setNome(const char* entradaNome) {
-        nome = std::string(entradaNome);
-    }
-    void setNome(std::string entradaNome) {
-        nome = entradaNome;
-    }
-    void setPais(const char* entradaPais) {
-        paisOrigem = std::string(entradaPais);
-    }
-    void setPais(std::string entradaPais) {
-        paisOrigem = entradaPais;
-    }
-    void setAno(int entradaAno) {
-        anoLancamento = entradaAno;
-    }
-    void setFuncao(const char* entradaFuncao) {
-        funcao = std::string(entradaFuncao);
-    }
-    void setFuncao(std::string entradaFuncao) {
-        funcao = entradaFuncao;
-    }
 };
 
 // >===== INICIALIZAÇÃO DE FUNÇÕES =====<
@@ -96,27 +48,38 @@ void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites
 
 // >===== ORDENAÇÃO DE ELEMENTOS NO BANCO DE DADOS =====<
 
-// Função template para implementação do Merge Sort.
-// Pode ser utilizada para unsigned int, int, e string.
-template <typename tipoDado> void MergeSort(tipoDado *vetor, int inicioVetor,
-                                            int finalVetor);
-
-// Função template para intercalação de elementos necessário para Merge Sort.
-template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicioVetor,
-                                                     int meioVetor, int finalVetor);
-
-// Ordena satélites por Id.
+// Intercalacao por identificador.
+void IntercalaElementosId(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor);
+// Merge Sort por identificador.
+void MergeSortId(infoSatelite *&vetor, int inicioVetor, int finalVetor);
+// Ordena satélites por identificador.
 void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites);
 
-// Ordena satélites por nome.
+// Intercalacao por nome do satélite.
+void IntercalaElementosNome(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor);
+// Merge Sort por nome do satélite.
+void MergeSortNome(infoSatelite *&vetor, int inicioVetor, int finalVetor);
+// Ordena satélites por nome do satélite.
 void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites);
 
+// Intercalacao por pais de origem.
+void IntercalaElementosPais(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor);
+// Merge Sort por pais de origem.
+void MergeSortPais(infoSatelite *&vetor, int inicioVetor, int finalVetor);
 // Ordena satélites por país de origem.
 void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites);
 
+// Intercalacao por ano de lançamento.
+void IntercalaElementosAno(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor);
+// Merge Sort por ano de lançamento
+void MergeSortAno(infoSatelite *&vetor, int inicioVetor, int finalVetor);
 // Ordena satélites por ano de lançamento.
-void OrdenarAno(infoSatelite *&satelites, const unsigned int qSalelites);
+void OrdenarAno(infoSatelite *&satelites, const unsigned int qSatelites);
 
+// Intercalacao por função do satélite.
+void IntercalaElementosFuncao(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor);
+// Merge Sort por função do satélite.
+void MergeSortFuncao(infoSatelite *&vetor, int inicioVetor, int finalVetor);
 // Ordena satélites por função.
 void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites);
 
@@ -130,28 +93,25 @@ bool ExisteId(const unsigned int identificador, infoSatelite *&satelites,
 unsigned int MaiorId(infoSatelite *&satelites, unsigned int qSatelites);
 
 // Busca a posição no vetor de satélites no banco de dados, pelo identificador.
-// Nota: Assume que o vetor está ordenado.
-unsigned int PosicaoId(const unsigned int ID_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites);
+// Nota: Assume que o vetor está ordenado e que o elemento existe.
+// Essa função NÃO checa se o elemento existe.
+unsigned int PosicaoId(const unsigned int ID_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, o nome de um determinado satélite, retornando o Id do elemento correspondente.
 // Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelites,
-                        const unsigned int qSatelites);
+void BuscarNome(const std::string NOME_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, o país de origem de um determinado satélite, retornando o Id do elemento correspondente.
 // Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites,
-                        const unsigned int qSatelites);
+void BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, o ano de lançamento de um determinado satélite, retornando o Id do elemento correspondente.
 // Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites,
-                       const unsigned int qSatelites);
+void BuscarAno(const int ANO_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // Busca, no banco de dados, a função de um determinado satélite, retornando o Id do elemento correspondente.
 // Nota: Assume que o vetor está ordenado pelo identificador.
-unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites,
-                          const unsigned int qSatelites);
+void BuscarFuncao(std::string FUNCAO_PROCURADA, infoSatelite *&satelites, const unsigned int qSatelites);
 
 // >===== ALTERAÇÃO DE DADOS DOS ELEMENTOS NO BANCO DE DADOS =====<
 
@@ -175,33 +135,6 @@ void GravarAlterações(const std::string NOME_ARQUIVO, infoSatelite *&satelites
 
 // Deleta o vetor de satelites nao salvando as alterações
 void DeletarSalvo(infoSatelite *&satelites);
-
-// === TODO ===
-
-//OBS: checa se tem como fazer isso tudo ficar mais genéricoKKKK tem mto de string que acho que tem como modularizar melhor ^_^
-
-// // Sobrescreve um Id de um satélite.
-// // Nota: Necessário que o Id novo não exista no banco de dados.
-// void SobrescreverId(unsigned int identificador, unsigned int identificadorNovo,
-//                     infoSatelite *&satelites, const unsigned int qSatelites);
-
-// // Altera o nome de um satélite.
-// void AtualizarNome(const unsigned int identificador, std::string nomeNovo,
-//                    infoSatelite *&satelites, const unsigned int qSatelites);
-
-// // Altera o país de origem de um satélite.
-// void AtualizarPais(const unsigned int identificador, std::string paisNovo,
-//                    infoSatelite *&satelites, const unsigned int qSatelites);
-
-// // Altera o ano de lançamento de um satélite.
-// void AtualizarAno(const unsigned int identificador, int anoNovo,
-//                    infoSatelite *&satelites, const unsigned int qSatelites);
-
-// // Altera a função de um satélite.
-// void AtualizarFuncao(const unsigned int identificador, std::string funcaoNova,
-//                    infoSatelite *&satelites, const unsigned int qSatelites);
-
-// === ---- ===
 
 infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &qSatelites, unsigned int &tamanhoVetor) {
 
@@ -251,7 +184,7 @@ infoSatelite* CarregarCSV(const std::string NOME_ARQUIVO, unsigned int &qSatelit
     arquivoCSV.close();
 
     // Ordenar os satélites por identificador
-    //OrdernarId(satelites, qSatelites);
+    // OrdernarId(satelites, qSatelites);
 
     return satelites;
 }
@@ -297,13 +230,13 @@ void ReduzirVetor(unsigned int qReducao, infoSatelite *&satelites, unsigned int 
 
 void Imprimir(const unsigned int idInicio, const unsigned int idFinal, infoSatelite *&satelites, const unsigned int qSatelites) {
     for (unsigned int i = 0; i < qSatelites; i++) {
-        if (satelites[i].getId() >= idInicio and satelites[i].getId() <= idFinal) {
+        if (satelites[i].identificador >= idInicio and satelites[i].identificador <= idFinal) {
             std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << '\n'
-                      << "| Satélite de ID     | " << satelites[i].getId() << '\n'
-                      << "| Nome               | " << satelites[i].getNome() << '\n'
-                      << "| País de origem     | " << satelites[i].getPais() << '\n'
-                      << "| Ano de Lançamento  | " << satelites[i].getAno() << '\n'
-                      << "| Função:\n\"" << satelites[i].getFuncao() << '\"' << std::endl; 
+                      << "| Satélite de ID     | " << satelites[i].identificador << '\n'
+                      << "| Nome               | " << satelites[i].nome << '\n'
+                      << "| País de origem     | " << satelites[i].paisOrigem << '\n'
+                      << "| Ano de Lançamento  | " << satelites[i].anoLancamento << '\n'
+                      << "| Função:\n\"" << satelites[i].funcao << '\"' << std::endl; 
         }
     }
     std::cout << "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" << std::endl;
@@ -318,45 +251,28 @@ void ImprimirElemento(const unsigned int identificador, infoSatelite *&satelites
     return;
 }
 
-template <typename tipoDado> void MergeSort(tipoDado *vetor, int inicioVetor, int finalVetor) {
-    int meioVetor;
-
-    if (inicioVetor < finalVetor) {
-        meioVetor = (inicioVetor + finalVetor) / 2;
-        MergeSort(vetor, inicioVetor, meioVetor);
-        MergeSort(vetor, meioVetor + 1, finalVetor);
-        IntercalaElementos(vetor, inicioVetor, meioVetor, finalVetor);
-    }
-
-    return;
-}
-
-template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicioVetor, int meioVetor, int finalVetor) {
-    // posMeio é um nome ruim pra isso, pensa num melhor!!!
+void IntercalaElementosId(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor) {
     int posInicio = inicioVetor, posMeio = meioVetor + 1;
     int tamVetor = finalVetor - inicioVetor + 1;
 
-    tipoDado *vetTemporario = new tipoDado[tamVetor];
+    infoSatelite *vetTemporario = new infoSatelite[tamVetor];
     
     //Intercalação dos vetores
     for (int i = 0; i < tamVetor; i++) {
         if (posInicio <= meioVetor and posMeio <= finalVetor) {
-            if (vetor[posInicio] < vetor[posMeio]) {
+            if (vetor[posInicio].identificador < vetor[posMeio].identificador) {
                 vetTemporario[i] = vetor[posInicio];
                 posInicio++;
             }
-
             else {
                 vetTemporario[i] = vetor[posMeio];
                 posMeio++;
             }
         }
-
         else if (posInicio > meioVetor) {
             vetTemporario[i] = vetor[posMeio];
             posMeio++;
         }
-
         else {
             vetTemporario[i] = vetor[posInicio];
             posInicio++;
@@ -372,133 +288,245 @@ template <typename tipoDado> void IntercalaElementos(tipoDado *vetor, int inicio
     return;
 }
 
-void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites) {
-    // Criação de um vetor temporário para ordenar os elementos da função chamada.
-    // OBS: Para todos as funções de ordenação a lógica de criar um vetor temporário é a mesma.
-    //      Portanto, as outras funções não irão ter comentários auxliares.
-    unsigned int *temp = new unsigned int[qSatelites];
+void MergeSortId(infoSatelite *&vetor, int inicioVetor, int finalVetor) {
+    int meioVetor;
 
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        temp[i] = satelites[i].getId();
+    if (inicioVetor < finalVetor) {
+        meioVetor = (inicioVetor + finalVetor) / 2;
+        MergeSortId(vetor, inicioVetor, meioVetor);
+        MergeSortId(vetor, meioVetor + 1, finalVetor);
+        IntercalaElementosId(vetor, inicioVetor, meioVetor, finalVetor);
     }
 
-    MergeSort<unsigned int>(temp, 0, qSatelites - 1);
-    
-    // Cria um registro auxiliar para poder ordenar o vetor de satélites em si.
-    // OBS: Para todas as funções de ordenação a lógica de criar um registro auxiliar é a mesma.
-    //      Portanto, as outras funções não irão ter comentários auxliares.
-    infoSatelite aux;
+    return;
+}
 
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        for (unsigned int j = 0; j < qSatelites; j++) {
-            if (temp[i] == satelites[j].getId()) {
-                aux = satelites[i];
-                satelites[i] = satelites[j];
-                satelites[j] = aux;
+void OrdernarId(infoSatelite *&satelites, const unsigned int qSatelites) {
+    MergeSortId(satelites, 0, qSatelites - 1);
+
+    return;
+}
+
+void IntercalaElementosNome(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor) {
+    int posInicio = inicioVetor, posMeio = meioVetor + 1;
+    int tamVetor = finalVetor - inicioVetor + 1;
+
+    infoSatelite *vetTemporario = new infoSatelite[tamVetor];
+    
+    //Intercalação dos vetores
+    for (int i = 0; i < tamVetor; i++) {
+        if (posInicio <= meioVetor and posMeio <= finalVetor) {
+            if (vetor[posInicio].nome < vetor[posMeio].nome) {
+                vetTemporario[i] = vetor[posInicio];
+                posInicio++;
+            }
+            else {
+                vetTemporario[i] = vetor[posMeio];
+                posMeio++;
             }
         }
+        else if (posInicio > meioVetor) {
+            vetTemporario[i] = vetor[posMeio];
+            posMeio++;
+        }
+        else {
+            vetTemporario[i] = vetor[posInicio];
+            posInicio++;
+        }
     }
-    delete [] temp;
+
+    for (int i = 0; i < tamVetor; i++) {
+        vetor[inicioVetor + i] = vetTemporario[i];
+    }
+
+    delete [] vetTemporario;
+    
+    return;
+}
+
+void MergeSortNome(infoSatelite *&vetor, int inicioVetor, int finalVetor) {
+    int meioVetor;
+
+    if (inicioVetor < finalVetor) {
+        meioVetor = (inicioVetor + finalVetor) / 2;
+        MergeSortNome(vetor, inicioVetor, meioVetor);
+        MergeSortNome(vetor, meioVetor + 1, finalVetor);
+        IntercalaElementosNome(vetor, inicioVetor, meioVetor, finalVetor);
+    }
 
     return;
 }
 
 void OrdernarNome(infoSatelite *&satelites, const unsigned int qSatelites) {
-    std::string *temp = new std::string[qSatelites];
+    MergeSortNome(satelites, 0, qSatelites - 1);
 
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        temp[i] = satelites[i].getNome();
-    }
+    return;
+}
 
-    MergeSort<std::string>(temp, 0, qSatelites - 1);
+void IntercalaElementosPais(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor) {
+    int posInicio = inicioVetor, posMeio = meioVetor + 1;
+    int tamVetor = finalVetor - inicioVetor + 1;
 
-    infoSatelite aux;
-
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        for (unsigned int j = 0; j < qSatelites; j++) {
-            if (temp[i] == satelites[j].getNome()) {
-                aux = satelites[i];
-                satelites[i] = satelites[j];
-                satelites[j] = aux;
+    infoSatelite *vetTemporario = new infoSatelite[tamVetor];
+    
+    //Intercalação dos vetores
+    for (int i = 0; i < tamVetor; i++) {
+        if (posInicio <= meioVetor and posMeio <= finalVetor) {
+            if (vetor[posInicio].paisOrigem < vetor[posMeio].paisOrigem) {
+                vetTemporario[i] = vetor[posInicio];
+                posInicio++;
+            }
+            else {
+                vetTemporario[i] = vetor[posMeio];
+                posMeio++;
             }
         }
+        else if (posInicio > meioVetor) {
+            vetTemporario[i] = vetor[posMeio];
+            posMeio++;
+        }
+        else {
+            vetTemporario[i] = vetor[posInicio];
+            posInicio++;
+        }
     }
-    delete [] temp;
+
+    for (int i = 0; i < tamVetor; i++) {
+        vetor[inicioVetor + i] = vetTemporario[i];
+    }
+
+    delete [] vetTemporario;
+    
+    return;
+}
+
+void MergeSortPais(infoSatelite *&vetor, int inicioVetor, int finalVetor) {
+    int meioVetor;
+
+    if (inicioVetor < finalVetor) {
+        meioVetor = (inicioVetor + finalVetor) / 2;
+        MergeSortPais(vetor, inicioVetor, meioVetor);
+        MergeSortPais(vetor, meioVetor + 1, finalVetor);
+        IntercalaElementosPais(vetor, inicioVetor, meioVetor, finalVetor);
+    }
 
     return;
 }
 
 void OrdernarPais(infoSatelite *&satelites, const unsigned int qSatelites) {
-    std::string *temp = new std::string[qSatelites];
+    MergeSortPais(satelites, 0, qSatelites - 1);
 
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        temp[i] = satelites[i].getPais();
-    }
+    return;
+}
 
-    MergeSort<std::string>(temp, 0, qSatelites - 1);
+void IntercalaElementosAno(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor) {
+    int posInicio = inicioVetor, posMeio = meioVetor + 1;
+    int tamVetor = finalVetor - inicioVetor + 1;
 
-    infoSatelite aux;
-
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        for (unsigned int j = 0; j < qSatelites; j++) {
-            if (temp[i] == satelites[j].getPais()) {
-                aux = satelites[i];
-                satelites[i] = satelites[j];
-                satelites[j] = aux;
+    infoSatelite *vetTemporario = new infoSatelite[tamVetor];
+    
+    //Intercalação dos vetores
+    for (int i = 0; i < tamVetor; i++) {
+        if (posInicio <= meioVetor and posMeio <= finalVetor) {
+            if (vetor[posInicio].anoLancamento < vetor[posMeio].anoLancamento) {
+                vetTemporario[i] = vetor[posInicio];
+                posInicio++;
+            }
+            else {
+                vetTemporario[i] = vetor[posMeio];
+                posMeio++;
             }
         }
+        else if (posInicio > meioVetor) {
+            vetTemporario[i] = vetor[posMeio];
+            posMeio++;
+        }
+        else {
+            vetTemporario[i] = vetor[posInicio];
+            posInicio++;
+        }
     }
-    delete [] temp;
+
+    for (int i = 0; i < tamVetor; i++) {
+        vetor[inicioVetor + i] = vetTemporario[i];
+    }
+
+    delete [] vetTemporario;
     
+    return;
+}
+
+void MergeSortAno(infoSatelite *&vetor, int inicioVetor, int finalVetor) {
+    int meioVetor;
+
+    if (inicioVetor < finalVetor) {
+        meioVetor = (inicioVetor + finalVetor) / 2;
+        MergeSortAno(vetor, inicioVetor, meioVetor);
+        MergeSortAno(vetor, meioVetor + 1, finalVetor);
+        IntercalaElementosAno(vetor, inicioVetor, meioVetor, finalVetor);
+    }
+
     return;
 }
 
 void OrdenarAno(infoSatelite *&satelites, const unsigned int qSatelites) {
-        int *temp = new int[qSatelites];
+    MergeSortAno(satelites, 0, qSatelites - 1);
 
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        temp[i] = satelites[i].getAno();
-    }
+    return;
+}
 
-    MergeSort<int>(temp, 0, qSatelites - 1);
+void IntercalaElementosFuncao(infoSatelite *vetor, int inicioVetor, int meioVetor, int finalVetor) {
+    int posInicio = inicioVetor, posMeio = meioVetor + 1;
+    int tamVetor = finalVetor - inicioVetor + 1;
 
-    infoSatelite aux;
-
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        for (unsigned int j = 0; j < qSatelites; j++) {
-            if (temp[i] == satelites[j].getAno()) {
-                aux = satelites[i];
-                satelites[i] = satelites[j];
-                satelites[j] = aux;
+    infoSatelite *vetTemporario = new infoSatelite[tamVetor];
+    
+    //Intercalação dos vetores
+    for (int i = 0; i < tamVetor; i++) {
+        if (posInicio <= meioVetor and posMeio <= finalVetor) {
+            if (vetor[posInicio].funcao < vetor[posMeio].funcao) {
+                vetTemporario[i] = vetor[posInicio];
+                posInicio++;
+            }
+            else {
+                vetTemporario[i] = vetor[posMeio];
+                posMeio++;
             }
         }
+        else if (posInicio > meioVetor) {
+            vetTemporario[i] = vetor[posMeio];
+            posMeio++;
+        }
+        else {
+            vetTemporario[i] = vetor[posInicio];
+            posInicio++;
+        }
     }
-    delete [] temp;
+
+    for (int i = 0; i < tamVetor; i++) {
+        vetor[inicioVetor + i] = vetTemporario[i];
+    }
+
+    delete [] vetTemporario;
     
     return;
 }
 
+void MergeSortFuncao(infoSatelite *&vetor, int inicioVetor, int finalVetor) {
+    int meioVetor;
+
+    if (inicioVetor < finalVetor) {
+        meioVetor = (inicioVetor + finalVetor) / 2;
+        MergeSortFuncao(vetor, inicioVetor, meioVetor);
+        MergeSortFuncao(vetor, meioVetor + 1, finalVetor);
+        IntercalaElementosFuncao(vetor, inicioVetor, meioVetor, finalVetor);
+    }
+
+    return;
+}
+
 void OrdenarFuncao(infoSatelite *&satelites, const unsigned int qSatelites) {
-    std::string *temp = new std::string[qSatelites];
-
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        temp[i] = satelites[i].getFuncao();
-    }
-
-    MergeSort<std::string>(temp, 0, qSatelites - 1);
-
-    infoSatelite aux;
-
-    for (unsigned int i = 0; i < qSatelites; i++) {
-        for (unsigned int j = 0; j < qSatelites; j++) {
-            if (temp[i] == satelites[j].getFuncao()) {
-                aux = satelites[i];
-                satelites[i] = satelites[j];
-                satelites[j] = aux;
-            }
-        }
-    }
-    delete [] temp;
+    MergeSortFuncao(satelites, 0, qSatelites - 1);
 
     return;
 }
@@ -511,10 +539,10 @@ bool ExisteId(const unsigned int identificador, infoSatelite *&satelites, const 
     while (esq_limite <= dir_limite) {
         unsigned int meio = (esq_limite + dir_limite) / 2;
 
-        if (satelites[meio].getId() == identificador) {
+        if (satelites[meio].identificador == identificador) {
             return true;
         }
-        else if (satelites[meio].getId() < identificador) {
+        else if (satelites[meio].identificador < identificador) {
             esq_limite = meio + 1;
         }
         else {
@@ -530,30 +558,30 @@ unsigned int MaiorId(infoSatelite *&satelites, unsigned int qSatelites) {
         return 0;
     }
 
-    unsigned int maiorId = satelites[0].getId();
+    unsigned int maiorId = satelites[0].identificador;
     
     for (unsigned int i = 0; i < qSatelites; i++) {
-        if (satelites[i].getId() > maiorId) {
-            maiorId = satelites[i].getId();
+        if (satelites[i].identificador > maiorId) {
+            maiorId = satelites[i].identificador;
         }
     }
 
     return maiorId;
 }
 
-unsigned int PosicaoId(const unsigned int ID_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+unsigned int PosicaoId(const unsigned int ID_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites) {
     unsigned int posInicial = 0;
     unsigned int posFinal = qSatelites;
 
     while (posInicial <= posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
 
-        if (satelites[meio].getId() == ID_PROCURADO) {
+        if (satelites[meio].identificador == ID_PROCURADO) {
             return meio;
         }
 
         else {
-            if (ID_PROCURADO > satelites[meio].getId()) {
+            if (ID_PROCURADO > satelites[meio].identificador) {
                 posInicial = meio + 1;
             }
             else {
@@ -562,112 +590,179 @@ unsigned int PosicaoId(const unsigned int ID_PROCURADO, infoSatelite *satelites,
         }
     }
 
-    // Como não existe identificador 0, indica que não foi achado o Id pedido.
+    // Assume que o elemento existe por isso retorna 0 caso não ache ele.
     return 0;
 }
 
-unsigned int BuscarNome(const std::string NOME_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+void BuscarNome(const std::string NOME_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites) {
     unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
+    unsigned int posFinal = qSatelites - 1;
 
     while (posInicial <= posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
 
-        if (satelites[meio].getNome() == NOME_PROCURADO) {
-            return satelites[meio].getId();
+        if (satelites[meio].nome == NOME_PROCURADO) {
+            unsigned int comecoImpri = meio;
+            unsigned int finalImpri = meio;
+
+            while (comecoImpri > 0 and satelites[comecoImpri - 1].nome == NOME_PROCURADO) {
+                comecoImpri--;
+            }
+
+            while (finalImpri + 1 < qSatelites and satelites[finalImpri + 1].nome == NOME_PROCURADO) {
+                finalImpri++;
+            }
+
+            for (unsigned int i = comecoImpri; i <= finalImpri; i++) {
+                ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
+            }
+            return;
         }
 
         else {
-            if (NOME_PROCURADO > satelites[meio].getNome()) {
+            if (NOME_PROCURADO > satelites[meio].nome) {
                 posInicial = meio + 1;
             }
             else {
+                if (meio == 0) {
+                    return;
+                }
                 posFinal = meio - 1;
             }
         }
     }
 
-    // Como não existe identificador 0, indica que não foi achado o nome de satélite pedido.
-    return 0;
+    return;
 }
 
-unsigned int BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+void BuscarPais(const std::string PAIS_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites) {
+    std::cout << PAIS_PROCURADO << std::endl;
+
     unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
+    unsigned int posFinal = qSatelites - 1;
 
     while (posInicial <= posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
 
-        if (satelites[meio].getPais() == PAIS_PROCURADO) {
-            return satelites[meio].getId();
+        if (satelites[meio].paisOrigem == PAIS_PROCURADO) {
+
+            unsigned int comecoImpri = meio;
+            unsigned int finalImpri = meio;
+
+            while (comecoImpri > 0 and satelites[comecoImpri - 1].paisOrigem == PAIS_PROCURADO) {
+                comecoImpri--;
+            }
+
+            while (finalImpri + 1 < qSatelites and satelites[finalImpri + 1].paisOrigem == PAIS_PROCURADO) {
+                finalImpri++;
+            }
+
+            for (unsigned int i = comecoImpri; i <= finalImpri; i++) {;
+                ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
+            }
+            return;
         }
 
         else {
-            if (PAIS_PROCURADO > satelites[meio].getPais()) {
+            if (PAIS_PROCURADO > satelites[meio].paisOrigem) {
                 posInicial = meio + 1;
             }
             else {
+                if (meio == 0) {
+                    return;
+                }
                 posFinal = meio - 1;
             }
         }
     }
 
-    // Como não existe identificador 0, indica que não foi achado o país de origem de satélite pedido.
-    return 0;
+    return;
 }
 
-unsigned int BuscarAno(const int ANO_PROCURADO, infoSatelite *satelites, const unsigned int qSatelites) {
+void BuscarAno(const int ANO_PROCURADO, infoSatelite *&satelites, const unsigned int qSatelites) {
     unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
+    unsigned int posFinal = qSatelites - 1;
 
     while (posInicial <= posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
 
-        if (satelites[meio].getAno() == ANO_PROCURADO) {
-            return satelites[meio].getId();
+        if (satelites[meio].anoLancamento == ANO_PROCURADO) {
+            unsigned int comecoImpri = meio;
+            unsigned int finalImpri = meio;
+
+            while (comecoImpri > 0 and satelites[comecoImpri - 1].anoLancamento == ANO_PROCURADO) {
+                comecoImpri--;
+            }
+
+            while (finalImpri + 1 < qSatelites and satelites[finalImpri + 1].anoLancamento == ANO_PROCURADO) {
+                finalImpri++;
+            }
+
+            for (unsigned int i = comecoImpri; i <= finalImpri; i++) {
+                ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
+            }
+            return;
         }
 
         else {
-            if (ANO_PROCURADO > satelites[meio].getAno()) {
+            if (ANO_PROCURADO > satelites[meio].anoLancamento) {
                 posInicial = meio + 1;
             }
             else {
+                if (meio == 0) {
+                    return;
+                }
                 posFinal = meio - 1;
             }
         }
     }
 
-    // Como não existe identificador 0, indica que não foi achado o ano de lançamento de satélite pedido.
-    return 0;
+    return;
 }
 
-unsigned int BuscarFuncao(const std::string FUNCAO_PROCURADA, infoSatelite *satelites, const unsigned int qSatelites) {
+void BuscarFuncao(std::string FUNCAO_PROCURADA, infoSatelite *&satelites, const unsigned int qSatelites) {
     unsigned int posInicial = 0;
-    unsigned int posFinal = qSatelites;
+    unsigned int posFinal = qSatelites - 1;
 
     while (posInicial <= posFinal) {
         unsigned int meio = (posInicial + posFinal) / 2;
 
-        if (satelites[meio].getFuncao() == FUNCAO_PROCURADA) {
-            return satelites[meio].getId();
+    if (satelites[meio].funcao == FUNCAO_PROCURADA) {
+            unsigned int comecoImpri = meio;
+            unsigned int finalImpri = meio;
+
+            while (comecoImpri > 0 and satelites[comecoImpri - 1].funcao == FUNCAO_PROCURADA) {
+                comecoImpri--;
+            }
+
+            while (finalImpri + 1 < qSatelites and satelites[finalImpri + 1].funcao == FUNCAO_PROCURADA) {
+                finalImpri++;
+            }
+
+            for (unsigned int i = comecoImpri; i <= finalImpri; i++) {
+                ImprimirElemento(satelites[i].identificador, satelites, qSatelites);
+            }
+            return;
         }
 
         else {
-            if (FUNCAO_PROCURADA > satelites[meio].getFuncao()) {
+            if (FUNCAO_PROCURADA > satelites[meio].funcao) {
                 posInicial = meio + 1;
             }
             else {
+                if (meio == 0) {
+                    return;
+                }
                 posFinal = meio - 1;
             }
         }
     }
 
-    // Como não existe identificador 0, indica que não foi achado o ano de lançamento de satélite pedido.
-    return 0;
+    return;
 }
 
 void SobrescreverElemento(const unsigned int identificador, infoSatelite novoElemento, infoSatelite *&satelites, const unsigned int qSatelites) {
-    novoElemento.setId(identificador);
+    novoElemento.identificador = identificador;
     satelites[identificador] = novoElemento;
 
     return;
@@ -682,7 +777,7 @@ void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites, unsign
         RedimensionaVetor(satelites, tamanhoVetor);
     }
 
-    novoElemento.setId(novoId);
+    novoElemento.identificador = novoId;
     satelites[qSatelites] = novoElemento;
     qSatelites++;
 
@@ -691,7 +786,7 @@ void InserirElemento(infoSatelite novoElemento, infoSatelite *&satelites, unsign
 
 void RemoverElemento(unsigned int identificador, infoSatelite *&satelites, unsigned int &qSatelites) {
     for (unsigned int i = 0; i < qSatelites; i++) {
-        if (identificador == satelites[i].getId()) {
+        if (identificador == satelites[i].identificador) {
             qSatelites--;
 
             // Move todos os elementos a direita do elemento a ser removido para a esquerda.
