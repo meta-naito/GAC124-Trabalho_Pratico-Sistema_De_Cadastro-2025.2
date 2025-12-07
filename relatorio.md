@@ -4,6 +4,16 @@ O relatório que se segue tem o propósito de demonstrar, de forma clara e objet
 
 A elaboração deste documento visa detalhar os métodos adotados para a implementação do sistema de cadastro com o tema "Satélites" feito pelo grupo, explicando em conjunto a lógica total do programa, assim como identificar os aspectos mais relevantes no desenvolvimento do prejeto, incluindo os erros e acertos da dupla durante o processo de programação.
 
+# O que está incluso nesse projeto?
+
+O arquivo __"main.cpp"__ é o arquivo que necessita ser compilado para que o programa funcione, já que nele está a lógica da interface, e as chamadas das funções feitas pelo grupo.
+
+O arquivo __"textosInterface.hpp"__ é o arquivo onde estão armazenados alguns enunciados críticos da interface. Foi criado justamente para facilitar e diminuir a quantidade de textos repetidos e/ou grandes no arquivo da interface.
+
+O arquivo __"csv_utils.hpp"__ é o arquivo onde estão incluídos as funções pedidas no projeto prático. Explicações sobre a lógica de cada uma, e comentários sobre o desenvolvimento estarão logo abaixo.
+
+Por fim, o arquivo __"db_satelites.csv"__ será explicado logo abaixo também.
+
 # Banco de dados
 
 O arquivo __"db_satelites.csv"__ (abreviação/adaptação de DataBase Satélites) inclui as informações de cada satélite colocado pelo grupo, totalizando 55.
@@ -28,7 +38,7 @@ Mais informações sobre a especificação de cada campo e como esse arquivo é 
 
 # Estruturas do código
 
-As estruturas que serão descritas a seguir são as incluídas no arquivo "csv_utils.hpp", seguindo a ordem em que estão inclusas.
+As estruturas que serão descritas a seguir são as incluídas no arquivo __"csv_utils.hpp"__, seguindo a ordem em que estão inclusas.
 
 No caso de variáveis que usam _std::_ para serem identificadas, elas não serão inclusas na descrição, salvo em casos onde elas estão incluídas em um trecho de código a ser explicado. 
 
@@ -199,7 +209,7 @@ Essa função chama apenas o procedimento `Imprimir()`, com o parâmetro _idInic
 
 Os procedimentos de ordenação foram feitos utilizando a lógica do Merge Sort recursivo, pelo fato desse método de ordenação ser éstavel. Ou seja, ele preserva a ordem original de elementos iguais após a ordenação.
 
-Esse aspecto do Merge Sort é beneficial para a implementação usada, já que se o vetor dor ordenado por dois campos distintos, a ordem de elementos relativos será mantida.
+Esse aspecto do Merge Sort é beneficial para a implementação usada, já que se o vetor for ordenado por dois campos distintos, a ordem de elementos relativos será mantida.
 
 Inicialmente, foi feito duas funções __template__ de tipo __void__: uma para a intercalação de elementos necessária para o Merge Sort, e outra que é o Merge Sort em si. Ambas as inicializações podem ser vistas abaixo: 
 
@@ -292,7 +302,7 @@ Como essas funções são do tipo __void__, elas não retornam nenhum valor, e t
 - O ponteiro para o vetor de registros, que é uma variável do tipo infoSatelite,
 - A quantidade total de satélites no banco de dados, que é uma variável do tipo int não assinado constante.
 
-Esses procedimentos apenas chamam a função `MergeSort()` correspondente, deixando assim mais fácil as chamadas.
+Esses procedimentos apenas chamam a função `MergeSort()` correspondente, facilitando a chamada na interface.
 
 ## Busca de elementos
 
@@ -344,7 +354,7 @@ void BuscarAno(const int ANO_PROCURADO, infoSatelite *&satelites, const unsigned
 
 Os procedimentos `BuscarNome()`, `BuscarPais()` e `BuscarAno()` tem como objetivo buscar, no vetor de registros, elementos que correspondem ao que o usuário pedir, exibindo os elementos na tela.
 
-Todos esses procedimentos são capazes de diferenciar maiúsculas de minúsculas, e letras acentuadas de não acentuadas. Além disso, assumem que o vetor que ela busca os elementos está ordenado por nome.
+Todos esses procedimentos assumem que o vetor que ela busca os elementos está ordenado pelo campo selecionado. Ou seja, caso `BuscarNome()` seja chamada, é assumido que os elementos estão ordenados por nome.
 
 Todos os procedimentos tem como parâmetros:
 - O ponteiro para o vetor de registros, que é uma variável do tipo infoSatelite,
@@ -374,7 +384,7 @@ void BuscarFuncao(std::string FUNCAO_PROCURADA, infoSatelite *&satelites, const 
 
 O procedimento `BuscarFuncao()` tem como objetivo buscar, no vetor de registros, elementos que correspondem a função que está sendo pesquisada no vetor de registros, ou que contém uma substring correspondente, exibindo os elementos na tela.
 
-Todos esses procedimentos são capazes de diferenciar maiúsculas de minúsculas, e letras acentuadas de não acentuadas. Além disso, assumem que o vetor que ela busca os elementos está ordenado por nome.
+Esse procedimento assume que o vetor que ela busca os elementos está ordenado pela função.
 
 São utilizados como parâmetros:
 - Uma string com a função a ser procurada.
@@ -457,7 +467,7 @@ Como essa função é do tipo __void__, ela não retorna nenhum valor, e tem com
 
 Primeiramente, é lido a primeira linha do CSV original, que é o comentário para a identificação dos campos, também checando se o arquivo existe. Caso não exista, é exibido uma mensagem de erro no terminal.
 
-Logo após, é utilizado o objeto _ofstream_ para escrever as alterações no arquivo __"db_satelites.csv"__. É então escrito novamente o comentário, a quantidade total de satélites no vetor e, utilizando um loop _for()_, os campos de cada satélite,
+Logo após, é utilizado o objeto _ofstream_ para escrever as alterações no arquivo __"db_satelites.csv"__. É então escrito novamente o comentário, a quantidade total de satélites no vetor e, utilizando um loop _for()_, os campos de cada satélite.
 
 ## `void DeletarSalvo()`
 

@@ -16,34 +16,48 @@
 #include <thread>
 
 // Pede confirmação para o usuário com sim ou não, sobre escolha com a mensagem passada.
-// Sempre exibe ao final da mensagem " (s/n)".
+// Sempre exibe ao final da mensagem "(s/n)".
 bool Confirmar(std::string mensagem);
+
 // Limpa o terminal
 // OBS: Só funciona em UNIX.
 void Clear();
-// Espera até que o usuário digite digite alguma coisa para continuar a execução.
+
+// Espera até que o usuário digite digite algo para continuar a execução.
 void EnterParaContinuar();
-// Exibe texto de opcoes + eecolhe escolha do usuario de inteiro não assinado.
+
+// Exibe texto de opções + escolhe opção do usuário de inteiro não assinado.
 // Lida com erros causados por escolhas incorretas.
 unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, const unsigned int TEMPO_ANIMACOES);
+
 // Implementação da Interface para exibir satélites.
 void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
+
 // Implementação da Interface para buscar satélites.
 void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
+
 // Implementação da Interface para ordenar satélites.
 void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
+
 // Implementação da Interface para inserir satélites.
 void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetorconst, const unsigned int TEMPO_ANIMACOES);
+
 // Implementação da Interface para alterar satélites.
 void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
-// Implementação da Interface para deletar satélites.
+
+// Implementação da Interface para apagar satélites.
 void OpcaoApagar(infoSatelite *&satelites, unsigned int &qSatelites, unsigned int &tamanhoVetor, const unsigned int TEMPO_ANIMACOES);
-// Implementação da Interface para gravar para o CSV
+
+// Implementação da Interface para gravar para o CSV.
 void OpcaoGravacao(std::string NOME_ARQUIVO, infoSatelite *&satelites, const unsigned int qSatelites, const unsigned int TEMPO_ANIMACOES);
-// Implementação da Interface para fechar o prograga.
+
+// Implementação da Interface para fechar o programa.
 void OpcaoSaida(infoSatelite *&satelites, const unsigned int TEMPO_ANIMACOES);
-// Pausa execução do codígo pelo tempo especificado. Utiliza segundos.
+
+// Pausa execução do código pelo tempo especificado. Utiliza segundos.
 void Sleep(int time);
+
+// >==========<
 
 int main() {
     extern const std::string textoInicio;
@@ -107,7 +121,7 @@ int main() {
                 break;
             }
             default: {
-                std::cout << "Opção inválida :(" << std::endl;
+                std::cout << "Opção inválida!! :(" << std::endl;
                 std::cout << textoVoltando << std::endl;
                 Sleep(TEMPO_ANIMACOES);
                 break;
@@ -125,7 +139,7 @@ bool Confirmar(std::string mensagem) {
         std::cout << mensagem << " (s/n)" << std::endl;
         std::cin >> escolha;
 
-        // transforma a string de escolha em minusculas
+        // transforma a string de escolha em minusculas.
         for (unsigned int i = 0; i < escolha.length(); i++) {
             escolha[i] = tolower(escolha[i]);
         }
@@ -134,13 +148,13 @@ bool Confirmar(std::string mensagem) {
             escolhido = true;
             return true;
         }
-        // tolower não funciona em caracters com acentuação.
+        // tolower() não funciona em caracteres com acentuação, por isso a necessidade de considerar o tilde.
         else if (escolha == "n" or escolha == "nao" or escolha == "não" or escolha == "nÃo") {
             escolhido = true;
             return false;
         }
         else {
-            std::cout << "Escolha invalida" << std::endl;
+            std::cout << "Escolha inválida!" << std::endl;
         }
     }
 
@@ -150,7 +164,7 @@ bool Confirmar(std::string mensagem) {
 void Clear() {
     int retorno = system("clear");
     if (retorno == -1) {
-        std::cout << "Erro: Não foi possivel limpar o terminal" << std::endl;
+        std::cout << "Erro: Não foi possivel limpar o terminal." << std::endl;
     }
 
     std::cout.flush();
@@ -159,10 +173,10 @@ void Clear() {
 
 void EnterParaContinuar() {
     std::cout << enterContinuar << std::endl;
-    // Discarta tudo no buffer (espero).
+    // Descarta tudo no buffer.
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    // Espera por '\n' pelo usuario (ENTER).
+    // Espera por '\n' digitado pelo usuário (equivalente a ENTER).
     std::string entrada;
     std::getline(std::cin, entrada);  
 
@@ -188,17 +202,17 @@ unsigned int EscolherOpcao(const std::string TITULO, const std::string OPCOES, c
             opcaoValida = true;
         }
         catch (std::invalid_argument const&) {
-            std::cout << "Opção deve ser um numero." << std::endl;
+            std::cout << "Opção deve ser um número!" << std::endl;
             std::cout << textoVoltando << std::endl;
             Sleep(TEMPO_ANIMACOES);
         }
         catch (std::out_of_range const&){
-            std::cout << "Opção fora de alcance (numero grande demais)." << std::endl;
+            std::cout << "Opção fora de alcance (número grande demais)!" << std::endl;
             std::cout << textoVoltando << std::endl;
             Sleep(TEMPO_ANIMACOES);
         }
         catch (std::exception const&) {
-            std::cout << "Opção inválida." << std::endl;
+            std::cout << "Opção inválida!!" << std::endl;
             std::cout << textoVoltando << std::endl;
             Sleep(TEMPO_ANIMACOES);
         }
@@ -219,9 +233,9 @@ void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const 
                 std::cout << textoExibirUnico << std::endl;
                 std::cout << "> ";
 
-                std::string identidicadorString;
-                std::cin >> identidicadorString;
-                const unsigned int identificador = std::stoi(identidicadorString);
+                std::string identificadorString;
+                std::cin >> identificadorString;
+                const unsigned int identificador = std::stoi(identificadorString);
 
                 if (ExisteId(identificador, satelites, qSatelites)) {
                     std::cout << std::endl;
@@ -234,13 +248,13 @@ void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const 
                 EnterParaContinuar();
             }
             catch (std::invalid_argument const&) {
-                std::cout << "Opção deve ser um numero." << std::endl;
+                std::cout << "Opção deve ser um número!" << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
                 return;
             }
             catch (std::out_of_range const&){
-                std::cout << "Opção fora de alcance (numero grande demais)." << std::endl;
+                std::cout << "Opção fora de alcance (número grande demais)!" << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
                 return;
@@ -273,7 +287,7 @@ void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const 
                 const unsigned int fim = std::stoi(fimString);
 
                 if (fim < inicio) {
-                    throw std::out_of_range("Alcance impossivel.");
+                    throw std::out_of_range("Alcance impossível.");
                 }
                 else if (inicio <= 0 or fim <= 0) {
                     throw std::out_of_range("Index inválido.");
@@ -286,13 +300,13 @@ void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const 
                 EnterParaContinuar();
             }
             catch (std::invalid_argument const&) {
-                std::cout << "Opção deve ser um numero." << std::endl;
+                std::cout << "Opção deve ser um número!" << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
                 return;
             }
             catch (std::out_of_range const&){
-                std::cout << "Opção fora de alcance válido." << std::endl;
+                std::cout << "Opção fora de alcance válido!" << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
                 return;
@@ -313,7 +327,7 @@ void OpcaoExibir(infoSatelite *&satelites, const unsigned int qSatelites, const 
             break;
         }
         default: {
-            std::cout << "Opção inválida :(" << std::endl;
+            std::cout << "Opção inválida! :(" << std::endl;
             std::cout << textoRetornoMenu << std::endl;
             Sleep(TEMPO_ANIMACOES);
             return;
@@ -334,16 +348,16 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
     }
 
     switch (opcao) {
-        // Busca por Nome
+        // Busca por Nome.
         case 1: {
             OrdernarNome(aux, qSatelites);
 
             std::cout << textoBuscaNome << std::endl;
             std::cout << "> ";
-            std::string querie;
-            getline(std::cin >> std::ws, querie);
+            std::string query;
+            getline(std::cin >> std::ws, query);
 
-            BuscarNome(querie, aux, qSatelites);
+            BuscarNome(query, aux, qSatelites);
 
             break;
         }
@@ -353,10 +367,10 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
 
             std::cout << textoBuscaPais << std::endl;
             std::cout << "> ";
-            std::string querie;
-            getline(std::cin >> std::ws, querie);
+            std::string query;
+            getline(std::cin >> std::ws, query);
 
-            BuscarPais(querie, aux, qSatelites);
+            BuscarPais(query, aux, qSatelites);
 
             Sleep(3);
 
@@ -366,14 +380,14 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
         case 3: {
             OrdenarAno(aux, qSatelites);
 
-            unsigned int querie;
+            unsigned int query;
             try {
                 std::cout << textoBuscaAno << std::endl;
                 std::cout << "> ";
                 std::string querieString;
                 getline(std::cin >> std::ws, querieString);
 
-                querie = std::stoi(querieString);
+                query = std::stoi(querieString);
             }
             catch (std::exception const& erro) {
                 std::cout << "Erro:" << erro.what() << std::endl;
@@ -383,7 +397,7 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
                 return;
             }
             
-            BuscarAno(querie, aux, qSatelites);
+            BuscarAno(query, aux, qSatelites);
 
             break;
         }
@@ -393,15 +407,15 @@ void OpcaoBuscar(infoSatelite *satelites, const unsigned int qSatelites, const u
 
             std::cout << textoBuscaFuncao << std::endl;
             std::cout << "> ";
-            std::string querie;
-            getline(std::cin >> std::ws, querie);
+            std::string query;
+            getline(std::cin >> std::ws, query);
 
-            BuscarFuncao(querie, aux, qSatelites);
+            BuscarFuncao(query, aux, qSatelites);
 
             break;
         }
         default: {
-            std::cout << "Opção inválida :(" << std::endl;
+            std::cout << "Opção inválida! :(" << std::endl;
             std::cout << textoRetornoMenu << std::endl;
             Sleep(TEMPO_ANIMACOES);
             break;
@@ -441,7 +455,7 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
             while ((not opcoesEscolhidas) and (escolhidas < MAX_OPCOES)) {
                 try {
                     std::string opcaoString;
-                    std::cout << "> ";
+                    std::cout << "Digite o campo de ordenação: " << std::endl << "> ";
                     std::cin >> opcaoString;
 
                     unsigned int opcaoCampo = stoi(opcaoString);
@@ -451,7 +465,7 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
 
                     ordenarPor[escolhidas] = opcaoCampo;
 
-                    if ((escolhidas + 1 != MAX_OPCOES) and (not Confirmar("Deseja escolher mais uma opção?"))) {
+                    if ((escolhidas + 1 != MAX_OPCOES) and (not Confirmar("Deseja escolher mais uma opção de ordenação?"))) {
                         opcoesEscolhidas = true;
                         escolhidas++;
                     }
@@ -460,16 +474,16 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
                     }
                 }
                 catch (std::invalid_argument const&) {
-                    std::cout << "Opção deve ser um numero." << std::endl;
-                    std::cout << "Ignorando." << std::endl;
+                    std::cout << "Opção deve ser um número." << std::endl;
+                    std::cout << "Ignorando..." << std::endl;
                 }
                 catch (std::out_of_range const&){
                     std::cout << "Opção fora de alcance." << std::endl;
-                    std::cout << "Ignorando." << std::endl;
+                    std::cout << "Ignorando..." << std::endl;
                 }
                 catch (std::exception const&) {
-                    std::cout << "Opção inválida." << std::endl;
-                    std::cout << "Ignorando." << std::endl;
+                    std::cout << "Opção inválida!." << std::endl;
+                    std::cout << "Ignorando..." << std::endl;
                 }
             }
 
@@ -481,22 +495,22 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
 
             for (int i = 0; i < escolhidas; i++) {
                 switch (ordenarPor[i]) {
-                    // Por Nome
+                    // Por Nome.
                     case 1: {
                         OrdernarNome(satelites, qSatelites);
                         break;
                     }
-                    // Por Pais
+                    // Por Pais de origem.
                     case 2: {
                         OrdernarPais(satelites, qSatelites);
                         break;
                     }
-                    // Por Ano
+                    // Por Ano de lançamento.
                     case 3: {
                         OrdenarAno(satelites, qSatelites);
                         break;
                     }
-                    // Por Funcao
+                    // Por Funcão.
                     case 4: {
                         OrdenarFuncao(satelites, qSatelites);
                         break;
@@ -512,7 +526,7 @@ void OpcaoOrdenar(infoSatelite *&satelites, const unsigned int qSatelites, const
             break;
         }
         default: {
-            std::cout << "Opção inválida :(" << std::endl;
+            std::cout << "Opção inválida! :(" << std::endl;
             std::cout << textoRetornoMenu << std::endl;
             Sleep(TEMPO_ANIMACOES);
             return;
@@ -546,7 +560,7 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
         posAlterar = PosicaoId(posAlterar, satelites, qSatelites);
     }
     catch (std::invalid_argument const&) {
-        std::cout << "O identificador deve ser um numero." << std::endl;
+        std::cout << "O identificador deve ser um número." << std::endl;
         std::cout << textoRetornoMenu << std::endl;
         Sleep(TEMPO_ANIMACOES);
         return;
@@ -567,8 +581,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
     switch (opcao) {
         // Alterar nome
         case 1: {
-            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
-                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
+            std::cout << "Sátelite selecionado, com identificador " << satelites[posAlterar].identificador
+                      << ", e nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoNome;
@@ -594,8 +608,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
         }
         // Alterar Pais
         case 2: {
-            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
-                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
+            std::cout << "Sátelite selecionado, com identificador " << satelites[posAlterar].identificador
+                      << ", e nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoPais;
@@ -621,8 +635,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
         }
         // Alterar Ano
         case 3: {
-            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
-                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
+            std::cout << "Sátelite selecionado, com identificador " << satelites[posAlterar].identificador
+                      << ", e nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoAnoString;
@@ -639,7 +653,7 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
                 return;
             }
             catch (std::invalid_argument const&) {
-                std::cout << "O Ano deve ser um numero." << std::endl;
+                std::cout << "Ano de lançamento deve ser um número." << std::endl;
                 std::cout << textoRetornoMenu << std::endl;
                 Sleep(TEMPO_ANIMACOES);
                 return;
@@ -661,8 +675,8 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
         }
         // Alterar Funcao
         case 4: {
-            std::cout << "Sátelite selecionado: " << satelites[posAlterar].identificador
-                      << " de nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
+            std::cout << "Sátelite selecionado, com identificador " << satelites[posAlterar].identificador
+                      << ", e nome \"" << satelites[posAlterar].nome << "\"." << std::endl;
 
             std::cout << textoPedirAlteracao << std::endl;
             std::string novoFuncao;
@@ -686,7 +700,7 @@ void OpcaoAlterar(infoSatelite *&satelites, const unsigned int qSatelites, const
             break;
         }
         default: {
-            std::cout << "Opção inválida :(" << std::endl;
+            std::cout << "Opção inválida! :(" << std::endl;
             std::cout << textoRetornoMenu << std::endl;
             Sleep(TEMPO_ANIMACOES);
             break;
@@ -723,7 +737,7 @@ void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned i
         getline(std::cin >> std::ws, aux);
         novoElemento.paisOrigem = aux;
         if (aux.empty()) {
-            throw std::length_error("Pais vazio.");
+            throw std::length_error("País de origem vazio.");
         }
 
         std::cout << textoInserirAno << std::endl;
@@ -743,13 +757,13 @@ void OpcaoInserir(infoSatelite *&satelites, unsigned int &qSatelites, unsigned i
         InserirElemento(novoElemento, satelites, qSatelites, tamanhoVetor);
     }
     catch (std::invalid_argument const&) {
-        std::cout << "Ano deve ser um numero." << std::endl;
+        std::cout << "Ano de lançamento deve ser um número." << std::endl;
         std::cout << textoVoltandoAoMenu << std::endl;
         Sleep(TEMPO_ANIMACOES);
         return;
     }
     catch (std::out_of_range const&){
-        std::cout << "Valor grande demais :(" << std::endl;
+        std::cout << "Valor grande demais! :(" << std::endl;
         std::cout << textoVoltandoAoMenu << std::endl;
         Sleep(TEMPO_ANIMACOES);
         return;
@@ -775,13 +789,13 @@ void OpcaoApagar(infoSatelite *&satelites, unsigned int &qSatelites, unsigned in
     std::cout << decorador << " " << tituloApagar << decorador << " " << std::endl;
 
     try {
-        std::cout << "Identificador a ser deletado: " << std::endl;
+        std::cout << "Identificador do satélite a ser apagado: " << std::endl;
         std::cout << "> ";
         std::string identificadorString;
         getline(std::cin >> std::ws, identificadorString);
 
         if (identificadorString.empty()) {
-            throw std::length_error("Id não deve estar vazio.");
+            throw std::length_error("Identificador não pode estar vazio.");
         }
 
         unsigned int identificador = std::stoi(identificadorString);
@@ -803,13 +817,13 @@ void OpcaoApagar(infoSatelite *&satelites, unsigned int &qSatelites, unsigned in
         Sleep(TEMPO_ANIMACOES);
     }
     catch (std::invalid_argument const&) {
-        std::cout << "Id deve ser um numero." << std::endl;
+        std::cout << "Identificador deve ser um número." << std::endl;
         std::cout << textoVoltandoAoMenu << std::endl;
         Sleep(TEMPO_ANIMACOES);
         return;
     }
     catch (std::length_error const&) {
-        std::cout << "Id não deve estar vazio." << std::endl;
+        std::cout << "Identificador não pode estar vazio." << std::endl;
         std::cout << textoVoltandoAoMenu << std::endl;
         Sleep(TEMPO_ANIMACOES);
         return;

@@ -5,11 +5,11 @@ const std::string decorador = "=-=-=-=-=-=-=";
 const std::string decoradorInferior = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=";
 const std::string decoradorLongo = "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-";
 const std::string textoRetornoMenu = "Retornando ao menu principal.";
-const std::string textoIdentificadorNaoExiste = "Um satéltite com esse identificador não existe na base de dados.";
-const std::string enterContinuar = "Presione a tecla Enter para continuar.";
+const std::string textoIdentificadorNaoExiste = "Um satélite com esse identificador não existe na base de dados.";
+const std::string enterContinuar = "Pressione a tecla Enter para continuar.";
 
 // Texto Início
-const std::string textoInicio = "Olá, e seja bem vindo! ao sistema de cadastro em arquivos com tema de satélites.";
+const std::string textoInicio = "Olá, e seja bem vindo(a) ao sistema de cadastro em arquivos com tema de satélites.";
 const std::string sateliteASCII = 
 "\n      .. ............--+-------+##.......                        \n"
 "                                         ##.. ....-.-.-+         \n"
@@ -43,12 +43,12 @@ const std::string sateliteASCII =
 const std::string tituloExibir = "Exibir satélites.";
 const std::string textoExibirOpcoes =
 "Gostaria de imprimir uma lista de satélites ou um único satélite?\n"
-"   1. Unico satélite.\n"
+"   1. Único satélite.\n"
 "   2. Alcance de satélites.\n"
 "   3. Todos os satélites.";
-const std::string textoExibirUnico = "Digite o identificador do satélite a ser exibido";
-const std::string textoExibirComecoAlcance = "Digite o identificador no começo do alcance a ser exibido";
-const std::string textoExibirFinalAlcance = "Digite o identificador no final do alcance a ser exibido";
+const std::string textoExibirUnico = "Digite o identificador do satélite a ser exibido:";
+const std::string textoExibirComecoAlcance = "Digite o identificador no começo do alcance a ser exibido:";
+const std::string textoExibirFinalAlcance = "Digite o identificador no final do alcance a ser exibido:";
 
 // Texto da opção de buscar.
 const std::string tituloBusca = "Buscar satélites.";
@@ -66,9 +66,9 @@ const std::string textoBuscaFuncao = "Função a ser buscada:";
 
 // Texto da opção de ordenar.
 const std::string tituloOrdenar = "Ordenar satélites.";
-const std::string tituloOrdenarCampos = "Ordenas satélites por campos.";
+const std::string tituloOrdenarCampos = "Ordenar satélites por campos.";
 const std::string textoOrdenarOpcoes =
-"Por quais campos você gostaria de ordenar os satelites?\n"
+"Por quais campos você gostaria de ordenar os satélites?\n"
 "   1. Identificador.\n"
 "   2. Outros.";
 const std::string textoOrdenarCampos = 
@@ -87,16 +87,16 @@ const std::string textoAlterarOpcoes =
 "   2. País de Origem.\n"
 "   3. Ano de lançamento.\n"
 "   4. Função.";
-const std::string textoAlterarPedirId = "Id a ser Alterado: ";
+const std::string textoAlterarPedirId = "Id do satélite a ser alterado: ";
 const std::string textoPedirAlteracao = "Informe o novo valor: ";
 const std::string textoAlterarSucesso = "Informações alteradas!";
 
 // Texto da opção de inserir.
 const std::string tituloInserir = "Inserir novo satélite.";
-const std::string textoInserirNome = "Nome: ";
-const std::string textoInserirPais = "Pais: ";
-const std::string textoInserirAno = "Ano: ";
-const std::string textoInserirFuncao = "Função: ";
+const std::string textoInserirNome = "Insira o nome do novo satélite: ";
+const std::string textoInserirPais = "Insira o pais de origem do novo satélite: ";
+const std::string textoInserirAno = "Insira o ano de lançamento do novo satélite: ";
+const std::string textoInserirFuncao = "Insira a função do novo satélite: ";
 
 // Texto da opção de apagar.
 const std::string tituloApagar = "Apagar um satélite.";
@@ -105,12 +105,12 @@ const std::string textoSucessoApagar = "Satélite apagado.";
 // Texto da opção de gravar.
 const std::string tituloGravar = "Gravar alterações.";
 const std::string textoConfirmarGravar = "Deseja gravar as alterações para o CSV?";
-const std::string textoGravacaoCompeta = "Gravação concluida!";
+const std::string textoGravacaoCompeta = "Gravação concluída!";
 const std::string textoCancelarGravacao = "Gravação cancelada.";
 
 // Texto da opção de sair.
 const std::string tituloSair = "Sair do programa.";
-const std::string textoConfirmarSair = "Deseja mesmo sair? (Alterações não gravadas não são salvas)";
+const std::string textoConfirmarSair = "Deseja mesmo sair? (Alterações não gravadas NÃO serão salvas!)";
 
 // Texto menu
 
