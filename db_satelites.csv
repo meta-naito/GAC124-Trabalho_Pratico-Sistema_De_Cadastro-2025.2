@@ -16,7 +16,7 @@
 17, "All-Bravo", "Lituânia", 2021, "N/A."
 20, "AISSat-2", "Noruega", 2014, "Segundo de sua série. Usado para rastreamento de navios."
 18, "AISSat-1", "Noruega", 2010, "Equipado com um instrumento que recebe e retransmite sinais do Sistema de Identificação Automática (AIS), usado para rastreamento de navios."
-7, "Lua", "Theia", 0, "Único satélite natural da Terra e o quinto maior do Sistema Solar, sendo o maior satélite natural de um planeta no sistema solar em relação ao tamanho do seu corpo primário,"
+7, "Lua", "Theia", 2147483647, "Único satélite natural da Terra e o quinto maior do Sistema Solar, sendo o maior satélite natural de um planeta no sistema solar em relação ao tamanho do seu corpo primário,"
 1, "Sputnik 1", "URSS", 1957, "Primeiro satélite artificial, isto é, o primeiro objeto posto pela humanidade em órbita ao redor de um corpo celeste."
 2, "Sputnik 2", "URSS", 1957, "Segundo satélite artificial, e o primeiro a carregar um ser vivo, uma cachorra chamada Laika."
 15, "Aeolus", "União Europeia", 2018, "O Aeolus mede o fluxo de vento e as correntes de ar na Terra, melhorando a previsão do tempo."
